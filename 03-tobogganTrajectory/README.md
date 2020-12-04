@@ -88,6 +88,8 @@ Your puzzle answer was `9354744432`.
 
 <details><summary>Script output</summary>
 
+Go output is identical. Run with `go run main.go`.
+
 ```
 ❯ python .\main.py
 Pair (3, 1): 292 trees (part one solution)

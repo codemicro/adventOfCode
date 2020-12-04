@@ -135,6 +135,8 @@ Your puzzle answer was `147`.
 
 <details><summary>Script output</summary>
 
+Go output is identical. Run with `go run partOne.go` and `go run partTwo.go`.
+
 ```
 ❯ python .\partOne.py
 There are 213 valid passports.

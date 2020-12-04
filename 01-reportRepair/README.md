@@ -47,6 +47,8 @@ Your puzzle answer was `253928438`.
 
 <details><summary>Script output</summary>
 
+Go output is identical. Run with `go run main.go`.
+
 ```
 ❯ python .\main.py
 Part one answer is: 1010884

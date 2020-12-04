@@ -1,6 +1,8 @@
 # Advent of Code 2020
 
-Solutions to the [2020 Advent of Code](https://adventofcode.com/2020).
+Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in both Python and Go.
+
+Go solutions are near direct copies of the Python solutions and may be added a few days afterwards.
 
 **Key:** ![Completed][check] is completed, ![Incomplete][cross] is incomplete.
 
