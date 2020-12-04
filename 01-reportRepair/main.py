@@ -1,6 +1,6 @@
 input_string = open("input.txt").read().strip().split("\n")
 
-values = [int(x) for x in inputString]
+values = [int(x) for x in input_string]
 
 for i in values:
     for v in values:
