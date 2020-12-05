@@ -143,6 +143,7 @@ Python 3.8.5
 Test cases
 1.1 pass
 2.1 pass
+2.2 pass
 
 Answers
 Part 1: 213
@@ -155,6 +156,7 @@ Go go1.15.2
 Test cases
 1.1 pass
 2.1 pass
+2.2 pass
 
 Answers
 Part 1: 213
