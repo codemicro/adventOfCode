@@ -12,12 +12,6 @@ import (
 	"github.com/fatih/color"
 )
 
-const (
-	year  = "2020"
-	day   = "1"
-	title = "Report Repair"
-)
-
 func main() {
 	var infoStruct info
 	{
