@@ -1,7 +1,7 @@
 package main
 
 import (
-	"adventOfCode/template/go/challenge"
+	"adventOfCode/04-passportProcessing/go/challenge"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -14,8 +14,8 @@ import (
 
 const (
 	year  = "2020"
-	day   = "1"
-	title = "Report Repair"
+	day   = "4"
+	title = "Passport Processing"
 )
 
 func main() {

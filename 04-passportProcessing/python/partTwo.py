@@ -1,6 +1,18 @@
 import re
 
-input_list = [x.replace("\n", " ") for x in open("input.txt").read().strip().split("\n\n")]
+from common import *
+
+def partTwo(instr:str) -> int:
+    input_list = parse(instr)
+
+    passports = [Passport(x) for x in input_list]
+
+    valid_passports = 0
+    for passport in passports:
+        if passport.validate():
+            valid_passports += 1
+
+    return valid_passports
 
 class Passport: 
     byr: str  # Birth year
@@ -87,12 +99,3 @@ class Passport:
             return False
 
         return True
-
-passports = [Passport(x) for x in input_list]
-
-valid_passports = 0
-for passport in passports:
-    if passport.validate():
-        valid_passports += 1
-
-print(f"There are {valid_passports} valid passports.")

@@ -47,19 +47,29 @@ Your puzzle answer was `253928438`.
 
 <details><summary>Script output</summary>
 
-Go output is identical. Run with `go run main.go`.
-
 ```
-❯ python .\main.py
-Part one answer is: 1010884
-Part one answer is: 1010884
+❯ python .\python\
+AoC 2020: day 1 - Report Repair
 
-Part two answer is: 253928438
-Part two answer is: 253928438
-Part two answer is: 253928438
-Part two answer is: 253928438
-Part two answer is: 253928438
-Part two answer is: 253928438
+Test cases
+1.1 pass
+2.1 pass
+
+Answers
+Part 1: 1010884
+Part 2: 253928438
+
+❯ go run .\go\
+AoC 2020: day 1 - Report Repair
+Go go1.15.2
+
+Test cases
+1.1 pass
+2.1 pass
+
+Answers
+Part 1: 1010884
+Part 2: 253928438
 ```
 
 </details>

@@ -8,8 +8,8 @@ from partOne import partOne
 from partTwo import partTwo
 
 year = "2020"
-day = "1"
-title = "Report Repair"
+day = "3"
+title = "Toboggan Trajectory"
 
 def run_tests():
     try:

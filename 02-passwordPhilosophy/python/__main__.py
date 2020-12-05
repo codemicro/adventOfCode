@@ -8,14 +8,14 @@ from partOne import partOne
 from partTwo import partTwo
 
 year = "2020"
-day = "1"
-title = "Report Repair"
+day = "2"
+title = "Password Philosophy"
 
 def run_tests():
     try:
         test_cases = open("testCases.json").read()
     except FileNotFoundError:
-        print("Info: could not open testCases.json. Skipping tests\n")
+        print("Info: could not open testCases.json. Skipping tests")
         return
 
     print("Test cases")

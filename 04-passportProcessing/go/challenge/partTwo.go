@@ -1,20 +1,13 @@
-package main
+package challenge
 
 import (
-	"fmt"
-	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-func main() {
-	inputBytes, _ := ioutil.ReadFile("input.txt")
-	inputSlice := strings.Split(strings.TrimSpace(string(inputBytes)), "\n\n")
-
-	for i, x := range inputSlice {
-		inputSlice[i] = strings.ReplaceAll(x, "\n", " ")
-	}
+func PartTwo(instr string) int {
+	inputSlice := parse(instr)
 
 	var passports []Passport
 	for _, x := range inputSlice {
@@ -28,8 +21,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("There are %d valid passports.", validPassports)
-
+	return validPassports
 }
 
 type Passport struct {

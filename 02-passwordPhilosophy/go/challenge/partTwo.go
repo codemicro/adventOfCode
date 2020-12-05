@@ -1,25 +1,18 @@
-package main
+package challenge
 
 import (
-	"fmt"
-	"io/ioutil"
-	"regexp"
 	"strconv"
-	"strings"
 )
 
-type Password struct {
-	plaintext    string
-	targetLetter rune
-	positionOne  int
-	positionTwo  int
-}
+func PartTwo(instr string) int {
+	inputSlice := parse(instr)
 
-var parserRegex = regexp.MustCompile(`(?m)(\d+)-(\d+) ([a-z]): (.+)`)
-
-func main() {
-	inputBytes, _ := ioutil.ReadFile("input.txt")
-	inputSlice := strings.Split(strings.TrimSpace(string(inputBytes)), "\n")
+	type Password struct {
+		plaintext    string
+		targetLetter rune
+		positionOne  int
+		positionTwo  int
+	}
 
 	var passwords []Password
 	for _, line := range inputSlice {
@@ -45,5 +38,5 @@ func main() {
 		}
 	}
 
-	fmt.Printf("There are %d valid passwords.\n", num_valid_passwords)
+	return num_valid_passwords
 }

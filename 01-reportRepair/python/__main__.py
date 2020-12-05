@@ -1,5 +1,4 @@
 import json
-import platform
 import sys
 
 from rich import print
@@ -15,7 +14,7 @@ def run_tests():
     try:
         test_cases = open("testCases.json").read()
     except FileNotFoundError:
-        print("Info: could not open testCases.json. Skipping tests\n")
+        print("Info: could not open testCases.json. Skipping tests")
         return
 
     print("Test cases")
@@ -38,8 +37,7 @@ def run_tests():
     print()
 
 if __name__ ==  "__main__":
-    print(f"[yellow]AoC {year}[/yellow]: day {day} - {title}")
-    print(f"Python {platform.python_version()}\n")
+    print(f"[yellow]AoC {year}[/yellow]: day {day} - {title}\n")
 
     try:
         challenge_input = open("input.txt").read()

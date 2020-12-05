@@ -1,7 +1,7 @@
 package main
 
 import (
-	"adventOfCode/template/go/challenge"
+	"adventOfCode/02-passwordPhilosophy/go/challenge"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -14,8 +14,8 @@ import (
 
 const (
 	year  = "2020"
-	day   = "1"
-	title = "Report Repair"
+	day   = "2"
+	title = "Password Philosophy"
 )
 
 func main() {
@@ -55,14 +55,12 @@ func runTests() {
 	{
 		inb, err := ioutil.ReadFile("testCases.json")
 		if err != nil {
-			fmt.Println("Info: could not open testCases.json. Skipping tests")
-			fmt.Println()
+			fmt.Println("Error: could not open testCases.json. Skipping tests")
 			return
 		}
 		err = json.Unmarshal(inb, &testCases)
 		if err != nil {
 			fmt.Println("Error: could not parse testCases.json. Skipping tests")
-			fmt.Println()
 			return
 		}
 	}
