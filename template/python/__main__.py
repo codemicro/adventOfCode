@@ -1,4 +1,5 @@
 import json
+import platform
 import sys
 
 from rich import print
@@ -37,7 +38,8 @@ def run_tests():
     print()
 
 if __name__ ==  "__main__":
-    print(f"[yellow]AoC {year}[/yellow]: day {day} - {title}\n")
+    print(f"[yellow]AoC {year}[/yellow]: day {day} - {title}")
+    print(f"Python {platform.python_version()}\n")
 
     try:
         challenge_input = open("input.txt").read()
