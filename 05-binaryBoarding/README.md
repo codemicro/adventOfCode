@@ -63,9 +63,31 @@ Your puzzle answer was `548`.
 <details><summary>Script output</summary>
 
 ```
-❯ python .\main.py
-Part one: The highest seat ID is 989.
-Part two: Your seat ID is 548 (row 68, col 4).
+❯ python .\python\
+AoC 2020: day 5 - Binary Boarding
+Python 3.8.5
+
+Test cases
+1.1 pass
+1.2 pass
+1.3 pass
+
+Answers
+Part 1: 989
+Part 2: 548
+
+❯ go run .\go\
+AoC 2020: day 5 - Binary Boarding
+Go go1.15.2
+
+Test cases
+1.1 pass
+1.2 pass
+1.3 pass
+
+Answers
+Part 1: 989
+Part 2: 548
 ```
 
 </details>
