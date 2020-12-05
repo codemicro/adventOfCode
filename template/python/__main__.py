@@ -7,20 +7,18 @@ from rich import print
 from partOne import partOne
 from partTwo import partTwo
 
-year = "2020"
-day = "1"
-title = "Report Repair"
+def run_tests(test_cases):
+    do_tests = True
+    if len(test_cases) == 0:
+        do_tests = False
+    elif len(test_cases["one"]) == 0 and len(test_cases["two"]) == 0:
+        do_tests = False
 
-def run_tests():
-    try:
-        test_cases = open("testCases.json").read()
-    except FileNotFoundError:
-        print("Info: could not open testCases.json. Skipping tests\n")
+    if not do_tests:
+        print("Info: no test cases specified. Skipping tests\n")
         return
 
     print("Test cases")
-
-    test_cases = json.loads(test_cases)
 
     def rt(tcs, f, n):
         for i, tc in enumerate(tcs):
@@ -38,6 +36,18 @@ def run_tests():
     print()
 
 if __name__ ==  "__main__":
+    try:
+        info = open("info.json").read()
+    except FileNotFoundError:
+        print("Error: could not open info.json")
+        sys.exit(-1)
+
+    info = json.loads(info)
+    
+    year = info["year"]
+    day = info["day"]
+    title = info["title"]
+
     print(f"[yellow]AoC {year}[/yellow]: day {day} - {title}")
     print(f"Python {platform.python_version()}\n")
 
@@ -47,7 +57,7 @@ if __name__ ==  "__main__":
         print("Error: could not open input.txt")
         sys.exit(-1)
 
-    run_tests()
+    run_tests(info["testCases"])
 
     print("Answers")
     print("Part 1:", partOne(challenge_input))

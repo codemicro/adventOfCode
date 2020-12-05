@@ -19,6 +19,26 @@ const (
 )
 
 func main() {
+	var infoStruct info
+	{
+		inb, err := ioutil.ReadFile("info.json")
+		if err != nil {
+			fmt.Println("Error: could not open info.json")
+			os.Exit(-1)
+		}
+		err = json.Unmarshal(inb, &infoStruct)
+		if err != nil {
+			fmt.Println("Error: could not parse info.json")
+			os.Exit(-1)
+		}
+	}
+
+	var (
+		year  = infoStruct.Year
+		day   = infoStruct.Day
+		title = infoStruct.Title
+	)
+
 	fmt.Fprintf(color.Output, "%s: day %s - %s\n", color.YellowString("AoC "+year), color.BlueString(day), title)
 	fmt.Fprintf(color.Output, "Go %s\n\n", color.BlueString(runtime.Version()))
 
@@ -32,7 +52,7 @@ func main() {
 		challengeInput = string(inb)
 	}
 
-	runTests()
+	runTests(infoStruct)
 
 	fmt.Println("Answers")
 	fmt.Fprintf(color.Output, "Part %s: %s\n", color.BlueString("1"), color.BlueString(strconv.Itoa(challenge.PartOne(challengeInput))))
@@ -45,26 +65,22 @@ type tc struct {
 	Expected int    `json:"expected"`
 }
 
-func runTests() {
-
-	testCases := struct {
+type info struct {
+	Year string `json:"year"`
+	Day string `json:"day"`
+	Title string `json:"title"`
+	TestCases struct {
 		One []tc `json:"one"`
 		Two []tc `json:"two"`
-	}{}
+	} `json:"testCases"`
+}
 
-	{
-		inb, err := ioutil.ReadFile("testCases.json")
-		if err != nil {
-			fmt.Println("Info: could not open testCases.json. Skipping tests")
-			fmt.Println()
-			return
-		}
-		err = json.Unmarshal(inb, &testCases)
-		if err != nil {
-			fmt.Println("Error: could not parse testCases.json. Skipping tests")
-			fmt.Println()
-			return
-		}
+func runTests(infoStruct info) {
+
+	if len(infoStruct.TestCases.One) == 0 && len(infoStruct.TestCases.Two) == 0 {
+		fmt.Println("Info: no test cases specified. Skipping tests")
+		fmt.Println()
+		return
 	}
 
 	fmt.Println("Test cases")
@@ -82,8 +98,8 @@ func runTests() {
 		}
 	}
 
-	rt(testCases.One, challenge.PartOne, "1")
-	rt(testCases.Two, challenge.PartTwo, "2")
+	rt(infoStruct.TestCases.One, challenge.PartOne, "1")
+	rt(infoStruct.TestCases.Two, challenge.PartTwo, "2")
 
 	fmt.Println()
 
