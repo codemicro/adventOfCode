@@ -2,10 +2,12 @@ from typing import List
 
 tree_char = "#"
 
-def parse(instr:str) -> List:
+
+def parse(instr: str) -> List:
     return [[char for char in line] for line in instr.strip().split("\n")]
 
-def find_collisions(forest:list, x_offset:int, y_offset:int) -> int:
+
+def find_collisions(forest: list, x_offset: int, y_offset: int) -> int:
     encountered_trees = 0
     x_pointer = 0
 

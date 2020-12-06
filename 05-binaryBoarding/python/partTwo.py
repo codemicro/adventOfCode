@@ -1,6 +1,7 @@
 from common import *
 
-def partTwo(instr:str) -> int:
+
+def partTwo(instr: str) -> int:
     input_list = parse(instr)
 
     # Build a matrix to represent the entire plane
@@ -22,7 +23,7 @@ def partTwo(instr:str) -> int:
 
     for row in range(len(seat_matrix)):
         for col in range(len(seat_matrix[row])):
-            
+
             this = seat_matrix[row][col]
             if [lastTwo, lastOne, this] == [True, False, True]:
 

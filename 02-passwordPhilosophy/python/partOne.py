@@ -2,7 +2,8 @@ import re
 
 from common import *
 
-def partOne(instr:str) -> int:
+
+def partOne(instr: str) -> int:
     input_string = parse(instr)
 
     class Password:
@@ -11,7 +12,9 @@ def partOne(instr:str) -> int:
         min_repeats: int
         max_repeats: int
 
-        def __init__(self, plaintext:str, target_letter:str, min_repeats:int, max_repeats:int) -> None:
+        def __init__(
+            self, plaintext: str, target_letter: str, min_repeats: int, max_repeats: int
+        ) -> None:
             self.plaintext = plaintext
             self.target_letter = target_letter
             self.min_repeats = min_repeats
@@ -23,7 +26,9 @@ def partOne(instr:str) -> int:
 
     for line in input_string:
         m = re.match(parser_regex, line)
-        passwords.append(Password(m.group(4), m.group(3), int(m.group(1)), int(m.group(2))))
+        passwords.append(
+            Password(m.group(4), m.group(3), int(m.group(1)), int(m.group(2)))
+        )
 
     num_valid_passwords = 0
 
@@ -35,5 +40,5 @@ def partOne(instr:str) -> int:
 
         if password.min_repeats <= target_letter_count <= password.max_repeats:
             num_valid_passwords += 1
-    
+
     return num_valid_passwords

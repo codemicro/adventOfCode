@@ -7,6 +7,7 @@ from rich import print
 from partOne import partOne
 from partTwo import partTwo
 
+
 def run_tests(test_cases):
     do_tests = True
     if len(test_cases) == 0:
@@ -35,7 +36,8 @@ def run_tests(test_cases):
 
     print()
 
-if __name__ ==  "__main__":
+
+if __name__ == "__main__":
     try:
         info = open("info.json").read()
     except FileNotFoundError:
@@ -43,7 +45,7 @@ if __name__ ==  "__main__":
         sys.exit(-1)
 
     info = json.loads(info)
-    
+
     year = info["year"]
     day = info["day"]
     title = info["title"]

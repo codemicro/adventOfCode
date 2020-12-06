@@ -66,9 +66,9 @@ type tc struct {
 }
 
 type info struct {
-	Year string `json:"year"`
-	Day string `json:"day"`
-	Title string `json:"title"`
+	Year      string `json:"year"`
+	Day       string `json:"day"`
+	Title     string `json:"title"`
 	TestCases struct {
 		One []tc `json:"one"`
 		Two []tc `json:"two"`

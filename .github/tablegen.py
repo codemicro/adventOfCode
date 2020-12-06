@@ -23,7 +23,7 @@ for line in readme_text:
 for i, l in enumerate(table_lines):
     rs = re.match(r"\|\s*(\d{1,})\s*\|\s*\|.+\|.+\|", l)
     if rs is not None and int(rs.group(1)) == today_day:
-        
+
         table_lines[i] = f"| {today_day} | ![Not yet attempted][pending] | | |"
 
 counter = 0

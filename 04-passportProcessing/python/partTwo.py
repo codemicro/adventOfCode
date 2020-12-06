@@ -2,7 +2,8 @@ import re
 
 from common import *
 
-def partTwo(instr:str) -> int:
+
+def partTwo(instr: str) -> int:
     input_list = parse(instr)
 
     passports = [Passport(x) for x in input_list]
@@ -14,7 +15,8 @@ def partTwo(instr:str) -> int:
 
     return valid_passports
 
-class Passport: 
+
+class Passport:
     byr: str  # Birth year
     iyr: str  # Issue year
     eyr: str  # Expiration year
@@ -24,7 +26,7 @@ class Passport:
     pid: str  # Passport ID
     cid: str  # Country ID
 
-    def __init__(self, instr:str) -> None:
+    def __init__(self, instr: str) -> None:
         self.byr = self._extract_field("byr", instr)
         self.iyr = self._extract_field("iyr", instr)
         self.eyr = self._extract_field("eyr", instr)
@@ -34,11 +36,11 @@ class Passport:
         self.pid = self._extract_field("pid", instr)
         self.cid = self._extract_field("cid", instr)
 
-    def _extract_field(self, field:str, instr:str) -> str:
+    def _extract_field(self, field: str, instr: str) -> str:
         matches = re.search(field + r":([^ ]+)", instr)
         if matches is None:
             return ""
-        
+
         return matches.group(1)
 
     def validate(self) -> bool:
@@ -53,7 +55,7 @@ class Passport:
             return False
         if not (2010 <= int(self.iyr) <= 2020):
             return False
-        
+
         # eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
         if self.eyr == "":
             return False

@@ -10,6 +10,7 @@ year = "2020"
 day = "1"
 title = "Report Repair"
 
+
 def run_tests():
     try:
         test_cases = open("testCases.json").read()
@@ -36,7 +37,8 @@ def run_tests():
 
     print()
 
-if __name__ ==  "__main__":
+
+if __name__ == "__main__":
     print(f"[yellow]AoC {year}[/yellow]: day {day} - {title}\n")
 
     try:

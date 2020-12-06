@@ -8,7 +8,7 @@ func parse(instr string) []string {
 
 type Group struct {
 	Questions []rune
-	NumPax int
+	NumPax    int
 }
 
 func IsRuneInSlice(r rune, s []rune) bool {

@@ -1,6 +1,6 @@
 package challenge
 
-func PartOne(instr string) int {	
+func PartOne(instr string) int {
 	inputSlice := parse(instr)
 
 	var highestSeatId int

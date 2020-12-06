@@ -1,6 +1,7 @@
 from common import *
 
-def partOne(instr:str) -> int:
+
+def partOne(instr: str) -> int:
     input_list = parse(instr)
 
     highest_seat_id = 0

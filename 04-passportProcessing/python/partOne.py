@@ -2,7 +2,8 @@ import re
 
 from common import *
 
-def partOne(instr:str) -> int:
+
+def partOne(instr: str) -> int:
     input_list = parse(instr)
 
     test_cases = [
@@ -14,7 +15,7 @@ def partOne(instr:str) -> int:
         [r"hcl:([^ ]+)", False],
         [r"ecl:([^ ]+)", False],
         [r"pid:([^ ]+)", False],
-        [r"cid:([^ ]+)", True]
+        [r"cid:([^ ]+)", True],
     ]
 
     valid_passports = 0

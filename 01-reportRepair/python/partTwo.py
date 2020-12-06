@@ -1,6 +1,7 @@
 from common import *
 
-def partTwo(instr:str) -> int:
+
+def partTwo(instr: str) -> int:
     values = parse(instr)
 
     for i in values:

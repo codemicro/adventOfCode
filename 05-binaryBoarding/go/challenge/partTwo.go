@@ -1,6 +1,6 @@
 package challenge
 
-func PartTwo(instr string) int {	
+func PartTwo(instr string) int {
 	inputSlice := parse(instr)
 
 	var seatMatrix [numRows][numCols]bool
@@ -17,7 +17,7 @@ func PartTwo(instr string) int {
 	for row := 0; row < len(seatMatrix); row += 1 {
 		for col := 0; col < len(seatMatrix[row]); col += 1 {
 			this := seatMatrix[row][col]
-			if (lastTwo && !lastOne && this) {
+			if lastTwo && !lastOne && this {
 				// We need to get the previous item because at this point, we've already moved on one
 				prevRow := row
 				prevCol := col - 1
@@ -26,7 +26,7 @@ func PartTwo(instr string) int {
 					prevCol += numCols
 				}
 				return getSeatId(prevRow, prevCol)
-			} 
+			}
 			lastTwo = lastOne
 			lastOne = this
 		}
