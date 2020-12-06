@@ -10,7 +10,7 @@ Go solutions are near direct copies of the Python solutions and may be added a f
 |----|-------------------------|-------------------------|----|-------------------------|-------------------------|
 | 1  | ![Completed][check]     | ![Completed][check]     | 2  | ![Completed][check]     | ![Completed][check]     |
 | 3  | ![Completed][check]     | ![Completed][check]     | 4  | ![Completed][check]     | ![Completed][check]     |
-| 5  | ![Completed][check]     | ![Completed][check]     | 6  |                         |                         |
+| 5  | ![Completed][check]     | ![Completed][check]     | 6  | ![Completed][check]     | ![Completed][check]     |
 | 7  |                         |                         | 8  |                         |                         |
 | 9  |                         |                         | 10 |                         |                         |
 | 11 |                         |                         | 12 |                         |                         |
