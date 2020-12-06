@@ -23,6 +23,12 @@ jobs:
       - name: Run script  
         run: python .github/tablegen.py
 
+      - name: Prettify markdown
+        uses: creyD/prettier_action@v3.1
+        with:
+          prettier_options: --write .github/README.md
+          dry: True
+
       - name: Git commit and push
         run: |
           git config user.email 'actions@github.com'
