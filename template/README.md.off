@@ -1,6 +1,8 @@
-# Day 1: Report Repair
+# [Day 1: Report Repair](https://adventofcode.com/2020/day/1)
 
 <details><summary>Challenge description</summary>
+
+*Description (c) [Eric Wastl](https://twitter.com/ericwastl)*
 
 ## Part One
 
