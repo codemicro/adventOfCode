@@ -18,7 +18,7 @@ Go solutions are near direct copies of the Python solutions and may be added a f
 | [4](/04-passportProcessing) | ![Completed][check]           | [Link](/04-passportProcessing/python) | [Link](/04-passportProcessing/go) |
 | [5](/05-binaryBoarding)     | ![Completed][check]           | [Link](/05-binaryBoarding/python)     | [Link](/05-binaryBoarding/go)     |
 | [6](/06-customCustoms)      | ![Completed][check]           | [Link](/06-customCustoms/python)      | [Link](/06-customCustoms/go)      |
-| 7                           | ![Not yet attempted][pending] |                                       |                                   |
+| [7](/07-handyHaversacks)    | ![Partially complete][partial]| [Link](/07-handyHaversacks/python)    |                                   |
 | 8                           |                               |                                       |                                   |
 | 9                           |                               |                                       |                                   |
 | 10                          |                               |                                       |                                   |
