@@ -28,11 +28,12 @@ jobs:
         with:
           prettier_options: --write .github/README.md
           # dry: True
+          commit_message: "Update table"
 
-      - name: Git commit and push
-        run: |
-          git config user.email 'actions@github.com'
-          git config user.name 'github-actions'
-          git add .github/README.md
-          git commit -m 'Update table'
-          git push origin HEAD:${{ github.ref }}
+      #- name: Git commit and push
+      #  run: |
+      #    git config user.email 'actions@github.com'
+      #    git config user.name 'github-actions'
+      #    git add .github/README.md
+      #    git commit -m 'Update table'
+      #    git push origin HEAD:${{ github.ref }}
