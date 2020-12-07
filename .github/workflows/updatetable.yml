@@ -27,7 +27,7 @@ jobs:
         uses: creyD/prettier_action@v3.1
         with:
           prettier_options: --write .github/README.md
-          dry: True
+          # dry: True
 
       - name: Git commit and push
         run: |
