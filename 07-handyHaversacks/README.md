@@ -1,6 +1,8 @@
-# Day 7: Handy Haversacks
+# [Day 7: Handy Haversacks](https://adventofcode.com/2020/day/7)
 
 <details><summary>Challenge description</summary>
+
+*Description (c) [Eric Wastl](https://twitter.com/ericwastl)*
 
 ## Part One
 

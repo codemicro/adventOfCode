@@ -1,6 +1,8 @@
-# Day 4: Passport Processing
+# [Day 4: Passport Processing](https://adventofcode.com/2020/day/4)
 
 <details><summary>Challenge description</summary>
+
+*Description (c) [Eric Wastl](https://twitter.com/ericwastl)*
 
 ## Part One
 

@@ -1,6 +1,8 @@
-# Day 2: Password Philosophy
+# [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)
 
 <details><summary>Challenge description</summary>
+
+*Description (c) [Eric Wastl](https://twitter.com/ericwastl)*
 
 ## Part One
 

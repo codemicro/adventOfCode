@@ -1,6 +1,8 @@
-# Day 5: Binary Boarding
+# [Day 5: Binary Boarding](https://adventofcode.com/2020/day/5)
 
 <details><summary>Challenge description</summary>
+
+*Description (c) [Eric Wastl](https://twitter.com/ericwastl)*
 
 ## Part One
 

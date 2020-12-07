@@ -1,6 +1,8 @@
-# Day 3: Toboggan Trajectory
+# [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)
 
 <details><summary>Challenge description</summary>
+
+*Description (c) [Eric Wastl](https://twitter.com/ericwastl)*
 
 ## Part One
 
