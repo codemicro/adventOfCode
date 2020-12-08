@@ -1,10 +1,12 @@
 # Advent of Code 2020
 
-Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in both Python and Go.
+Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in at least Python and Go.
 
 Go solutions are near direct copies of the Python solutions and may be added a few days afterwards.
 
 Puzzle inputs and descriptions are not included in this repository. You'll have to get these yourself from the AoC website. [Here's why](https://www.reddit.com/r/adventofcode/comments/k99rod/sharing_input_data_were_we_requested_not_to/gf2ukkf/?context=3).
+
+[AoC website](https://adventofcode.com) - [AoC subreddit](https://www.reddit.com/r/adventofcode) - [AoC awesome list](https://github.com/Bogdanp/awesome-advent-of-code)
 
 ---
 
