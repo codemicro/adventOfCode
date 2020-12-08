@@ -50,7 +50,7 @@ def partTwo(instr: str) -> int:
 
     for slc in switch_set_locations:
         instructions = copy.deepcopy(master_instructions)
-        
+
         # Switch instruction
         oldval = instructions[slc].opcode
         instructions[slc].opcode = "jmp" if oldval == "nop" else "nop"
