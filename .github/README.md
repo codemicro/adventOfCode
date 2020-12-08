@@ -40,7 +40,7 @@ Go solutions are near direct copies of the Python solutions and may be added a f
 
 <!-- PARSE END -->
 
-[check]: https://github.com/codemicro/adventOfCode/blob/master/.github/check.jpg?raw=true
-[cross]: https://github.com/codemicro/adventOfCode/blob/master/.github/cross.jpg?raw=true
-[partial]: https://github.com/codemicro/adventOfCode/blob/master/.github/partial.jpg?raw=true
-[pending]: https://github.com/codemicro/adventOfCode/blob/master/.github/asterisk.jpg?raw=true
+[check]: https://github.com/codemicro/adventOfCode/blob/master/.github/check.png?raw=true
+[cross]: https://github.com/codemicro/adventOfCode/blob/master/.github/cross.png?raw=true
+[partial]: https://github.com/codemicro/adventOfCode/blob/master/.github/partial.png?raw=true
+[pending]: https://github.com/codemicro/adventOfCode/blob/master/.github/asterisk.png?raw=true
