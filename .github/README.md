@@ -4,6 +4,8 @@ Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in both P
 
 Go solutions are near direct copies of the Python solutions and may be added a few days afterwards.
 
+Puzzle inputs and descriptions are not included in this repository. You'll have to get these yourself from the AoC website. [Here's why](https://www.reddit.com/r/adventofcode/comments/k99rod/sharing_input_data_were_we_requested_not_to/gf2ukkf/?context=3).
+
 ---
 
 **Key:** ![Completed][check] is completed, ![Incomplete][cross] is incomplete, ![Partially complete][partial] is partially complete (does not have both languages) and ![Not yet attempted][pending] is released but not yet attempted.
