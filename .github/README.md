@@ -25,7 +25,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [7](/07-handyHaversacks)    | ![Completed][check]           | [Link](/07-handyHaversacks/python)    | [Link](/07-handyHaversacks/go)    |
 | [8](/08-handheldHalting)    | ![Completed][check]           | [Link](/08-handheldHalting/python)    | [Link](/08-handheldHalting/go)    |
 | [9](/09-encodingError)      | ![Completed][check]           | [Link](/09-encodingError/python)      | [Link](/09-encodingError/go)      |
-| 10                          | ![Not yet attempted][pending] |                                       |                                   |
+| [10](/10-adapterArray)  | ![Completed][check] | [Link](/10-adapterArray/python) | [Link](/10-adapterArray/go) |
 | 11                          |                               |                                       |                                   |
 | 12                          |                               |                                       |                                   |
 | 13                          |                               |                                       |                                   |
