@@ -8,6 +8,8 @@ on:
 jobs:
   table:
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
