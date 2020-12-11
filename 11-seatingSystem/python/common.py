@@ -8,12 +8,27 @@ filled_seat = "#"
 no_seat = "."
 
 
+lookup_positions = [
+    (0, 1),
+    (1, 1),
+    (1, 0),
+    (1, -1),
+    (0, -1),
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+]
+
+
 def parse(instr: str) -> List[List[str]]:
     return [[char for char in x] for x in instr.strip().split("\n")]
 
-def iterate(current_hall: List[List[str]], neighbour_counter: Callable, get_new_state: Callable) -> List[List[str]]:
+
+def iterate(
+    current_hall: List[List[str]], neighbour_counter: Callable, get_new_state: Callable
+) -> List[List[str]]:
     # Copy hall
-    next_hall = copy.deepcopy(current_hall) # this is bloody slow
+    next_hall = copy.deepcopy(current_hall)  # this is bloody slow
 
     hall_size = (len(next_hall[0]), len(next_hall))
 
@@ -35,7 +50,10 @@ def iterate(current_hall: List[List[str]], neighbour_counter: Callable, get_new_
     # Return copied list
     return next_hall
 
-def run(current_state:List[List[str]], neighbour_counter:Callable, get_new_state:Callable) -> int:
+
+def run(
+    current_state: List[List[str]], neighbour_counter: Callable, get_new_state: Callable
+) -> int:
     last_state = None
 
     while current_state != last_state:
@@ -49,5 +67,5 @@ def run(current_state:List[List[str]], neighbour_counter:Callable, get_new_state
         for b in a:
             if b == filled_seat:
                 total_occupied += 1
-    
+
     return total_occupied

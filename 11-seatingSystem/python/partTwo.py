@@ -3,7 +3,7 @@ from typing import List, Tuple
 from common import *
 
 
-def get_new_state(num_neighbours:int, old_state:str) -> str:
+def get_new_state(num_neighbours: int, old_state: str) -> str:
     if num_neighbours == 0:
         return filled_seat
     elif num_neighbours >= 5 and old_state == filled_seat:
@@ -12,22 +12,14 @@ def get_new_state(num_neighbours:int, old_state:str) -> str:
     return old_state
 
 
-def count_neighbours(hall:List[List[str]], current_pos:Tuple[int, int], hall_size:Tuple[int, int]) -> int:
-    num_neighbours = 0 
-    deltas = [
-        (0, 1),
-        (1, 1),
-        (1, 0),
-        (1, -1),
-        (0, -1),
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-    ]
+def count_neighbours(
+    hall: List[List[str]], current_pos: Tuple[int, int], hall_size: Tuple[int, int]
+) -> int:
+    num_neighbours = 0
 
     row, col = current_pos
 
-    for (x, y) in deltas:
+    for (x, y) in lookup_positions:
 
         test_x_pos = col + x
         test_y_pos = row + y

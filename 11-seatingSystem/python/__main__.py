@@ -6,6 +6,7 @@ from rich import print
 
 from partOne import partOne
 from partTwo import partTwo
+import visualise
 
 
 def run_tests(test_cases):
@@ -58,6 +59,13 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("Error: could not open input.txt")
         sys.exit(-1)
+
+    if "vis" in sys.argv:
+
+        print("[green]Running visualisation....[/green]")
+
+        visualise.visualise(challenge_input)
+        sys.exit()
 
     run_tests(info["testCases"])
 
