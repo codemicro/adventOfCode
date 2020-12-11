@@ -6,7 +6,7 @@ on:
     - cron: "1 5 * 12 *"
 
 jobs:
-  run:
+  table:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -21,7 +21,7 @@ jobs:
           python-version: '3.x'
 
       - name: Run script  
-        run: python .github/tablegen.py
+        run: python .github/tablegen.py .github/README.md
 
       - name: Prettify markdown
         uses: creyD/prettier_action@v3.1
@@ -30,10 +30,38 @@ jobs:
           # dry: True
           commit_message: "Update table"
 
-      #- name: Git commit and push
-      #  run: |
-      #    git config user.email 'actions@github.com'
-      #    git config user.name 'github-actions'
-      #    git add .github/README.md
-      #    git commit -m 'Update table'
-      #    git push origin HEAD:${{ github.ref }}
+  graph:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Login GitHub Registry
+        run: docker login docker.pkg.github.com -u owner -p ${{ secrets.GH_TKN }}
+
+      - name: Run gocloc
+        run: docker run --rm -v "${PWD}":/workdir docker.pkg.github.com/hhatto/gocloc/gocloc:latest --by-file --output-type=json --not-match-d="(template|.github|.vscode)" --exclude-ext=txt . > cloc.json
+
+      - run: cat cloc.json
+
+      - name: Install Matplotlib
+        run: pip install matplotlib
+
+      - name: Run script  
+        run: python .github/clocgen.py cloc.json .github/clocgraph.png
+
+      - name: Git commit and push
+        run: |
+          git config user.email 'actions@github.com'
+          git config user.name 'github-actions'
+          git add .github/clocgraph.png
+          git commit -m 'Update CLOC graph'
+          git push origin HEAD:${{ github.ref }}

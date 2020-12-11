@@ -1,9 +1,10 @@
 from datetime import datetime
 import re
+import sys
 
 today_day = datetime.now().day
 
-readme_text = open(".github/README.md").read().strip().split("\n")
+readme_text = open(sys.argv[1]).read().strip().split("\n")
 
 start_flag = "<!-- PARSE START -->"
 end_flag = "<!-- PARSE END -->"
@@ -38,4 +39,4 @@ for i, line in enumerate(readme_text):
     elif line == start_flag:
         in_table = True
 
-open(".github/README.md", "w").write("\n".join(readme_text))
+open(sys.argv[1], "w").write("\n".join(readme_text))
