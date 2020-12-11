@@ -12,9 +12,9 @@ frame_counter = 1
 anim_counter = 0
 skipped_last = True
 
-background_colour = "#646464"
-occupied_colour = (230, 0, 0)
-empty_colour = (100, 220, 100)
+background_colour = "#000"
+occupied_colour = (190, 52, 58)
+empty_colour = (50, 49, 49)
 
 resize_factor = 3
 
