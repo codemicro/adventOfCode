@@ -1,6 +1,6 @@
 # [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)
 
-## Part two explaination
+### Part two explaination
 
 If you take away all the extra details, all we're being asked to do in part two is to find the number of valid possible orderings of the list of joltages where a given ordering is valid if:
 
@@ -26,6 +26,10 @@ For example, if we have the following data:
 We can find the number of valid combinations to get to the value `n=3` by doing `1 + 1 + 2 = 4`.
 
 Using this method, we can find the answer to part two with a very small algorithm that's only 7 lines long, excluding data parsing.
+
+### Related
+
+* [Computerphile - Tail recursion](https://www.youtube.com/watch?v=_JtPhF8MshA)
 
 ---
 

@@ -1,12 +1,17 @@
 # [Day 11: Seating System](https://adventofcode.com/2020/day/11)
 
-This is a [cellular automata](https://en.wikipedia.org/wiki/Cellular_automaton) that (in part one) uses the [Moore neighbourhood](https://en.wikipedia.org/wiki/Moore_neighborhood).
+### Related
+
+* [Wikipedia - Cellular automata](https://en.wikipedia.org/wiki/Cellular_automaton)
+* [Wikipedia - Moore neighbourhood](https://en.wikipedia.org/wiki/Moore_neighborhood)
 
 ### Visualisation
 
 | Part one                       | Part two                       |
 | ------------------------------ | ------------------------------ |
 | ![partOne gif](0.gif?raw=true) | ![partTwo gif](1.gif?raw=true) |
+
+---
 
 <details><summary>Script output</summary>
 
