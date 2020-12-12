@@ -33,11 +33,12 @@ for file in cloc_results["files"]:
         continue
 
     split_name = file["name"].split(os.path.sep)
-    if split_name[-1].lower() not in ["__main__.py", "main.go"]:
+    if split_name[-1].lower() not in ["__main__.py", "main.go", "visualise.py", "visualise.go"]:
         try:
             day_num = int(split_name[0].split("-")[0])
         except ValueError:
             continue
+
         if day_num not in target_dict:
             target_dict[day_num] = file["code"]
         else:

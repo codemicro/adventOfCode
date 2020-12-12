@@ -48,6 +48,8 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 ![Lines of code per day](https://github.com/codemicro/adventOfCode/blob/master/.github/clocgraph.png?raw=true)
 
+*(Boilerplate code and code that generates visualisations is not included)*
+
 [check]: https://github.com/codemicro/adventOfCode/blob/master/.github/check.png?raw=true
 [cross]: https://github.com/codemicro/adventOfCode/blob/master/.github/cross.png?raw=true
 [partial]: https://github.com/codemicro/adventOfCode/blob/master/.github/partial.png?raw=true
