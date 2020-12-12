@@ -3,7 +3,7 @@ name: Update CLOC graph
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 22 * 12 *"
+    - cron: "58 4 * 12 *"
 
 jobs:
   graph:
