@@ -10,7 +10,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 ---
 
-**Key:** ![Completed][check] is completed, ![Incomplete][cross] is incomplete, ![Partially complete][partial] is partially complete (does not have both languages) and ![Not yet attempted][pending] is released but not yet attempted.
+**Key:** ![Completed][check] is completed, ![Incomplete][cross] is incomplete, ![Partially complete][partial] is partially complete (does not have both languages) and ![Not yet attempted][pending] is released but not yet attempted. \* means that this day has a visualisation
 
 <!-- PARSE START -->
 
@@ -26,7 +26,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [8](/08-handheldHalting)    | ![Completed][check]            | [Link](/08-handheldHalting/python)    | [Link](/08-handheldHalting/go)    |
 | [9](/09-encodingError)      | ![Completed][check]            | [Link](/09-encodingError/python)      | [Link](/09-encodingError/go)      |
 | [10](/10-adapterArray)      | ![Completed][check]            | [Link](/10-adapterArray/python)       | [Link](/10-adapterArray/go)       |
-| [11](/11-seatingSystem)     | ![Partially complete][partial] | [Link](/11-seatingSystem/python)      |                                   |
+| [11](/11-seatingSystem) \*  | ![Partially complete][partial] | [Link](/11-seatingSystem/python)      |                                   |
 | [12](/12-rainRisk)          | ![Partially complete][partial] | [Link](/12-rainRisk/python)           |                                   |
 | 13                          |                                |                                       |                                   |
 | 14                          |                                |                                       |                                   |
@@ -48,7 +48,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 ![Lines of code per day](https://github.com/codemicro/adventOfCode/blob/master/.github/clocgraph.png?raw=true)
 
-*(Boilerplate code and code that generates visualisations is not included)*
+_(Boilerplate code and code that generates visualisations is not included)_
 
 [check]: https://github.com/codemicro/adventOfCode/blob/master/.github/check.png?raw=true
 [cross]: https://github.com/codemicro/adventOfCode/blob/master/.github/cross.png?raw=true
