@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 class Instruction:
     action: str
-    magnitude: str
+    magnitude: int
     raw: str
 
     def __init__(self, instruction: str) -> None:
