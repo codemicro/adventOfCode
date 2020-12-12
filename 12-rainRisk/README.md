@@ -22,6 +22,18 @@ Test cases
 Answers
 Part 1: 1645
 Part 2: 35292
+
+❯ go run .\go\
+AoC 2020: day 12 - Rain Risk
+Go go1.15.2
+
+Test cases
+1.1 pass
+2.1 pass
+
+Answers
+Part 1: 1645
+Part 2: 35292
 ```
 
 </details>

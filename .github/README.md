@@ -27,7 +27,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [9](/09-encodingError)      | ![Completed][check] | [Link](/09-encodingError/python)      | [Link](/09-encodingError/go)      |
 | [10](/10-adapterArray)      | ![Completed][check] | [Link](/10-adapterArray/python)       | [Link](/10-adapterArray/go)       |
 | [11](/11-seatingSystem) \*  | ![Completed][check] | [Link](/11-seatingSystem/python)      | [Link](/11-seatingSystem/python)  |
-| [12](/12-rainRisk)          | ![Partially complete][partial] | [Link](/12-rainRisk/python)           |                                   |
+| [12](/12-rainRisk) \*       | ![Completed][check] | [Link](/12-rainRisk/python)           | [Link](/12-rainRisk/go)           |
 | 13                          |                     |                                       |                                   |
 | 14                          |                     |                                       |                                   |
 | 15                          |                     |                                       |                                   |
