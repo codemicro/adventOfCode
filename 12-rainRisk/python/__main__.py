@@ -59,6 +59,14 @@ if __name__ == "__main__":
         print("Error: could not open input.txt")
         sys.exit(-1)
 
+    if "vis" in sys.argv:
+        import visualise
+
+        print("[green]Running visualisation....[/green]")
+
+        visualise.visualise(challenge_input)
+        sys.exit()
+
     run_tests(info["testCases"])
 
     if "debug" in sys.argv:

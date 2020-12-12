@@ -1,5 +1,13 @@
 # [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)
 
+### Visualisation
+
+| Part one                       | Part two                       |
+| ------------------------------ | ------------------------------ |
+| ![partOne gif](0.gif?raw=true) | ![partTwo gif](1.gif?raw=true) |
+
+---
+
 <details><summary>Script output</summary>
 
 ```
