@@ -1,0 +1,19 @@
+{
+    "year": "2020",
+    "day": "12",
+    "title": "Rain Risk",
+    "testCases": {
+        "one": [
+            {
+                "input": "F10\nN3\nF7\nR90\nF11",
+                "expected": 25
+            }
+        ],
+        "two": [
+            {
+                "input": "F10\nN3\nF7\nR90\nF11",
+                "expected": 286
+            }
+        ]
+    }
+}
