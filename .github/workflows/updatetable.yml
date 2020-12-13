@@ -1,4 +1,4 @@
-name: Update table
+name: Update README
 
 on:
   workflow_dispatch:
@@ -20,12 +20,15 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install Python dependencies
+        run: pip install beautifulsoup4 requests
+
       - name: Run script  
-        run: python .github/tablegen.py .github/README.md
+        run: python .github/tablegen.py .github/README.md ${{ secrets.AOC_SESSION }}
 
       - name: Prettify markdown
         uses: creyD/prettier_action@v3.1
         with:
           prettier_options: --write .github/README.md
           # dry: True
-          commit_message: "Update table"
+          commit_message: "Update README"

@@ -50,6 +50,12 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 _(Boilerplate code and code that generates visualisations is not included)_
 
+---
+
+<!-- RANK START -->
+
+<!-- RANK END -->
+
 [check]: https://github.com/codemicro/adventOfCode/blob/master/.github/check.png?raw=true
 [cross]: https://github.com/codemicro/adventOfCode/blob/master/.github/cross.png?raw=true
 [partial]: https://github.com/codemicro/adventOfCode/blob/master/.github/partial.png?raw=true
