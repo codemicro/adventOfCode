@@ -87,7 +87,7 @@ func findChain(adaptors []Adaptor, currentJoltage int) (bool, int, int) {
 	}
 
 	return false, 0, 0
-	
+
 }
 
 func PartOne(instr string) int {
@@ -102,13 +102,13 @@ func PartOne(instr string) int {
 			}
 		}
 	}
-	adaptors = append(adaptors, NewAdaptor(maxJ + 3))
+	adaptors = append(adaptors, NewAdaptor(maxJ+3))
 
 	s, oj, tj := findChain(adaptors, 0)
 
 	if s {
 		return oj * tj
-	} 
+	}
 
 	return 0
 }

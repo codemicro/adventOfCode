@@ -4,8 +4,8 @@ func PartOne(instr string) int {
 	instructions := parse(instr)
 
 	var (
-		acc int
-		pc int
+		acc     int
+		pc      int
 		visited []int
 	)
 
@@ -35,7 +35,7 @@ func PartOne(instr string) int {
 				acc += cir.Operand
 			case "nop":
 			}
-			
+
 			pc += 1
 
 		}

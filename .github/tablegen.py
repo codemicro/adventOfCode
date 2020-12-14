@@ -33,9 +33,17 @@ for i, l in enumerate(table_lines):
         table_lines[i] = f"| {today_day} | ![Not yet attempted][pending] | | |"
 
 rank_lines = "### Personal day-by-day stats\n\n```".split("\n")
-r = requests.get("https://adventofcode.com/2020/leaderboard/self", cookies={"session": sys.argv[2]})
+r = requests.get(
+    "https://adventofcode.com/2020/leaderboard/self", cookies={"session": sys.argv[2]}
+)
 soup = BeautifulSoup(r.text, features="html.parser")
-rank_lines += soup.find("article").get_text().split("and 0 otherwise.")[-1].strip("\n").split("\n")
+rank_lines += (
+    soup.find("article")
+    .get_text()
+    .split("and 0 otherwise.")[-1]
+    .strip("\n")
+    .split("\n")
+)
 rank_lines += ["```"]
 
 in_rank = False

@@ -126,7 +126,7 @@ func PartTwo(instr string) int {
 		lat = lat + -2*lat
 	}
 	if long < 0 {
-		long = long + -2 * long
+		long = long + -2*long
 	}
 
 	return lat + long

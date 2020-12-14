@@ -6,7 +6,7 @@ def partTwo(instr: str) -> int:
         total_routes = 0
         # Get the route lengths for the three previous joltages
         for n in [1, 2, 3]:
-            total_routes += route_lengths.get(joltage - n, 0) 
+            total_routes += route_lengths.get(joltage - n, 0)
         print(joltage, total_routes)
         route_lengths[joltage] = total_routes
 

@@ -1,6 +1,5 @@
 package challenge
 
-
 func getNewStateOne(numNeighbours int, oldState rune) rune {
 	if numNeighbours == 0 {
 		return filledSeat
@@ -24,7 +23,7 @@ func countNeighboursOne(hall [][]rune, currentPos [2]int, hallSize [2]int) (numN
 			}
 		}
 	}
-	
+
 	return
 }
 
