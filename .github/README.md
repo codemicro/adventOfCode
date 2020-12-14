@@ -29,7 +29,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [11](/11-seatingSystem) \*  | ![Completed][check]            | [Link](/11-seatingSystem/python)      | [Link](/11-seatingSystem/python)  |
 | [12](/12-rainRisk) \*       | ![Completed][check]            | [Link](/12-rainRisk/python)           | [Link](/12-rainRisk/go)           |
 | [13](/13-shuttleSearch)     | ![Partially complete][partial] | [Link](/13-shuttleSearch/python)      |                                   |
-| 14                          | ![Not yet attempted][pending]  |                                       |                                   |
+| [14](/14-dockingData)       | ![Partially complete][partial] | [Link](/14-dockingData/python)        |                                   |
 | 15                          |                                |                                       |                                   |
 | 16                          |                                |                                       |                                   |
 | 17                          |                                |                                       |                                   |
