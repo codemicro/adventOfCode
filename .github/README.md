@@ -1,6 +1,6 @@
 # Advent of Code 2020
 
-Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in at least Python and Go.
+Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in at least Python and Go. I make no claims that they're the best way to do things, but if they produce a result within 15 seconds, I'm happy.
 
 Go solutions are near direct copies of the Python solutions and may be added a few days afterwards.
 
