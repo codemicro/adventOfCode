@@ -26,7 +26,6 @@ def partTwo(instr: str) -> int:
         # int required for pow function and the division *should* produce a whole number anyway
         Ni = int(n / ni)
         yi = pow(Ni, -1, ni)  # https://stackoverflow.com/a/9758173
-        print(Ni, ni, yi)
         sigma_x += bi * Ni * yi
 
     return sigma_x % n
