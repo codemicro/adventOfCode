@@ -30,7 +30,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [12](/12-rainRisk) \*       | ![Completed][check]            | [Link](/12-rainRisk/python)           | [Link](/12-rainRisk/go)           |
 | [13](/13-shuttleSearch)     | ![Partially complete][partial] | [Link](/13-shuttleSearch/python)      |                                   |
 | [14](/14-dockingData)       | ![Completed][check]            | [Link](/14-dockingData/python)        | [Link](/14-dockingData/go)        |
-| 15                          |                                |                                       |                                   |
+| 15                          | ![Not yet attempted][pending]  |                                       |                                   |
 | 16                          |                                |                                       |                                   |
 | 17                          |                                |                                       |                                   |
 | 18                          |                                |                                       |                                   |
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 14   13:01:47  20661      0   14:41:22  17482      0
  13   05:43:41  16692      0   07:55:25   9661      0
  12   07:49:19  18545      0   09:08:54  16885      0
  11   12:07:36  24295      0   12:38:25  19932      0
