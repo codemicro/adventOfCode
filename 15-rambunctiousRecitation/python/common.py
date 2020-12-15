@@ -13,11 +13,11 @@ def find_value_n(instr:str, threshold:int) -> Tuple[int, List[int]]:
         c = len(inp) - 1
         previous_number = inp[c]
 
-        occurences = indexes.get(previous_number, None)
+        previous_occurance_index = indexes.get(previous_number, None)
         new_number = 0
 
-        if occurences is not None:
-            new_number = c - occurences
+        if previous_occurance_index is not None:
+            new_number = c - previous_occurance_index
 
         indexes[previous_number] = c
         
