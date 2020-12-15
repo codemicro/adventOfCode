@@ -1,8 +1,14 @@
 # [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)
 
+### Visualisation
+
+| Part one                       | Part two                             |
+| ------------------------------ | ------------------------------------ |
+| ![partOne png](0.png?raw=true) | ![partTwo png](1-hires.png?raw=true) |
+
 ### Related
 
-* [Numberphile - Don't Know (the Van Eck Sequence)](https://www.youtube.com/watch?v=etMJxB-igrc)
+- [Numberphile - Don't Know (the Van Eck Sequence)](https://www.youtube.com/watch?v=etMJxB-igrc)
 
 <details><summary>Script output</summary>
 
