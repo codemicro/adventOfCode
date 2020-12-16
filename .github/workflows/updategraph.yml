@@ -2,8 +2,8 @@ name: Update CLOC graph
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "58 4 * 12 *"
+  schedule:
+    - cron: "58 4 * 12 *"
 
 jobs:
   graph:
@@ -24,20 +24,18 @@ jobs:
           run: docker login docker.pkg.github.com -u owner -p ${{ secrets.GH_TKN }}
 
         - name: Run gocloc
-          run: docker run --rm -v "${PWD}":/workdir docker.pkg.github.com/hhatto/gocloc/gocloc:latest --by-file --output-type=json --not-match-d="(template|.github|.vscode)" --exclude-ext=txt . > cloc.json
-
-        - run: cat cloc.json
+          run: docker run --rm -v "${PWD}":/workdir docker.pkg.github.com/hhatto/gocloc/gocloc:latest --by-file --output-type=json --not-match-d="(template|.github|.vscode)" --exclude-ext=txt . > .github/cloc.json
 
         - name: Install Matplotlib
           run: pip install matplotlib
 
         - name: Run script  
-          run: python .github/clocgen.py cloc.json .github/clocgraph.png
+          run: python .github/clocgen.py .github/cloc.json .github/clocgraph.png
 
         - name: Git commit and push
           run: |
             git config user.email 'actions@github.com'
             git config user.name 'github-actions'
-            git add .github/clocgraph.png
+            git add .github/clocgraph.png .github/cloc.json
             git commit -m 'Update CLOC graph'
             git push origin HEAD:${{ github.ref }}
