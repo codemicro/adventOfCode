@@ -32,7 +32,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [14](/14-dockingData)               | ![Completed][check]            | [Link](/14-dockingData/python)            | [Link](/14-dockingData/go)            |
 | [15](/15-rambunctiousRecitation) \* | ![Completed][check]            | [Link](/15-rambunctiousRecitation/python) | [Link](/15-rambunctiousRecitation/go) |
 | [16](/16-ticketTranslation)         | ![Partially complete][partial] | [Link](/16-ticketTranslation/python)      |                                       |
-| 17                                  |                                |                                           |                                       |
+| 17                                  | ![Not yet attempted][pending]  |                                           |                                       |
 | 18                                  |                                |                                           |                                       |
 | 19                                  |                                |                                           |                                       |
 | 20                                  |                                |                                           |                                       |
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 16   08:37:03  16270      0   11:24:49  13401      0
  15   11:38:11  20197      0   11:50:13  18272      0
  14   13:01:47  20661      0   14:41:22  17482      0
  13   05:43:41  16692      0   07:55:25   9661      0
