@@ -32,7 +32,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [14](/14-dockingData)               | ![Completed][check]            | [Link](/14-dockingData/python)            | [Link](/14-dockingData/go)            |
 | [15](/15-rambunctiousRecitation) \* | ![Completed][check]            | [Link](/15-rambunctiousRecitation/python) | [Link](/15-rambunctiousRecitation/go) |
 | [16](/16-ticketTranslation)         | ![Partially complete][partial] | [Link](/16-ticketTranslation/python)      |                                       |
-| 17                                  | ![Not yet attempted][pending]  |                                           |                                       |
+| [17](/17-conwayCubes)               | ![Incomplete][cross]           |                                           |                                       |
 | 18                                  |                                |                                           |                                       |
 | 19                                  |                                |                                           |                                       |
 | 20                                  |                                |                                           |                                       |
