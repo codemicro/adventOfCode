@@ -9,6 +9,11 @@
                 "expected": 112
             }
         ],
-        "two": []
+        "two": [
+            {
+                "input": ".#.\n..#\n###\n",
+                "expected": 848
+            }
+        ]
     }
 }
