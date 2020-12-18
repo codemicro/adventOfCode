@@ -11,7 +11,7 @@ def partTwo(instr: str) -> int:
 
     for idx in invalid_indexes:
         tickets.pop(idx)
-    
+
     ticket_length = len(tickets[0].fields)
     num_tickets = len(tickets)
     num_rules = len(rules)

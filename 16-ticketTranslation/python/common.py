@@ -1,21 +1,27 @@
 from typing import List, Tuple
 
+
 class Rule:
     name: str
     ranges: Tuple[int, ...]
 
-    def __init__(self, instr:str) -> None:
+    def __init__(self, instr: str) -> None:
         # arrival location: 26-482 or 504-959
         field, conditions = instr.strip().split(": ")
         self.name = field
         ranges = conditions.split("or")
-        self.ranges = tuple([int(x) for x in ranges[0].strip().split("-")] + [int(x) for x in ranges[1].strip().split("-")])
+        self.ranges = tuple(
+            [int(x) for x in ranges[0].strip().split("-")]
+            + [int(x) for x in ranges[1].strip().split("-")]
+        )
+
 
 class Ticket:
     fields: Tuple[int]
 
-    def __init__(self, instr:str) -> None:
+    def __init__(self, instr: str) -> None:
         self.fields = tuple([int(x) for x in instr.strip().split(",")])
+
 
 def parse(instr: str) -> Tuple[List[Rule], Ticket, List[Ticket]]:
 
@@ -25,14 +31,22 @@ def parse(instr: str) -> Tuple[List[Rule], Ticket, List[Ticket]]:
 
     my_ticket = Ticket(raw_my_ticket.split("\n")[-1])
 
-    other_tickets = [Ticket(x) for x in raw_other_tickets.strip("nearby tickets:\n").split("\n")]
+    other_tickets = [
+        Ticket(x) for x in raw_other_tickets.strip("nearby tickets:\n").split("\n")
+    ]
 
     return rules, my_ticket, other_tickets
 
-def test_value(value:int, condition:Tuple[int, ...]) -> bool:
-    return condition[0] <= value <= condition[1] or condition[2] <= value <= condition[3]
 
-def find_invalid(rules:List[Rule], tickets:List[Ticket]) -> Tuple[List[int], List[int]]:
+def test_value(value: int, condition: Tuple[int, ...]) -> bool:
+    return (
+        condition[0] <= value <= condition[1] or condition[2] <= value <= condition[3]
+    )
+
+
+def find_invalid(
+    rules: List[Rule], tickets: List[Ticket]
+) -> Tuple[List[int], List[int]]:
     # returns invalid values and indexes of invalid tickets
 
     invalid_values = []

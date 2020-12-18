@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
 
-def find_value_n(instr:str, threshold:int) -> Tuple[int, List[int]]:
+def find_value_n(instr: str, threshold: int) -> Tuple[int, List[int]]:
     inp = [int(x) for x in instr.strip().split(",")]
 
     indexes = {}
@@ -20,7 +20,7 @@ def find_value_n(instr:str, threshold:int) -> Tuple[int, List[int]]:
             new_number = c - previous_occurance_index
 
         indexes[previous_number] = c
-        
+
         inp.append(new_number)
 
     return inp[-1], inp
