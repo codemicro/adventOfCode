@@ -33,7 +33,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [15](/15-rambunctiousRecitation) \* | ![Completed][check]            | [Link](/15-rambunctiousRecitation/python) | [Link](/15-rambunctiousRecitation/go) |
 | [16](/16-ticketTranslation)         | ![Partially complete][partial] | [Link](/16-ticketTranslation/python)      |                                       |
 | [17](/17-conwayCubes)               | ![Partially complete][partial] | [Link](/17-conwayCubes/python)            |                                       |
-| 18                                  |                                |                                           |                                       |
+| 18                                  | ![Not yet attempted][pending]  |                                           |                                       |
 | 19                                  |                                |                                           |                                       |
 | 20                                  |                                |                                           |                                       |
 | 21                                  |                                |                                           |                                       |
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 17   19:16:58  17492      0   19:48:07  16771      0
  16   08:37:03  16270      0   11:24:49  13401      0
  15   11:38:11  20197      0   11:50:13  18272      0
  14   13:01:47  20661      0   14:41:22  17482      0
