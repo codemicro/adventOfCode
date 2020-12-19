@@ -33,7 +33,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [15](/15-rambunctiousRecitation) \* | ![Completed][check]            | [Link](/15-rambunctiousRecitation/python) | [Link](/15-rambunctiousRecitation/go) |
 | [16](/16-ticketTranslation)         | ![Partially complete][partial] | [Link](/16-ticketTranslation/python)      |                                       |
 | [17](/17-conwayCubes)               | ![Partially complete][partial] | [Link](/17-conwayCubes/python)            |                                       |
-| 18                                  | ![Not yet attempted][pending]  |                                           |                                       |
+| [18](/18-operationOrder)            | ![Partially complete][partial] | [Link](/18-operationOrder/python)         |                                       |
 | 19                                  |                                |                                           |                                       |
 | 20                                  |                                |                                           |                                       |
 | 21                                  |                                |                                           |                                       |
