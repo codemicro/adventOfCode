@@ -23,12 +23,14 @@ After I started wanting to punch myself repeatedly in the head because of the am
 
 It worked first try. *sigh*
 
-At some point, I'd like to come back to this and write my own implementation, and convert the first part to using that new implementation.
+At some point, I'd like to come back to this and write my own implementation, and convert the first part to using that new implementation. Or fix the first thing I tried with all the brackets.
 
 ### Related
 
 * [Wikipedia - Shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
 * [Computerphile - Reverse Polish Notation and The Stack](https://www.youtube.com/watch?v=7ha78yWRDlE)
+* [AoC subreddit - Day 18 - how many different solutions can you take?](https://www.reddit.com/r/adventofcode/comments/kfor25/2020_day_18_how_many_different_approaches_can_you/)
+  * It pains me to know that a solution exists for part two that's five lines long, *including* data parsing...
 
 <details><summary>Script output</summary>
 
