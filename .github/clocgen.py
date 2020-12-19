@@ -61,6 +61,7 @@ python_colour = "#3572a5"
 
 keys = list(sorted(python_by_day))
 plt.plot(keys, [python_by_day[key] for key in keys], color=python_colour)
+plt.scatter(keys, [python_by_day[key] for key in keys], color=python_colour, s=15)
 
 a, b = best_fit(keys, [python_by_day[key] for key in keys])
 yfit = [a + b * xi for xi in days_array]
@@ -71,6 +72,7 @@ golang_colour = "#00add8"
 
 keys = list(sorted(go_by_day))
 plt.plot(keys, [go_by_day[key] for key in keys], color=golang_colour)
+plt.scatter(keys, [go_by_day[key] for key in keys], color=golang_colour, s=15)
 
 a, b = best_fit(keys, [go_by_day[key] for key in keys])
 yfit = [a + b * xi for xi in days_array]
