@@ -2,13 +2,6 @@ from common import *
 import re
 
 
-def recurse_replace(instr: str, old: str, new: str, limit: int, n: int = 0) -> str:
-    # I *think* this is tail recursive?
-    if n + 1 == limit:
-        return instr
-    return recurse_replace(instr.replace(old, new), old, new, limit, n=n + 1)
-
-
 def partTwo(instr: str) -> int:
 
     # patch input

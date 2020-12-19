@@ -34,7 +34,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [16](/16-ticketTranslation)         | ![Partially complete][partial] | [Link](/16-ticketTranslation/python)      |                                       |
 | [17](/17-conwayCubes)               | ![Partially complete][partial] | [Link](/17-conwayCubes/python)            |                                       |
 | [18](/18-operationOrder)            | ![Partially complete][partial] | [Link](/18-operationOrder/python)         |                                       |
-| [19](/19-monsterMessages)           | ![Partially complete][partial] | [Link](/19-monsterMessages/python)        |                                       |
+| [19](/19-monsterMessages)           | ![Completed][check]            | [Link](/19-monsterMessages/python)        | [Link](/19-monsterMessages/go)        |
 | 20                                  |                                |                                           |                                       |
 | 21                                  |                                |                                           |                                       |
 | 22                                  |                                |                                           |                                       |
