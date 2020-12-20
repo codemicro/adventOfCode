@@ -35,7 +35,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [17](/17-conwayCubes)               | ![Partially complete][partial] | [Link](/17-conwayCubes/python)            |                                       |
 | [18](/18-operationOrder)            | ![Partially complete][partial] | [Link](/18-operationOrder/python)         |                                       |
 | [19](/19-monsterMessages)           | ![Completed][check]            | [Link](/19-monsterMessages/python)        | [Link](/19-monsterMessages/go)        |
-| 20                                  | ![Not yet attempted][pending]  |                                           |                                       |
+| [20](/20-jurassicJigsaw)            | ![Incomplete][cross]           |                                           |                                       |
 | 21                                  |                                |                                           |                                       |
 | 22                                  |                                |                                           |                                       |
 | 23                                  |                                |                                           |                                       |
