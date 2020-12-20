@@ -35,7 +35,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [17](/17-conwayCubes)               | ![Partially complete][partial] | [Link](/17-conwayCubes/python)            |                                       |
 | [18](/18-operationOrder)            | ![Partially complete][partial] | [Link](/18-operationOrder/python)         |                                       |
 | [19](/19-monsterMessages)           | ![Completed][check]            | [Link](/19-monsterMessages/python)        | [Link](/19-monsterMessages/go)        |
-| 20                                  |                                |                                           |                                       |
+| 20                                  | ![Not yet attempted][pending]  |                                           |                                       |
 | 21                                  |                                |                                           |                                       |
 | 22                                  |                                |                                           |                                       |
 | 23                                  |                                |                                           |                                       |
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 19   07:14:52   7163      0   10:08:56   6083      0
  18   13:02:40  15057      0   17:01:47  15031      0
  17   19:16:58  17492      0   19:48:07  16771      0
  16   08:37:03  16270      0   11:24:49  13401      0
