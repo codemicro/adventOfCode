@@ -30,7 +30,7 @@ for i, l in enumerate(table_lines):
     rs = re.match(r"\|\s*(\d{1,})\s*\|\s*\|.+\|.+\|", l)
     if rs is not None and int(rs.group(1)) == today_day:
 
-        table_lines[i] = f"| {today_day} | ![Not yet attempted][pending] | | |"
+        table_lines[i] = f"| {today_day} | ![Not yet attempted][pending] | | | |"
 
 rank_lines = "### Personal day-by-day stats\n\n```".split("\n")
 r = requests.get(
