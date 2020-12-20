@@ -7,6 +7,8 @@ def partOne(instr: str) -> int:
 
     edges = {}
 
+    # find dictionary of edges and the tiles that have them
+
     for tile in tiles:
         for edge in tile.edges:
             if edge not in edges:
@@ -18,12 +20,14 @@ def partOne(instr: str) -> int:
 
     for edge in edges:
         rev = "".join(reversed(edge))
-        if rev in edges:
-            edges[edge] = edges[edge].union(edges[rev])
+        if rev in edges and edge not in to_del:
+            edges[edge].update(edges[rev])
             to_del.append(rev)
 
     for r in to_del:
         del edges[r]
+
+    # count the number of shared edges each tile has
 
     shared_edge_count = {x.number:0 for x in tiles}
     for tile in tiles:
@@ -32,8 +36,13 @@ def partOne(instr: str) -> int:
             if tile.number in tn and len(tn) > 1:
                 shared_edge_count[tile.number] += 1
 
+    # find the product of all tile numbers that have 2 matching edges
+
     pprint(shared_edge_count)
 
-    pprint(edges)
+    c = 1
+    for x in shared_edge_count:
+        if shared_edge_count[x] == 2:
+            c *= x
 
-    return 0
+    return c

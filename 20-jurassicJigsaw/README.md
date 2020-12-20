@@ -1,3 +1,5 @@
 # [Day 20: Jurassic Jigsaw](https://adventofcode.com/2020/day/20)
 
-Gave up on this one. I was struggling to find a decent logical way to do it manually, yet alone write a set of rules to get a computer to do it.
+~~Gave up on this one. I was struggling to find a decent logical way to do it manually, yet alone write a set of rules to get a computer to do it.~~
+
+Okay, so I had a lightbulb moment and came back to take another look at part one, which I got pretty easily. I'm going to take another crack on part two, since tiles have certain properties that I didn't realise were present.
