@@ -29,7 +29,9 @@ def parse(instr: str) -> List[Tile]:
     return [Tile(x) for x in instr.strip().split("\n\n")]
 
 
-def get_edge_information(tiles:List[Tile]) -> Tuple[Dict[str, Set[int]], Dict[int, int]]:
+def get_edge_information(
+    tiles: List[Tile],
+) -> Tuple[Dict[str, Set[int]], Dict[int, int]]:
     edges = {}
     shared_edge_count = {x.number: 0 for x in tiles}
 

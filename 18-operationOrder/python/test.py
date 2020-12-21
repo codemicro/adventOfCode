@@ -7,7 +7,10 @@ instr = open("../input.txt").read()
 expressions = instr.strip().split("\n")
 
 expressions = [
-    partOne.parse_expression(list(("( " + x.replace("*", ") * (") + " )").replace(" ", "")))[0] for x in instr.strip().split("\n")
+    partOne.parse_expression(
+        list(("( " + x.replace("*", ") * (") + " )").replace(" ", ""))
+    )[0]
+    for x in instr.strip().split("\n")
 ]
 
 sigma = 0
