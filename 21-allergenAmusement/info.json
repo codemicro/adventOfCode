@@ -1,0 +1,19 @@
+{
+    "year": "2020",
+    "day": "21",
+    "title": "Allergen Amusement",
+    "testCases": {
+        "one": [
+            {
+                "input": "mxmxvkd kfcds sqjhc nhms (contains dairy, fish)\ntrh fvjkl sbzzf mxmxvkd (contains dairy)\nsqjhc fvjkl (contains soy)\nsqjhc mxmxvkd sbzzf (contains fish)\n",
+                "expected": 5
+            }
+        ],
+        "two": [
+            {
+                "input": "mxmxvkd kfcds sqjhc nhms (contains dairy, fish)\ntrh fvjkl sbzzf mxmxvkd (contains dairy)\nsqjhc fvjkl (contains soy)\nsqjhc mxmxvkd sbzzf (contains fish)\n",
+                "expected": "mxmxvkd,sqjhc,fvjkl"
+            }
+        ]
+    }
+}
