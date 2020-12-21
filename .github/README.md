@@ -36,7 +36,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [18](/18-operationOrder)            | ![Partially complete][partial] | [Link](/18-operationOrder/python)         |                                       |                      |
 | [19](/19-monsterMessages)           | ![Completed][check]            | [Link](/19-monsterMessages/python)        | [Link](/19-monsterMessages/go)        |                      |
 | [20](/20-jurassicJigsaw)            | ![Partially complete][partial] | [Link](/20-jurassicJigsaw/python)         |                                       | Only part one solved |
-| 21                                  |                                |                                           |                                       |                      |
+| 21                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
 | 22                                  |                                |                                           |                                       |                      |
 | 23                                  |                                |                                           |                                       |                      |
 | 24                                  |                                |                                           |                                       |                      |
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 20   12:40:05   9000      0          -      -      -
  19   07:14:52   7163      0   10:08:56   6083      0
  18   13:02:40  15057      0   17:01:47  15031      0
  17   19:16:58  17492      0   19:48:07  16771      0
