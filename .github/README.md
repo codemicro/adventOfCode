@@ -37,7 +37,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [19](/19-monsterMessages)           | ![Completed][check]            | [Link](/19-monsterMessages/python)        | [Link](/19-monsterMessages/go)        |                      |
 | [20](/20-jurassicJigsaw)            | ![Partially complete][partial] | [Link](/20-jurassicJigsaw/python)         |                                       | Only part one solved |
 | [21](/21-allergenAmusement)         | ![Partially complete][partial] | [Link](/21-allergenAmusement/python)      |                                       |                      |
-| 22                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
+| [22](/22-crabCombat)                | ![Partially complete][partial] | [Link](/22-crabCombat/python)             |                                       |                      |
 | 23                                  |                                |                                           |                                       |                      |
 | 24                                  |                                |                                           |                                       |                      |
 | 25                                  |                                |                                           |                                       |                      |
