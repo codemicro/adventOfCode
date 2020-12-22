@@ -9,6 +9,9 @@ from partOne import partOne
 from partTwo import partTwo
 
 
+force_time = False
+
+
 def run_and_time(f):
     st = time.time()
     x = f()
@@ -45,7 +48,7 @@ def run_tests(test_cases):
             else:
                 output_string += f"[red]fail[/red] (got {result}, expected {expectedInt})"
             
-            if t > 15:
+            if t > 15 or force_time:
                 output_string += f" in {t} seconds"
             
             print(output_string + " "*12)
@@ -86,6 +89,9 @@ if __name__ == "__main__":
         visualise.visualise(challenge_input)
         sys.exit()
 
+    if "ft" in sys.argv:
+        force_time = True
+
     run_tests(info["testCases"])
 
     if "debug" in sys.argv:
@@ -97,7 +103,7 @@ if __name__ == "__main__":
     output_string = "Part 1: "
     x, t = run_and_time(lambda: partOne(challenge_input))
     output_string += str(x)
-    if t > 15:
+    if t > 15 or force_time:
         output_string += f" in {t} seconds"
     print(output_string + " "*12)
 
@@ -105,6 +111,6 @@ if __name__ == "__main__":
     output_string = "Part 2: "
     x, t = run_and_time(lambda: partTwo(challenge_input))
     output_string += str(x)
-    if t > 15:
+    if t > 15 or force_time:
         output_string += f" in {t} seconds"
     print(output_string + " "*12)

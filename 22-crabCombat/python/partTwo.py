@@ -10,11 +10,14 @@ def play_round(deck_one: List[int], deck_two: List[int]) -> Tuple[int, Tuple[Lis
     seen_configurations = []
 
     while len(deck_one) > 0 and len(deck_two) > 0:
-        if (deck_one, deck_two) in seen_configurations:
+
+        current_hash = hash(tuple(deck_one + deck_two))
+
+        if current_hash in seen_configurations:
             # print("Seen this config before")
             return 1, (deck_one, deck_two)
         else:
-            seen_configurations.append((copy.deepcopy(deck_one), copy.deepcopy(deck_two)))
+            seen_configurations.append(current_hash)
 
         # do gameplay shenanigans
         top_one = deck_one.pop(0)
