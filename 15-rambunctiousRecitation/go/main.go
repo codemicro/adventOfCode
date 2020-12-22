@@ -8,6 +8,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"time"
 
 	"github.com/fatih/color"
 )
@@ -49,8 +50,32 @@ func main() {
 	runTests(infoStruct)
 
 	fmt.Println("Answers")
-	fmt.Fprintf(color.Output, "Part %s: %s\n", color.BlueString("1"), color.BlueString(strconv.Itoa(challenge.PartOne(challengeInput))))
-	fmt.Fprintf(color.Output, "Part %s: %s\n", color.BlueString("2"), color.BlueString(strconv.Itoa(challenge.PartTwo(challengeInput))))
+
+	fmt.Printf("Running part %s...\r", color.BlueString("1"))
+	outputString := fmt.Sprintf("Part %s: ", color.BlueString("1"))
+	x, t := runAndTime(func() int { return challenge.PartOne(challengeInput) })
+	outputString += color.BlueString(strconv.Itoa(x))
+	if t > 15 {
+		outputString += fmt.Sprintf(" in %s seconds", color.BlueString(fmt.Sprintf("%.8f", t)))
+	}
+	for i := 0; i < 12; i += 1 {
+		outputString += " "
+	}
+	outputString += "\n"
+	fmt.Fprint(color.Output, outputString)
+
+	fmt.Printf("Running part %s...\r", color.BlueString("2"))
+	outputString = fmt.Sprintf("Part %s: ", color.BlueString("2"))
+	x, t = runAndTime(func() int { return challenge.PartTwo(challengeInput) })
+	outputString += color.BlueString(strconv.Itoa(x))
+	if t > 15 {
+		outputString += fmt.Sprintf(" in %s seconds", color.BlueString(fmt.Sprintf("%.8f", t)))
+	}
+	for i := 0; i < 12; i += 1 {
+		outputString += " "
+	}
+	outputString += "\n"
+	fmt.Fprint(color.Output, outputString)
 
 }
 
@@ -81,14 +106,29 @@ func runTests(infoStruct info) {
 
 	rt := func(tcs []tc, f func(string) int, n string) {
 		for i, tc := range tcs {
-			fmt.Fprintf(color.Output, "%s ", color.BlueString(n+"."+strconv.Itoa(i+1)))
-			result := f(tc.Input)
+			readable_test_num := color.BlueString(n + "." + strconv.Itoa(i+1))
+			fmt.Fprintf(color.Output, "Running %s...\r", readable_test_num)
+
+			outputString := readable_test_num + " "
+
+			result, t := runAndTime(func() int { return f(tc.Input) })
+
 			if result == tc.Expected {
-				fmt.Fprintf(color.Output, "%s", color.GreenString("pass"))
+				outputString += color.GreenString("pass")
 			} else {
-				fmt.Fprintf(color.Output, "%s (got %s, expected %s)", color.RedString("fail"), color.BlueString(strconv.Itoa(result)), color.BlueString(strconv.Itoa(tc.Expected)))
+				outputString += fmt.Sprintf("%s (got %s, expected %s)", color.RedString("fail"), color.BlueString(strconv.Itoa(result)), color.BlueString(strconv.Itoa(tc.Expected)))
 			}
-			fmt.Println()
+
+			if t > 15 {
+				outputString += fmt.Sprintf(" in %s seconds", color.BlueString(fmt.Sprintf("%.8f", t)))
+			}
+
+			for i := 0; i < 12; i += 1 {
+				outputString += " "
+			}
+			outputString += "\n"
+
+			fmt.Fprint(color.Output, outputString)
 		}
 	}
 
@@ -97,4 +137,11 @@ func runTests(infoStruct info) {
 
 	fmt.Println()
 
+}
+
+func runAndTime(f func() int) (int, float64) {
+	st := time.Now()
+	x := f()
+	et := time.Now()
+	return x, et.Sub(st).Seconds()
 }

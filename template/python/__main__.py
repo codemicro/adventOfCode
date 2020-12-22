@@ -1,11 +1,22 @@
 import json
 import platform
 import sys
+import time
 
 from rich import print
 
 from partOne import partOne
 from partTwo import partTwo
+
+
+force_time = False
+
+
+def run_and_time(f):
+    st = time.time()
+    x = f()
+    et = time.time()
+    return x, et-st
 
 
 def run_tests(test_cases):
@@ -23,13 +34,24 @@ def run_tests(test_cases):
 
     def rt(tcs, f, n):
         for i, tc in enumerate(tcs):
-            print(f"{n}.{i+1} ", end="")
+            readable_test_num = f"{n}.{i+1}"
+            print(f"Running {readable_test_num}...", end="\r")
+            
             expectedInt = tc["expected"]
-            result = f(str(tc["input"]))
+
+            result, t = run_and_time(lambda: f(str(tc["input"])))
+
+            output_string = f"{readable_test_num} "
+
             if result == expectedInt:
-                print("[green]pass[/green]")
+                output_string += "[green]pass[/green]"
             else:
-                print(f"[red]fail[/red] (got {result}, expected {expectedInt})")
+                output_string += f"[red]fail[/red] (got {result}, expected {expectedInt})"
+            
+            if t > 15 or force_time:
+                output_string += f" in {t} seconds"
+            
+            print(output_string + " "*12)
 
     rt(test_cases["one"], partOne, 1)
     rt(test_cases["two"], partTwo, 2)
@@ -67,11 +89,28 @@ if __name__ == "__main__":
         visualise.visualise(challenge_input)
         sys.exit()
 
+    if "ft" in sys.argv:
+        force_time = True
+
     run_tests(info["testCases"])
 
     if "debug" in sys.argv:
         sys.exit()
 
     print("Answers")
-    print("Part 1:", partOne(challenge_input))
-    print("Part 2:", partTwo(challenge_input))
+    
+    print("Running part 1...", end="\r")
+    output_string = "Part 1: "
+    x, t = run_and_time(lambda: partOne(challenge_input))
+    output_string += str(x)
+    if t > 15 or force_time:
+        output_string += f" in {t} seconds"
+    print(output_string + " "*12)
+
+    print("Running part 2...", end="\r")
+    output_string = "Part 2: "
+    x, t = run_and_time(lambda: partTwo(challenge_input))
+    output_string += str(x)
+    if t > 15 or force_time:
+        output_string += f" in {t} seconds"
+    print(output_string + " "*12)
