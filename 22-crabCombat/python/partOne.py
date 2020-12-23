@@ -1,6 +1,7 @@
 from common import *
 import time
 
+
 def play_round(deck_one: List[int], deck_two: List[int]) -> None:
 
     top_one = deck_one.pop(0)

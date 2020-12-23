@@ -60,7 +60,6 @@ def partOne(instr: str) -> int:
 
         print()
 
-
     # rotate until 1 is the first value
     while cups[0] != 1:
         t = cups.pop(0)

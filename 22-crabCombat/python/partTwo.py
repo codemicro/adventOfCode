@@ -2,7 +2,9 @@ from common import *
 import copy
 
 
-def play_round(deck_one: List[int], deck_two: List[int]) -> Tuple[int, Tuple[List[int], List[int]]]:
+def play_round(
+    deck_one: List[int], deck_two: List[int]
+) -> Tuple[int, Tuple[List[int], List[int]]]:
     # returns winner number and decks in their new state
 
     # print("new round")
@@ -41,7 +43,7 @@ def play_round(deck_one: List[int], deck_two: List[int]) -> Tuple[int, Tuple[Lis
 
         # print(winner, "wins")
 
-        # do things based on the winner    
+        # do things based on the winner
         if winner == 1:
             deck_one.append(top_one)
             deck_one.append(top_two)
@@ -49,7 +51,7 @@ def play_round(deck_one: List[int], deck_two: List[int]) -> Tuple[int, Tuple[Lis
             deck_two.append(top_two)
             deck_two.append(top_one)
         else:
-            raise Exception("SDFGKSHDFGKSHDFGAAAAAAAA!!!") # yes
+            raise Exception("SDFGKSHDFGKSHDFGAAAAAAAA!!!")  # yes
 
     # print("finished this round")
 
@@ -59,7 +61,9 @@ def play_round(deck_one: List[int], deck_two: List[int]) -> Tuple[int, Tuple[Lis
 def partTwo(instr: str) -> int:
     deck_one, deck_two = parse(instr)
 
-    winner, (deck_one, deck_two) = play_round(copy.deepcopy(deck_one), copy.deepcopy(deck_two))
+    winner, (deck_one, deck_two) = play_round(
+        copy.deepcopy(deck_one), copy.deepcopy(deck_two)
+    )
 
     if winner == 1:
         return calc_score(deck_one)
