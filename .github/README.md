@@ -38,7 +38,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [20](/20-jurassicJigsaw)            | ![Partially complete][partial] | [Link](/20-jurassicJigsaw/python)         |                                       | Only part one solved |
 | [21](/21-allergenAmusement)         | ![Partially complete][partial] | [Link](/21-allergenAmusement/python)      |                                       |                      |
 | [22](/22-crabCombat)                | ![Partially complete][partial] | [Link](/22-crabCombat/python)             |                                       |                      |
-| 23                                  |                                |                                           |                                       |                      |
+| 23                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
 | 24                                  |                                |                                           |                                       |                      |
 | 25                                  |                                |                                           |                                       |                      |
 
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 22   06:37:56   9949      0   07:46:00   7333      0
  21   07:07:02   7031      0   07:34:43   6897      0
  20   12:40:05   9000      0          -      -      -
  19   07:14:52   7163      0   10:08:56   6083      0
