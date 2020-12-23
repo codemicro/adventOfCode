@@ -1,0 +1,14 @@
+{
+    "year": "2020",
+    "day": "23",
+    "title": "Crab Cups",
+    "testCases": {
+        "one": [
+            {
+                "input": "389125467",
+                "expected": 67384529
+            }
+        ],
+        "two": []
+    }
+}
