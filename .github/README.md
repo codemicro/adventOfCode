@@ -38,8 +38,8 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [20](/20-jurassicJigsaw)            | ![Partially complete][partial] | [Link](/20-jurassicJigsaw/python)         |                                       | Only part one solved |
 | [21](/21-allergenAmusement)         | ![Partially complete][partial] | [Link](/21-allergenAmusement/python)      |                                       |                      |
 | [22](/22-crabCombat)                | ![Partially complete][partial] | [Link](/22-crabCombat/python)             |                                       |                      |
-| [23](/23-crabCups)                                  | ![Incomplete][cross]           |                                           |                                       |  |
-| 24                                  |                                |                                           |                                       |                      |
+| [23](/23-crabCups)                  | ![Incomplete][cross]           |                                           |                                       |                      |
+| 24                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
 | 25                                  |                                |                                           |                                       |                      |
 
 <!-- PARSE END -->
