@@ -39,7 +39,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [21](/21-allergenAmusement)         | ![Partially complete][partial] | [Link](/21-allergenAmusement/python)      |                                       |                      |
 | [22](/22-crabCombat)                | ![Partially complete][partial] | [Link](/22-crabCombat/python)             |                                       |                      |
 | [23](/23-crabCups)                  | ![Incomplete][cross]           |                                           |                                       |                      |
-| 24                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
+| [24](/24-lobbyLayout)               | ![Partially complete][partial] | [Link](/24-lobbyLayout/python)            |                                       |                      |
 | 25                                  |                                |                                           |                                       |                      |
 
 <!-- PARSE END -->
