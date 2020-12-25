@@ -9,7 +9,7 @@ I might go back and try some of the other challenges from this year that I didn'
 <details><summary>Script output</summary>
 
 ```
-❯ python .\python\ ft
+❯ python python ft
 AoC 2020: day 25 - Combo Breaker
 Python 3.8.5
 
@@ -17,8 +17,19 @@ Test cases
 1.1 pass in 0.0 seconds
 
 Answers
-Part 1: 297257 in 7.745995283126831 seconds
+Part 1: 297257 in 7.089499235153198 seconds
 Part 2: 0 in 0.0 seconds
+
+❯ go run .\go\ ft
+AoC 2020: day 25 - Combo Breaker
+Go go1.15.2
+
+Test cases
+1.1 pass in 0.00000000 seconds
+
+Answers
+Part 1: 297257 in 0.13749980 seconds
+Part 2: 0 in 0.00000000 seconds
 ```
 
 </details>

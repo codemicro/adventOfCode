@@ -40,7 +40,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [22](/22-crabCombat)                | ![Partially complete][partial] | [Link](/22-crabCombat/python)             |                                       |                      |
 | [23](/23-crabCups)                  | ![Incomplete][cross]           |                                           |                                       |                      |
 | [24](/24-lobbyLayout)               | ![Partially complete][partial] | [Link](/24-lobbyLayout/python)            |                                       |                      |
-| 25                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
+| [25](/25-comboBreaker)              | ![Completed][check]            | [Link](/25-comboBreaker/python)           | [Link](/25-comboBreaker/go)           |                      |
 
 <!-- PARSE END -->
 
