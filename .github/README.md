@@ -40,7 +40,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [22](/22-crabCombat)                | ![Partially complete][partial] | [Link](/22-crabCombat/python)             |                                       |                      |
 | [23](/23-crabCups)                  | ![Incomplete][cross]           |                                           |                                       |                      |
 | [24](/24-lobbyLayout)               | ![Partially complete][partial] | [Link](/24-lobbyLayout/python)            |                                       |                      |
-| 25                                  |                                |                                           |                                       |                      |
+| 25                                  | ![Not yet attempted][pending]  |                                           |                                       |                      |
 
 <!-- PARSE END -->
 
@@ -59,6 +59,7 @@ _(Boilerplate code and code that generates visualisations is not included)_
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 24   06:03:39   7277      0   06:50:17   6382      0
  22   06:37:56   9949      0   07:46:00   7333      0
  21   07:07:02   7031      0   07:34:43   6897      0
  20   12:40:05   9000      0          -      -      -
