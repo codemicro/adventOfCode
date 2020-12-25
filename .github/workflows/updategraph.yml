@@ -2,8 +2,8 @@ name: Update CLOC graph
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "58 4 * 12 *"
+  #schedule:
+  #  - cron: "58 4 * 12 *"
 
 jobs:
   graph:

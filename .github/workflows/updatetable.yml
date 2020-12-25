@@ -2,8 +2,8 @@ name: Update README
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "1 5 * 12 *"
+  #schedule:
+  #  - cron: "1 5 * 12 *"
 
 jobs:
   table:
