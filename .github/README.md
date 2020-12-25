@@ -31,7 +31,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 | [13](/13-shuttleSearch)             | ![Partially complete][partial] | [Link](/13-shuttleSearch/python)          |                                       |                      |
 | [14](/14-dockingData)               | ![Completed][check]            | [Link](/14-dockingData/python)            | [Link](/14-dockingData/go)            |                      |
 | [15](/15-rambunctiousRecitation) \* | ![Completed][check]            | [Link](/15-rambunctiousRecitation/python) | [Link](/15-rambunctiousRecitation/go) |                      |
-| [16](/16-ticketTranslation)         | ![Partially complete][partial] | [Link](/16-ticketTranslation/python)      |                                       |                      |
+| [16](/16-ticketTranslation)         | ![Completed][check]            | [Link](/16-ticketTranslation/python)      | [Link](/16-ticketTranslation/go)      |                      |
 | [17](/17-conwayCubes)               | ![Partially complete][partial] | [Link](/17-conwayCubes/python)            |                                       |                      |
 | [18](/18-operationOrder)            | ![Partially complete][partial] | [Link](/18-operationOrder/python)         |                                       |                      |
 | [19](/19-monsterMessages)           | ![Completed][check]            | [Link](/19-monsterMessages/python)        | [Link](/19-monsterMessages/go)        |                      |
