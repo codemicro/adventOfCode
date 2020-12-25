@@ -46,6 +46,60 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 ---
 
+### Challenge summaries
+
+**2020.01** - Find two/three numbers that sum to 2020
+
+**2020.02** - Data validation
+
+**2020.03** - Finding obstacles on a given path through a 2D array
+
+**2020.04** - More data validation!
+
+**2020.05** - Binary data/searching but also not
+
+**2020.06** - Dealing with combinations of characters
+
+**2020.07** - Dealing with large amounts of nested objects
+
+**2020.08** - Write a simple interpreter with infinite loop detection, trial and error to find a value to modify
+
+**2020.09** - Finding numbers that match different conditions within a sequence
+
+**2020.1o** - Finding permutations of a list that satisfy various constraints
+
+**2020.11** - Build a custom cellular automata with weird neighborhoods
+
+**2020.12** - Moving a virtual boat around a virtual sea with weird virtual instructions
+
+**2020.13** - Chinese remainder theorem + buses = ???
+
+**2020.14** - Funky bitmasks
+
+**2020.15** - The Van Eck sequence
+
+**2020-16** - Working out what values in a list means what by means of deduction and a set of rules
+
+**2020-17** - ~~3D~~ **4**D cellular automata!
+
+**2020-18** - Maths, but if BIDMAS didn't exist (the shunting yard algorithm)
+
+**2020-19** - Generating regexes ~~as long as~~ longer than your arm and then making them recursive
+
+**2020-20** - Solving a jigsaw programmatically and then looking for specific sequences of characters within the solved jigsaw
+
+**2020-21** - Making deductions about values that are contained within multiple lists
+
+**2020-22** - Simulating card games, and then making that card game recursive
+
+**2020-23** - Crabs playing with cups
+
+**2020-24** - Cellular automata, but this time with hexagons
+
+**2020-25** - Reversing handshakes between a door and a RFID card (_"Unfortunately for the door, you know a thing or two about cryptographic handshakes"_)
+
+---
+
 ![Lines of code per day](https://github.com/codemicro/adventOfCode/blob/master/.github/clocgraph.png?raw=true)
 
 _(Boilerplate code and code that generates visualisations is not included)_
