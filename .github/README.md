@@ -66,7 +66,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 **2020.09** - Finding numbers that match different conditions within a sequence
 
-**2020.1o** - Finding permutations of a list that satisfy various constraints
+**2020.10** - Finding permutations of a list that satisfy various constraints
 
 **2020.11** - Build a custom cellular automata with weird neighborhoods
 
@@ -78,25 +78,25 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 **2020.15** - The Van Eck sequence
 
-**2020-16** - Working out what values in a list means what by means of deduction and a set of rules
+**2020.16** - Working out what values in a list means what by means of deduction and a set of rules
 
-**2020-17** - ~~3D~~ **4**D cellular automata!
+**2020.17** - ~~3D~~ **4**D cellular automata!
 
-**2020-18** - Maths, but if BIDMAS didn't exist (the shunting yard algorithm)
+**2020.18** - Maths, but if BIDMAS didn't exist (the shunting yard algorithm)
 
-**2020-19** - Generating regexes ~~as long as~~ longer than your arm and then making them recursive
+**2020.19** - Generating regexes ~~as long as~~ longer than your arm and then making them recursive
 
-**2020-20** - Solving a jigsaw programmatically and then looking for specific sequences of characters within the solved jigsaw
+**2020.20** - Solving a jigsaw programmatically and then looking for specific sequences of characters within the solved jigsaw
 
-**2020-21** - Making deductions about values that are contained within multiple lists
+**2020.21** - Making deductions about values that are contained within multiple lists
 
-**2020-22** - Simulating card games, and then making that card game recursive
+**2020.22** - Simulating card games, and then making that card game recursive
 
-**2020-23** - Crabs playing with cups
+**2020.23** - Crabs playing with cups
 
-**2020-24** - Cellular automata, but this time with hexagons
+**2020.24** - Cellular automata, but this time with hexagons
 
-**2020-25** - Reversing handshakes between a door and a RFID card (_"Unfortunately for the door, you know a thing or two about cryptographic handshakes"_)
+**2020.25** - Reversing handshakes between a door and a RFID card (_"Unfortunately for the door, you know a thing or two about cryptographic handshakes"_)
 
 ---
 
