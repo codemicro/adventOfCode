@@ -1,6 +1,6 @@
 # Advent of Code 2021
 
-Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
+Solutions to the [2021 Advent of Code](https://adventofcode.com/2021). My 2020 solutions can be found [here](https://github.com/codemicro/adventOfCode/tree/2020).
 
 Puzzle inputs and descriptions are not included in this repository. You'll have to get these yourself from the AoC website. [Here's why](https://www.reddit.com/r/adventofcode/comments/k99rod/sharing_input_data_were_we_requested_not_to/gf2ukkf/?context=3).
 
