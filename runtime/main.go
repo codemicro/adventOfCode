@@ -96,16 +96,19 @@ func run() error {
 	challengeInputString := string(challengeInput)
 
 	runner := runners.Available[selectedImplementation](selectedChallenge.Dir)
-	runner.Queue(&runners.Task{
-		Part:  1,
-		Input: challengeInputString,
-	})
+
+	lookupTable := make(taskLookupTable)
+	setupTestTasks(challengeInfo, runner, &lookupTable)
+	setupMainTasks(challengeInputString, runner, &lookupTable)
+
+	fmt.Println("\nRunning...\n")
 
 	for roe := range runner.Run() {
 		if roe.Error != nil {
 			return roe.Error
 		}
-		fmt.Println(*roe.Result)
+		// fmt.Println(*roe.Result)
+		lookupTable[roe.Result.TaskID](roe.Result)
 	}
 
 	return nil

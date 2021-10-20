@@ -5,28 +5,27 @@ import (
 	"io/ioutil"
 )
 
-type ChallengeInfo struct {
+type Info struct {
 	InputFile string `json:"inputFile"`
 	TestCases struct {
-		One []struct {
-			Input    string `json:"input"`
-			Expected int64  `json:"expected"`
-		} `json:"one"`
-		Two []struct {
-			Input    string `json:"input"`
-			Expected int    `json:"expected"`
-		} `json:"two"`
+		One []*TestCase `json:"one"`
+		Two []*TestCase `json:"two"`
 	} `json:"testCases"`
 }
 
-func LoadChallengeInfo(fname string) (*ChallengeInfo, error) {
+type TestCase struct {
+	Input    string      `json:"input"`
+	Expected interface{} `json:"expected"`
+}
+
+func LoadChallengeInfo(fname string) (*Info, error) {
 
 	fcont, err := ioutil.ReadFile(fname)
 	if err != nil {
 		return nil, err
 	}
 
-	c := new(ChallengeInfo)
+	c := new(Info)
 	err = json.Unmarshal(fcont, c)
 	if err != nil {
 		return nil, err

@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"text/template"
 )
 
 const python3Installation = "python3"
@@ -29,32 +28,21 @@ func (p *pythonRunner) Queue(task *Task) {
 }
 
 //go:embed interface/python.py
-var pythonInterface string
+var pythonInterface []byte
 
 func (p *pythonRunner) Run() chan ResultOrError {
 
 	wrapperFilename := "runtime-wrapper.py"
 	wrapperFilepath := filepath.Join(p.dir, wrapperFilename)
 
-	// Generate interaction code
+	// Generate interaction data
 	taskJSON, err := json.Marshal(p.tasks)
 	if err != nil {
 		return makeErrorChan(err)
 	}
 
-	interactionCodeBuffer := new(bytes.Buffer)
-	{
-		templ := template.Must(template.New("").Parse(pythonInterface))
-		err := templ.Execute(interactionCodeBuffer, struct{
-			TasksJSON string
-		}{string(taskJSON)})
-		if err != nil {
-			return makeErrorChan(err)
-		}
-	}
-
 	// Save interaction code
-	err = ioutil.WriteFile(wrapperFilepath, interactionCodeBuffer.Bytes(), 0644)
+	err = ioutil.WriteFile(wrapperFilepath, pythonInterface, 0644)
 	if err != nil {
 		return makeErrorChan(err)
 	}
@@ -62,6 +50,8 @@ func (p *pythonRunner) Run() chan ResultOrError {
 	// Run Python and gather output
 	cmd := exec.Command(python3Installation, "-B", wrapperFilename) // -B prevents .pyc files from being written
 	cmd.Dir = p.dir
+
+	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
 
 	return readResultsFromCommand(cmd, func() {
 		// Remove leftover files

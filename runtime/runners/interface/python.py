@@ -3,19 +3,20 @@ from py import Challenge
 import time
 import json
 
-TASKS_STR = """{{ .TasksJSON }}"""
+TASKS_STR = input()
 TASKS = json.loads(TASKS_STR)
 
-def send_result(task_number, ok, output, duration):
+def send_result(task_id, ok, output, duration):
     print(json.dumps({
-        "task_n": task_number,
+        "task_id": task_id,
         "ok": ok,
         "output": str(output) if output is not None else "",
         "duration": float(duration),
     }), flush=True)
 
-for task_number, task in enumerate(TASKS):
+for task in TASKS:
     taskPart = task["part"]
+    task_id = task["task_id"]
 
     run = None
 
@@ -26,7 +27,7 @@ for task_number, task in enumerate(TASKS):
     elif taskPart == 3:
         run = lambda: Challenge().vis(task["input"], task["output_dir"])
     else:
-        send_result(task_number, False, "unknown task part", 0)
+        send_result(task_id, False, "unknown task part", 0)
         continue
 
     start_time = time.time()
@@ -41,6 +42,6 @@ for task_number, task in enumerate(TASKS):
     running_time = end_time-start_time
 
     if err is not None:
-        send_result(task_number, False, err, running_time)
+        send_result(task_id, False, err, running_time)
     else:
-        send_result(task_number, True, res, running_time)
+        send_result(task_id, True, res, running_time)

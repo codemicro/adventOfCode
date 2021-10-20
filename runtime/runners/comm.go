@@ -11,13 +11,14 @@ import (
 )
 
 type Task struct {
+	TaskID    string `json:"task_id"`
 	Part      Part   `json:"part"`
 	Input     string `json:"input"`
 	OutputDir string `json:"output_dir,omitempty"`
 }
 
 type Result struct {
-	TaskNumber int     `json:"task_n"`
+	TaskID     string  `json:"task_id"`
 	Ok         bool    `json:"ok"`
 	Output     string  `json:"output"`
 	Duration   float32 `json:"duration"`
@@ -29,8 +30,6 @@ func makeErrorChan(err error) chan ResultOrError {
 	close(c)
 	return c
 }
-
-// custom writer type
 
 type customWriter struct {
 	pending []byte
