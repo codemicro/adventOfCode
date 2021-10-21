@@ -4,14 +4,14 @@ import "errors"
 
 type BaseChallenge struct{}
 
-func (b *BaseChallenge) one(instr string) (interface{}, error) {
+func (b *BaseChallenge) One(instr string) (interface{}, error) {
 	return nil, errors.New("not implemented")
 }
 
-func (b *BaseChallenge) two(instr string) (interface{}, error) {
+func (b *BaseChallenge) Two(instr string) (interface{}, error) {
 	return nil, errors.New("not implemented")
 }
 
-func (b *BaseChallenge) vis(instr string, outdir string) error {
+func (b *BaseChallenge) Vis(instr string, outdir string) error {
 	return errors.New("not implemented")
 }
