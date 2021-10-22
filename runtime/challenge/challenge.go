@@ -23,39 +23,30 @@ func (c *Challenge) String() string {
 
 var challengeDirRegexp = regexp.MustCompile(`(?m)^(\d{2})-([a-zA-Z]+)$`)
 
-func getChallengeDirs(dir string) ([]string, error) {
-	dirEntries, err := os.ReadDir(dir)
-	if err != nil {
-		return nil, err
-	}
-
-	var res []string
-	for _, entry := range dirEntries {
-		if entry.IsDir() && challengeDirRegexp.MatchString(entry.Name()) {
-			res = append(res, entry.Name())
-		}
-	}
-
-	return res, nil
-}
-
 func ListingFromDir(sourceDir string) ([]*Challenge, error) {
 
-	dirs, err := getChallengeDirs(sourceDir)
+	dirEntries, err := os.ReadDir(sourceDir)
 	if err != nil {
 		return nil, err
 	}
 
 	var o []*Challenge
-	for _, dir := range dirs {
-		x := strings.Split(dir, "-")
-		dayInt, _ := strconv.Atoi(x[0]) // error ignored because regex should have ensured this is ok
-		dayTitle := util.CamelToTitle(x[1])
-		o = append(o, &Challenge{
-			Number: dayInt,
-			Name:   dayTitle,
-			Dir:    filepath.Join(sourceDir, dir),
-		})
+	for _, entry := range dirEntries {
+
+		if entry.IsDir() && challengeDirRegexp.MatchString(entry.Name()) {
+			dir := entry.Name()
+
+			x := strings.Split(dir, "-")
+			dayInt, _ := strconv.Atoi(x[0]) // error ignored because regex should have ensured this is ok
+			dayTitle := util.CamelToTitle(x[1])
+			o = append(o, &Challenge{
+				Number: dayInt,
+				Name:   dayTitle,
+				Dir:    filepath.Join(sourceDir, dir),
+			})
+
+		}
+
 	}
 
 	return o, nil
