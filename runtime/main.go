@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/alexflint/go-arg"
 	"github.com/codemicro/adventOfCode/runtime/challenge"
 	"github.com/codemicro/adventOfCode/runtime/runners"
 	"io/ioutil"
@@ -13,17 +14,22 @@ const (
 	challengeInfoFile = "info.json"
 )
 
+var args struct {
+	ChallengeDay *int `arg:"-d,--day" help:"challenge day number to run"`
+	Implementation string `arg:"-i,--implementation" help:"implementation to use"`
+}
+
 func run() error {
 
-	// List and select challenges
+	arg.MustParse(&args)
 
+	// List and select challenges
 	selectedChallenge, err := selectChallenge(challengeDir)
 	if err != nil {
 		return err
 	}
 
 	// List and select implementations
-
 	selectedImplementation, err := selectImplementation(selectedChallenge)
 	if err != nil {
 		return err
