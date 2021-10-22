@@ -118,8 +118,11 @@ func readResultsFromCommand(cmd *exec.Cmd, cleanupFn func()) chan ResultOrError 
 				break readerLoop
 			default:
 			}
+
 		}
 		close(c)
+
+		_ = cmd.Process.Kill()
 
 		if cleanupFn != nil {
 			cleanupFn()

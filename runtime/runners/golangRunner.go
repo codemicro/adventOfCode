@@ -27,7 +27,7 @@ func newGolangRunner(dir string) Runner {
 }
 
 func (g *golangRunner) Queue(task *Task) {
-
+	g.tasks = append(g.tasks, task)
 }
 
 //go:embed interface/go.go
@@ -55,13 +55,14 @@ func (g *golangRunner) Run() chan ResultOrError {
 	var wrapperContent []byte
 	{
 		tpl := template.Must(template.New("").Parse(string(golangInterface)))
-		b := bytes.NewBuffer(wrapperContent)
+		b := new(bytes.Buffer)
 		err := tpl.Execute(b, struct {
 			ImportPath string
 		}{importPath})
 		if err != nil {
 			return makeErrorChan(err)
 		}
+		wrapperContent = b.Bytes()
 	}
 
 	// save interaction code
@@ -71,18 +72,26 @@ func (g *golangRunner) Run() chan ResultOrError {
 	}
 
 	// compile executable
-	cmd := exec.Command(golangInstallation, "build", "-O", wrapperExecutableFilepath, buildPath)
+	stderrBuffer := new(bytes.Buffer)
+
+	cmd := exec.Command(golangInstallation, "build", "-tags", "runtime", "-o", wrapperExecutableFilepath, buildPath)
+	cmd.Stderr = stderrBuffer
 	err = cmd.Run()
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(fmt.Errorf("compilation failed: %s: %s", err, stderrBuffer.String()))
 	}
 
 	if !cmd.ProcessState.Success() {
 		return makeErrorChan(errors.New("compilation failed, hence cannot continue"))
 	}
 
+	absExecPath, err := filepath.Abs(wrapperExecutableFilepath)
+	if err != nil {
+		return makeErrorChan(err)
+	}
+
 	// run executable
-	cmd = exec.Command(wrapperExecutableFilepath)
+	cmd = exec.Command(absExecPath)
 	cmd.Dir = g.dir
 
 	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))

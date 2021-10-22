@@ -1,3 +1,5 @@
+//+build runtime
+
 package main
 
 import (
@@ -44,15 +46,15 @@ func run() error {
 		switch task.Part {
 		case runners.PartOne:
 			run = func() (interface{}, error) {
-				return chcode.Challenge{}.One(task.Input)
+				return (&chcode.Challenge{}).One(task.Input)
 			}
 		case runners.PartTwo:
 			run = func() (interface{}, error) {
-				return chcode.Challenge{}.Two(task.Input)
+				return (&chcode.Challenge{}).Two(task.Input)
 			}
 		case runners.Visualise:
 			run = func() (interface{}, error) {
-				return chcode.Challenge{}.Vis(task.Input, task.OutputDir)
+				return "", (&chcode.Challenge{}).Vis(task.Input, task.OutputDir)
 			}
 		}
 
