@@ -13,7 +13,7 @@ import (
 const python3Installation = "python3"
 
 type pythonRunner struct {
-	dir string
+	dir   string
 	tasks []*Task
 }
 
@@ -47,8 +47,16 @@ func (p *pythonRunner) Run() chan ResultOrError {
 		return makeErrorChan(err)
 	}
 
+	cwd, err := os.Getwd()
+	if err != nil {
+		return makeErrorChan(err)
+	}
+
+	pythonPathVar := filepath.Join(cwd, "lib")
+
 	// Run Python and gather output
 	cmd := exec.Command(python3Installation, "-B", wrapperFilename) // -B prevents .pyc files from being written
+	cmd.Env = append(cmd.Env, "PYTHONPATH="+pythonPathVar) // this allows the aocpy lib to be imported
 	cmd.Dir = p.dir
 
 	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
