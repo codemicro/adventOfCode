@@ -48,7 +48,7 @@ func (g *golangRunner) Run() chan ResultOrError {
 	}
 
 	// determine package import path
-	buildPath := fmt.Sprintf("github.com/codemicro/adventOfCode/challenges/%s", filepath.Base(g.dir))
+	buildPath := fmt.Sprintf("github.com/codemicro/adventOfCode/challenges/%s/%s", filepath.Base(filepath.Dir(g.dir)), filepath.Base(g.dir))
 	importPath := buildPath + "/go"
 
 	// generate code

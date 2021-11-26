@@ -6,6 +6,8 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/codemicro/adventOfCode/runtime/challenge"
 	"github.com/codemicro/adventOfCode/runtime/runners"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -28,6 +30,51 @@ func userSelect(question string, choices []string) (int, error) {
 	}
 
 	return -1, nil
+}
+
+func selectYear(dir string) (string, error) {
+
+	var opts []string
+
+    entries, err := os.ReadDir(dir)
+	if err != nil {
+        return "", err
+    }
+
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			continue
+		}
+		opts = append(opts, entry.Name())
+	}
+
+	if len(opts) == 0 {
+		return "", errors.New("no years to use")
+	}
+
+	if args.Year != "" {
+		for _, x := range opts {
+            if x == args.Year {
+                fmt.Printf("Selecting year %s\n", args.Year)
+				return filepath.Join(dir, x), nil
+            }
+        }
+        fmt.Printf("Could not locate year %s\n", args.Year)
+	}
+
+	var selectedYearIndex int
+
+	if x := len(opts); x == 1 {
+		selectedYearIndex = 0
+		fmt.Printf("Automatically selecting year %s\n", opts[selectedYearIndex])
+	} else {
+		selectedYearIndex, err = userSelect("Which year do you want to use?", opts)
+		if err != nil {
+			return "", err
+		}
+	}
+
+    return filepath.Join(dir, opts[selectedYearIndex]), nil
 }
 
 func selectChallenge(dir string) (*challenge.Challenge, error) {

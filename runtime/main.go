@@ -15,7 +15,8 @@ const (
 )
 
 var args struct {
-	ChallengeDay *int `arg:"-d,--day" help:"challenge day number to run"`
+	Year           string `arg:"-y,--year" help:"AoC year to use"`
+	ChallengeDay   *int   `arg:"-d,--day" help:"challenge day number to run"`
 	Implementation string `arg:"-i,--implementation" help:"implementation to use"`
 }
 
@@ -23,8 +24,14 @@ func run() error {
 
 	arg.MustParse(&args)
 
+	// List and select year
+	selectedYear, err := selectYear(challengeDir)
+	if err != nil {
+		return err
+	}
+
 	// List and select challenges
-	selectedChallenge, err := selectChallenge(challengeDir)
+	selectedChallenge, err := selectChallenge(selectedYear)
 	if err != nil {
 		return err
 	}
