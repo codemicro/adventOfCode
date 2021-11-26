@@ -66,7 +66,7 @@ func (c *customWriter) GetEntry() ([]byte, error) {
 	return x, nil
 }
 
-func readResultsFromCommand(cmd *exec.Cmd, cleanupFn func()) chan ResultOrError {
+func readResultsFromCommand(cmd *exec.Cmd) chan ResultOrError {
 
 	stdoutWriter := &customWriter{}
 	stderrBuffer := new(bytes.Buffer)
@@ -123,10 +123,6 @@ func readResultsFromCommand(cmd *exec.Cmd, cleanupFn func()) chan ResultOrError 
 		close(c)
 
 		_ = cmd.Process.Kill()
-
-		if cleanupFn != nil {
-			cleanupFn()
-		}
 	}()
 
 	return c

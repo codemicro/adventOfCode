@@ -63,12 +63,17 @@ func run() error {
 
 	fmt.Println("\nRunning...\n")
 
-	for roe := range runner.Run() {
+	r, cleanupFn := runner.Run()
+	for roe := range r {
 		if roe.Error != nil {
 			return roe.Error
 		}
 		// fmt.Println(*roe.Result)
 		lookupTable[roe.Result.TaskID](roe.Result)
+	}
+
+	if cleanupFn != nil {
+		cleanupFn()
 	}
 
 	return nil

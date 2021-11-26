@@ -30,7 +30,7 @@ func (p *pythonRunner) Queue(task *Task) {
 //go:embed interface/python.py
 var pythonInterface []byte
 
-func (p *pythonRunner) Run() chan ResultOrError {
+func (p *pythonRunner) Run() (chan ResultOrError, func()) {
 
 	wrapperFilename := "runtime-wrapper.py"
 	wrapperFilepath := filepath.Join(p.dir, wrapperFilename)
@@ -38,18 +38,18 @@ func (p *pythonRunner) Run() chan ResultOrError {
 	// Generate interaction data
 	taskJSON, err := json.Marshal(p.tasks)
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(err), nil
 	}
 
 	// Save interaction code
 	err = ioutil.WriteFile(wrapperFilepath, pythonInterface, 0644)
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(err), nil
 	}
 
 	cwd, err := os.Getwd()
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(err), nil
 	}
 
 	pythonPathVar := filepath.Join(cwd, "lib")
@@ -61,8 +61,8 @@ func (p *pythonRunner) Run() chan ResultOrError {
 
 	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
 
-	return readResultsFromCommand(cmd, func() {
+	return readResultsFromCommand(cmd), func() {
 		// Remove leftover files
 		_ = os.Remove(wrapperFilepath)
-	})
+	}
 }

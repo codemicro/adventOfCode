@@ -33,7 +33,7 @@ func (g *golangRunner) Queue(task *Task) {
 //go:embed interface/go.go
 var golangInterface []byte
 
-func (g *golangRunner) Run() chan ResultOrError {
+func (g *golangRunner) Run() (chan ResultOrError, func()) {
 
 	wrapperFilename := "runtime-wrapper.go"
 	wrapperExecutable := "runtime-wrapper"
@@ -44,7 +44,7 @@ func (g *golangRunner) Run() chan ResultOrError {
 	// generate interaction data
 	taskJSON, err := json.Marshal(g.tasks)
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(err), nil
 	}
 
 	// determine package import path
@@ -60,7 +60,7 @@ func (g *golangRunner) Run() chan ResultOrError {
 			ImportPath string
 		}{importPath})
 		if err != nil {
-			return makeErrorChan(err)
+			return makeErrorChan(err), nil
 		}
 		wrapperContent = b.Bytes()
 	}
@@ -68,7 +68,7 @@ func (g *golangRunner) Run() chan ResultOrError {
 	// save interaction code
 	err = ioutil.WriteFile(wrapperFilepath, wrapperContent, 0644)
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(err), nil
 	}
 
 	// compile executable
@@ -78,16 +78,16 @@ func (g *golangRunner) Run() chan ResultOrError {
 	cmd.Stderr = stderrBuffer
 	err = cmd.Run()
 	if err != nil {
-		return makeErrorChan(fmt.Errorf("compilation failed: %s: %s", err, stderrBuffer.String()))
+		return makeErrorChan(fmt.Errorf("compilation failed: %s: %s", err, stderrBuffer.String())), nil
 	}
 
 	if !cmd.ProcessState.Success() {
-		return makeErrorChan(errors.New("compilation failed, hence cannot continue"))
+		return makeErrorChan(errors.New("compilation failed, hence cannot continue")), nil
 	}
 
 	absExecPath, err := filepath.Abs(wrapperExecutableFilepath)
 	if err != nil {
-		return makeErrorChan(err)
+		return makeErrorChan(err), nil
 	}
 
 	// run executable
@@ -96,9 +96,9 @@ func (g *golangRunner) Run() chan ResultOrError {
 
 	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
 
-	return readResultsFromCommand(cmd, func() {
+	return readResultsFromCommand(cmd), func() {
 		// remove leftover files
 		_ = os.Remove(wrapperFilepath)
 		_ = os.Remove(wrapperExecutableFilepath)
-	})
+	}
 }
