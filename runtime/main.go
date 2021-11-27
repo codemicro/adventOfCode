@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/alexflint/go-arg"
+	"github.com/codemicro/adventOfCode/runtime/benchmark"
 	"github.com/codemicro/adventOfCode/runtime/challenge"
 	"github.com/codemicro/adventOfCode/runtime/runners"
 	"io/ioutil"
@@ -18,6 +19,8 @@ var args struct {
 	Year           string `arg:"-y,--year" help:"AoC year to use"`
 	ChallengeDay   *int   `arg:"-d,--day" help:"challenge day number to run"`
 	Implementation string `arg:"-i,--implementation" help:"implementation to use"`
+	Benchmark      bool   `arg:"-b,--benchmark" help:"benchmark a day's implementations'"`
+	BenchmarkN     int    `arg:"-n,--benchmark-n" help:"Number of iterations to run for benchmarking" default:"50"`
 }
 
 func run() error {
@@ -36,12 +39,6 @@ func run() error {
 		return err
 	}
 
-	// List and select implementations
-	selectedImplementation, err := selectImplementation(selectedChallenge)
-	if err != nil {
-		return err
-	}
-
 	// Load info.json file
 	challengeInfo, err := challenge.LoadChallengeInfo(filepath.Join(selectedChallenge.Dir, challengeInfoFile))
 	if err != nil {
@@ -54,6 +51,16 @@ func run() error {
 		return err
 	}
 	challengeInputString := string(challengeInput)
+
+	if args.Benchmark {
+        return benchmark.Run(selectedChallenge, challengeInputString, args.BenchmarkN)
+    }
+
+	// List and select implementations
+	selectedImplementation, err := selectImplementation(selectedChallenge)
+	if err != nil {
+		return err
+	}
 
 	runner := runners.Available[selectedImplementation](selectedChallenge.Dir)
 
