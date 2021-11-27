@@ -1,0 +1,14 @@
+{
+    "year": "2020",
+    "day": "25",
+    "title": "Combo Breaker",
+    "testCases": {
+        "one": [
+            {
+                "input": "5764801\n17807724",
+                "expected": 14897079
+            }
+        ],
+        "two": []
+    }
+}

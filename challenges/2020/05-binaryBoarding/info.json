@@ -1,0 +1,22 @@
+{
+    "year": "2020",
+    "day": "5",
+    "title": "Binary Boarding",
+    "testCases": {
+        "one": [
+            {
+                "input": "BFFFBBFRRR",
+                "expected": 567
+            },
+            {
+                "input": "FFFBBBFRRR",
+                "expected": 119
+            },
+            {
+                "input": "BBFFBBFRLL",
+                "expected": 820
+            }
+        ],
+        "two": []
+    }
+}

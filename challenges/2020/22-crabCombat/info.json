@@ -1,0 +1,19 @@
+{
+    "year": "2020",
+    "day": "22",
+    "title": "Crab Combat",
+    "testCases": {  
+        "one": [
+            {
+                "input": "Player 1:\n9\n2\n6\n3\n1\n\nPlayer 2:\n5\n8\n4\n7\n10\n",
+                "expected": 306
+            }
+        ],
+        "two": [
+            {
+                "input": "Player 1:\n9\n2\n6\n3\n1\n\nPlayer 2:\n5\n8\n4\n7\n10\n",
+                "expected": 291
+            }
+        ]
+    }
+}
