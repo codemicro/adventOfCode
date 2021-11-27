@@ -21,7 +21,7 @@ type Result struct {
 	TaskID     string  `json:"task_id"`
 	Ok         bool    `json:"ok"`
 	Output     string  `json:"output"`
-	Duration   float32 `json:"duration"`
+	Duration   float64 `json:"duration"`
 }
 
 func makeErrorChan(err error) chan ResultOrError {

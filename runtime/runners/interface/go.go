@@ -12,7 +12,7 @@ import (
 	chcode "{{ .ImportPath }}"
 )
 
-func sendResult(taskID string, ok bool, output string, duration float32) {
+func sendResult(taskID string, ok bool, output string, duration float64) {
 	x := runners.Result{
 		TaskID:   taskID,
 		Ok:       ok,
@@ -62,7 +62,7 @@ func run() error {
 		res, err := run()
 		endTIme := time.Now()
 
-		runningTime := float32(endTIme.Sub(startTime).Seconds())
+		runningTime := endTIme.Sub(startTime).Seconds()
 
 		if err != nil {
 			sendResult(task.TaskID, false, err.Error(), runningTime)
