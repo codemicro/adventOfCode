@@ -27,11 +27,9 @@ func sendResult(taskID string, ok bool, output string, duration float64) {
 }
 
 func run() error {
-	scanner := bufio.NewScanner(os.Stdin)
-	var tasksBytes []byte
-	if scanner.Scan() {
-		tasksBytes = scanner.Bytes()
-	} else if err := scanner.Err(); err != nil {
+	reader := bufio.NewReader(os.Stdin)
+	tasksBytes, err := reader.ReadBytes('\n')
+	if err != nil {
 		return err
 	}
 
