@@ -14,8 +14,8 @@ type Info struct {
 }
 
 type TestCase struct {
-	Input    string      `json:"input"`
-	Expected interface{} `json:"expected"`
+	Input    string `json:"input"`
+	Expected string `json:"expected"`
 }
 
 func LoadChallengeInfo(fname string) (*Info, error) {
