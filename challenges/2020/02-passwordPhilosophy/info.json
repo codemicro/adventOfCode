@@ -1,0 +1,17 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "1-3 a: abcde\n1-3 b: cdefg\n2-9 c: ccccccccc",
+                "expected": "2"
+            }
+        ],
+        "two": [
+            {
+                "input": "1-3 a: abcde\n1-3 b: cdefg\n2-9 c: ccccccccc",
+                "expected": "1"
+            }
+        ]
+    }
+}
