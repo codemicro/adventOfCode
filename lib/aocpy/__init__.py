@@ -3,11 +3,14 @@ from typing import Any
 
 class BaseChallenge:
 
-    def one(self, instr: str) -> Any:
+    @staticmethod
+    def one(instr: str) -> Any:
         raise NotImplementedError
 
-    def two(self, instr: str) -> Any:
+    @staticmethod
+    def two(instr: str) -> Any:
         raise NotImplementedError
 
-    def vis(self, instr: str, outputDir: str) -> Any:
+    @staticmethod
+    def vis(instr: str, outputDir: str) -> Any:
         raise NotImplementedError

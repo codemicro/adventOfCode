@@ -21,11 +21,11 @@ for task in TASKS:
     run = None
 
     if taskPart == 1:
-        run = lambda: Challenge().one(task["input"])
+        run = lambda: Challenge.one(task["input"])
     elif taskPart == 2:
-        run = lambda: Challenge().two(task["input"])
+        run = lambda: Challenge.two(task["input"])
     elif taskPart == 3:
-        run = lambda: Challenge().vis(task["input"], task["output_dir"])
+        run = lambda: Challenge.vis(task["input"], task["output_dir"])
     else:
         send_result(task_id, False, "unknown task part", 0)
         continue
