@@ -10,5 +10,6 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 
 | Day                                 |                    | Python                                   | Go                                   | Notes                |
 | ----------------------------------- | ------------------ | ---------------------------------------- | ------------------------------------ | -------------------- |
+| 01 - Sonar Sweep                    | Complete           | [Link](01-sonarSweet/py)                 |                                      |                      |
 
 <!-- PARSE END -->
