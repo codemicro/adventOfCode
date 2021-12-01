@@ -1,0 +1,23 @@
+Day 1 (Sonar Sweep) benchmark
+
+Dir: challenges/2021/01-sonarSweep
+Runs per part: 200
+--------------------------------------------------------------------------------
+Golang
+
+benchmark.part.1.avg: 0.000094 seconds
+benchmark.part.1.min: 0.000047 seconds
+benchmark.part.1.max: 0.000818 seconds
+benchmark.part.2.avg: 0.000112 seconds
+benchmark.part.2.min: 0.000057 seconds
+benchmark.part.2.max: 0.000535 seconds
+--------------------------------------------------------------------------------
+Python
+
+benchmark.part.1.avg: 0.001437 seconds
+benchmark.part.1.min: 0.000452 seconds
+benchmark.part.1.max: 0.012373 seconds
+benchmark.part.2.avg: 0.002187 seconds
+benchmark.part.2.min: 0.000762 seconds
+benchmark.part.2.max: 0.005535 seconds
+--------------------------------------------------------------------------------
