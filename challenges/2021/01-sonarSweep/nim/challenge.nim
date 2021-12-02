@@ -5,16 +5,22 @@ proc loadInput(): string =
     return readFile("input.txt")
 
 proc parseInput(instr: string): seq[int] =
-    for item in split(instr, "\n"):
-        if item == "":
-            continue
-        let n = parseInt(item)
-        result.add(n)
+    result = instr.
+        splitLines.
+        toSeq.
+        filter(proc(x: string): bool = x != "").
+        map(parseInt)
+        
+    # for item in split(instr, "\n"):
+    #     if item == "":
+    #         continue
+    #     let n = parseInt(item)
+    #     result.add(n)
 
 let input = parseInput(loadInput())
 
 proc countIncreases(data: seq[int]): int = 
-    for i in countup(1, data.len()-1):
+    for i in 1..data.high:
         if data[i] > data[i-1]:
             result = result + 1
 
