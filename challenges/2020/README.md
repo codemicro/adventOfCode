@@ -8,33 +8,33 @@ Solutions to the [2020 Advent of Code](https://adventofcode.com/2020), in at lea
 
 <!-- PARSE START -->
 
-| Day                                 |                    | Python                                   | Go                                   | Notes                |
-| ----------------------------------- | ------------------ | ---------------------------------------- | ------------------------------------ | -------------------- |
-| [1](/01-reportRepair)               | Complete           | [Link](01-reportRepair/python)           | [Link](01-reportRepair/go)           |                      |
-| [2](/02-passwordPhilosophy)         | Complete           | [Link](02-passwordPhilosophy/python)     | [Link](02-passwordPhilosophy/go)     |                      |
-| [3](/03-tobogganTrajectory)         | Complete           | [Link](03-tobogganTrajectory/python)     | [Link](03-tobogganTrajectory/go)     |                      |
-| [4](/04-passportProcessing)         | Complete           | [Link](04-passportProcessing/python)     | [Link](04-passportProcessing/go)     |                      |
-| [5](/05-binaryBoarding)             | Complete           | [Link](05-binaryBoarding/python)         | [Link](05-binaryBoarding/go)         |                      |
-| [6](/06-customCustoms)              | Complete           | [Link](06-customCustoms/python)          | [Link](06-customCustoms/go)          |                      |
-| [7](/07-handyHaversacks)            | Complete           | [Link](07-handyHaversacks/python)        | [Link](07-handyHaversacks/go)        |                      |
-| [8](/08-handheldHalting)            | Complete           | [Link](08-handheldHalting/python)        | [Link](08-handheldHalting/go)        |                      |
-| [9](/09-encodingError)              | Complete           | [Link](09-encodingError/python)          | [Link](09-encodingError/go)          |                      |
-| [10](/10-adapterArray)              | Complete           | [Link](10-adapterArray/python)           | [Link](10-adapterArray/go)           |                      |
-| [11](/11-seatingSystem) \*          | Complete           | [Link](11-seatingSystem/python)          | [Link](11-seatingSystem/python)      |                      |
-| [12](/12-rainRisk) \*               | Complete           | [Link](12-rainRisk/python)               | [Link](12-rainRisk/go)               |                      |
-| [13](/13-shuttleSearch)             | Partially complete | [Link](13-shuttleSearch/python)          |                                      |                      |
-| [14](/14-dockingData)               | Complete           | [Link](14-dockingData/python)            | [Link](14-dockingData/go)            |                      |
-| [15](/15-rambunctiousRecitation) \* | Complete           | [Link](15-rambunctiousRecitation/python) | [Link](15-rambunctiousRecitation/go) |                      |
-| [16](/16-ticketTranslation)         | Complete           | [Link](16-ticketTranslation/python)      | [Link](16-ticketTranslation/go)      |                      |
-| [17](/17-conwayCubes)               | Partially complete | [Link](17-conwayCubes/python)            |                                      |                      |
-| [18](/18-operationOrder)            | Partially complete | [Link](18-operationOrder/python)         |                                      |                      |
-| [19](/19-monsterMessages)           | Complete           | [Link](19-monsterMessages/python)        | [Link](19-monsterMessages/go)        |                      |
-| [20](/20-jurassicJigsaw)            | Partially complete | [Link](20-jurassicJigsaw/python)         |                                      | Only part one solved |
-| [21](/21-allergenAmusement)         | Partially complete | [Link](21-allergenAmusement/python)      |                                      |                      |
-| [22](/22-crabCombat)                | Partially complete | [Link](22-crabCombat/python)             |                                      |                      |
-| [23](/23-crabCups)                  | Incomplete         |                                          |                                      |                      |
-| [24](/24-lobbyLayout)               | Partially complete | [Link](24-lobbyLayout/python)            |                                      |                      |
-| [25](/25-comboBreaker)              | Complete           | [Link](25-comboBreaker/python)           | [Link](25-comboBreaker/go)           |                      |
+| Day                                |                    | Python                                   | Go                                   | Notes                |
+| ---------------------------------- | ------------------ | ---------------------------------------- | ------------------------------------ | -------------------- |
+| [1](01-reportRepair)               | Complete           | [Link](01-reportRepair/python)           | [Link](01-reportRepair/go)           |                      |
+| [2](02-passwordPhilosophy)         | Complete           | [Link](02-passwordPhilosophy/python)     | [Link](02-passwordPhilosophy/go)     |                      |
+| [3](03-tobogganTrajectory)         | Complete           | [Link](03-tobogganTrajectory/python)     | [Link](03-tobogganTrajectory/go)     |                      |
+| [4](04-passportProcessing)         | Complete           | [Link](04-passportProcessing/python)     | [Link](04-passportProcessing/go)     |                      |
+| [5](05-binaryBoarding)             | Complete           | [Link](05-binaryBoarding/python)         | [Link](05-binaryBoarding/go)         |                      |
+| [6](06-customCustoms)              | Complete           | [Link](06-customCustoms/python)          | [Link](06-customCustoms/go)          |                      |
+| [7](07-handyHaversacks)            | Complete           | [Link](07-handyHaversacks/python)        | [Link](07-handyHaversacks/go)        |                      |
+| [8](08-handheldHalting)            | Complete           | [Link](08-handheldHalting/python)        | [Link](08-handheldHalting/go)        |                      |
+| [9](09-encodingError)              | Complete           | [Link](09-encodingError/python)          | [Link](09-encodingError/go)          |                      |
+| [10](10-adapterArray)              | Complete           | [Link](10-adapterArray/python)           | [Link](10-adapterArray/go)           |                      |
+| [11](11-seatingSystem) \*          | Complete           | [Link](11-seatingSystem/python)          | [Link](11-seatingSystem/python)      |                      |
+| [12](12-rainRisk) \*               | Complete           | [Link](12-rainRisk/python)               | [Link](12-rainRisk/go)               |                      |
+| [13](13-shuttleSearch)             | Partially complete | [Link](13-shuttleSearch/python)          |                                      |                      |
+| [14](14-dockingData)               | Complete           | [Link](14-dockingData/python)            | [Link](14-dockingData/go)            |                      |
+| [15](15-rambunctiousRecitation) \* | Complete           | [Link](15-rambunctiousRecitation/python) | [Link](15-rambunctiousRecitation/go) |                      |
+| [16](16-ticketTranslation)         | Complete           | [Link](16-ticketTranslation/python)      | [Link](16-ticketTranslation/go)      |                      |
+| [17](17-conwayCubes)               | Partially complete | [Link](17-conwayCubes/python)            |                                      |                      |
+| [18](18-operationOrder)            | Partially complete | [Link](18-operationOrder/python)         |                                      |                      |
+| [19](19-monsterMessages)           | Complete           | [Link](19-monsterMessages/python)        | [Link](19-monsterMessages/go)        |                      |
+| [20](20-jurassicJigsaw)            | Partially complete | [Link](20-jurassicJigsaw/python)         |                                      | Only part one solved |
+| [21](21-allergenAmusement)         | Partially complete | [Link](21-allergenAmusement/python)      |                                      |                      |
+| [22](22-crabCombat)                | Partially complete | [Link](22-crabCombat/python)             |                                      |                      |
+| [23](23-crabCups)                  | Incomplete         |                                          |                                      |                      |
+| [24](24-lobbyLayout)               | Partially complete | [Link](24-lobbyLayout/python)            |                                      |                      |
+| [25](25-comboBreaker)              | Complete           | [Link](25-comboBreaker/python)           | [Link](25-comboBreaker/go)           |                      |
 
 <!-- PARSE END -->
 
