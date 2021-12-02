@@ -1,0 +1,17 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2\n",
+                "expected": "150"
+            }
+        ],
+        "two": [
+            {
+                "input": "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2\n",
+                "expected": "900"
+            }
+        ]
+    }
+}
