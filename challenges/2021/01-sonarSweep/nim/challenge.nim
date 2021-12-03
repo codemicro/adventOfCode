@@ -1,39 +1,27 @@
 import std/strutils
 import std/sequtils
 
-proc loadInput(): string =
-    return readFile("input.txt")
-
 proc parseInput(instr: string): seq[int] =
     result = instr.
         splitLines.
         toSeq.
         filter(proc(x: string): bool = x != "").
         map(parseInt)
-        
-    # for item in split(instr, "\n"):
-    #     if item == "":
-    #         continue
-    #     let n = parseInt(item)
-    #     result.add(n)
 
-let input = parseInput(loadInput())
-
-proc countIncreases(data: seq[int]): int = 
+proc countIncreases(data: seq[int]): int =
     for i in 1..data.high:
         if data[i] > data[i-1]:
             result = result + 1
 
-proc partOne(): int =
+proc partOne*(instr: string): int =
+    let input = parseInput(instr)
     return countIncreases(input)
 
-proc partTwo(): int =
+proc partTwo*(instr: string): int =
+    let input = parseInput(instr)
     var sums: seq[int]
     for i in countup(0, len(input)-3):
         sums.add(
             (@input[i..i+2]).foldl(a+b),
         )
     return countIncreases(sums)
-
-echo "Part one: " & $partOne()
-echo "Part two: " & $partTwo()
