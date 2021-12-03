@@ -17,12 +17,13 @@ def get_bit(number: int, n: int) -> int:
     #                      ^
     return (number >> n) & 0b1
 
+
 def analyse_bits(numbers: List[int], n: int) -> Tuple[int, int]:
     # analyse_bits returns a tuple containing the most common bit (either 1 or
-    # 0) and the least common bit (either 1 or 0) in position `n` of each 
+    # 0) and the least common bit (either 1 or 0) in position `n` of each
     # number in `numbers`.
     #
-    # If the most common bit and least common bit occur the same amount of 
+    # If the most common bit and least common bit occur the same amount of
     # times, both return values are -1.
     #
     # Returns: most common bit, least common bit
@@ -45,7 +46,6 @@ def analyse_bits(numbers: List[int], n: int) -> Tuple[int, int]:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         numbers, bit_length = parse(instr)
@@ -65,15 +65,15 @@ class Challenge(BaseChallenge):
     def two(instr: str) -> int:
         numbers, bit_length = parse(instr)
 
-        def find(inp: List[int], use_most_common: bool, n: int = bit_length-1) -> int:
-            # find implements the bit criteria-based filtering as defined in 
+        def find(inp: List[int], use_most_common: bool, n: int = bit_length - 1) -> int:
+            # find implements the bit criteria-based filtering as defined in
             # AoC 2021 day 3 part 2. If `use_most_common` is True, the bit
             # criteria for the oxygen generator rating is used, else, the bit
             # criteria for the CO2 scrubber rating is used.
 
             if len(inp) == 1:
                 return inp[0]
-            
+
             most_common, least_common = analyse_bits(inp, n)
 
             target = None
@@ -84,10 +84,12 @@ class Challenge(BaseChallenge):
 
             # oooo, accidental tail recursion!
             return find(
-                list(filter(
-                    lambda x: get_bit(x, n) == target,
-                    inp,
-                )),
+                list(
+                    filter(
+                        lambda x: get_bit(x, n) == target,
+                        inp,
+                    )
+                ),
                 use_most_common,
                 n - 1,
             )
