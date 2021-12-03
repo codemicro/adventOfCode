@@ -1,13 +1,15 @@
 package benchmark
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/codemicro/adventOfCode/runtime/challenge"
-	"github.com/codemicro/adventOfCode/runtime/runners"
-	"github.com/schollz/progressbar/v3"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+
+	"github.com/codemicro/adventOfCode/runtime/challenge"
+	"github.com/codemicro/adventOfCode/runtime/runners"
+	"github.com/schollz/progressbar/v3"
 )
 
 func makeBenchmarkID(part runners.Part, number int) string {
@@ -63,28 +65,32 @@ func Run(selectedChallenge *challenge.Challenge, input string, numberRuns int) e
 	}
 
 	// make file
-	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("Day %d (%s) benchmark\n\n", selectedChallenge.Number, selectedChallenge.Name))
-	sb.WriteString(fmt.Sprintf("Dir: %s\n", selectedChallenge.Dir))
-	sb.WriteString(fmt.Sprintf("Runs per part: %d\n", numberRuns))
-
+	jdata := make(map[string]interface{})
+	jdata["day"] = selectedChallenge.Number
+	jdata["dir"] = selectedChallenge.Dir
+	jdata["numRuns"] = numberRuns
+	jdata["implementations"] = make(map[string]interface{})
+	
 	for _, vs := range valueSets {
-		sb.WriteString("--------------------------------------------------------------------------------\n")
-		sb.WriteString(vs.implementation)
-		sb.WriteString("\n\n")
+		x := make(map[string]interface{})
 		for _, v := range vs.values {
-			sb.WriteString(fmt.Sprintf("%s: %f seconds\n", v.key, v.value))
+			x[v.key] = v.value
 		}
+		(jdata["implementations"].(map[string]interface{}))[vs.implementation] = x
 	}
-	sb.WriteString("--------------------------------------------------------------------------------\n")
 
-	fpath := filepath.Join(selectedChallenge.Dir, "benchmark.txt")
+	fpath := filepath.Join(selectedChallenge.Dir, "benchmark.json")
 
 	fmt.Println("Writing results to", fpath)
 
+	jBytes, err := json.MarshalIndent(jdata, "", "  ")
+	if err != nil {
+		return err
+	}
+
 	return ioutil.WriteFile(
 		fpath,
-		[]byte(sb.String()),
+		jBytes,
 		0644,
 	)
 }
@@ -171,12 +177,12 @@ func benchmarkImplementation(implementation string, dir string, inputString stri
 	return &values{
 		implementation: runners.RunnerNames[implementation],
 		values: []kv{
-			{"benchmark.part.1.avg", meanFloatSlice(p1)},
-			{"benchmark.part.1.min", minFloatSlice(p1)},
-			{"benchmark.part.1.max", maxFloatSlice(p1)},
-			{"benchmark.part.2.avg", meanFloatSlice(p2)},
-			{"benchmark.part.2.min", minFloatSlice(p2)},
-			{"benchmark.part.2.max", maxFloatSlice(p2)},
+			{"part.1.avg", meanFloatSlice(p1)},
+			{"part.1.min", minFloatSlice(p1)},
+			{"part.1.max", maxFloatSlice(p1)},
+			{"part.2.avg", meanFloatSlice(p2)},
+			{"part.2.min", minFloatSlice(p2)},
+			{"part.2.max", maxFloatSlice(p2)},
 		},
 	}, nil
 }
