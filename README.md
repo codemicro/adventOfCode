@@ -1,4 +1,4 @@
-# Advent of Code
+# Advent of Code 🎄
 
 Jump to: [2020](challenges/2020) - [2021](challenges/2021)
 
