@@ -8,6 +8,8 @@ import (
 	"os/exec"
 	"strings"
 	"sync"
+
+	au "github.com/logrusorgru/aurora"
 )
 
 type Task struct {
@@ -18,10 +20,10 @@ type Task struct {
 }
 
 type Result struct {
-	TaskID     string  `json:"task_id"`
-	Ok         bool    `json:"ok"`
-	Output     string  `json:"output"`
-	Duration   float64 `json:"duration"`
+	TaskID   string  `json:"task_id"`
+	Ok       bool    `json:"ok"`
+	Output   string  `json:"output"`
+	Duration float64 `json:"duration"`
 }
 
 func makeErrorChan(err error) chan ResultOrError {
@@ -34,7 +36,7 @@ func makeErrorChan(err error) chan ResultOrError {
 type customWriter struct {
 	pending []byte
 	entries [][]byte
-	mux sync.Mutex
+	mux     sync.Mutex
 }
 
 func (c *customWriter) Write(b []byte) (int, error) {
@@ -103,7 +105,7 @@ func readResultsFromCommand(cmd *exec.Cmd) chan ResultOrError {
 				err = json.Unmarshal(inp, res)
 				if err != nil {
 					// echo anything that won't parse to stdout (this lets us add debug print statements)
-					fmt.Printf("AA %#v\n", strings.TrimSpace(string(inp)))
+					fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
 				} else {
 					c <- ResultOrError{Result: res}
 				}
