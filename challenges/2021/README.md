@@ -13,5 +13,6 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 01 - Sonar Sweep                    | Complete           | [Python](01-sonarSweep/py), [Go](01-sonarSweep/go), [Nim](01-sonarSweep/nim) | Numbers and sliding windows.                                     |
 | 02 - Dive!                          | Complete           | [Python](02-dive/py), [Go](02-dive/go)                                       | Have this set of instructions and do something sensible with it. |
 | 03 - Binary Diagnostic              | Complete           | [Python](03-binaryDiagnostic/py), [Nim](03-binaryDiagnostic/nim)             | Bit twiddling aplenty!                                           |
+| 04 - Giant Squid                    | Complete           | [Python](04-giantSquid/py)                                                   | B-I-N-G-O, B-I-N-G-O, B-I-N-G-O and Bingo was his name-o!        |
 
 <!-- PARSE END -->
