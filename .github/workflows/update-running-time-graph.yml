@@ -1,0 +1,35 @@
+name: Update running time graph
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "58 4 * 12 *"
+
+jobs:
+  graph:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v2
+          with:
+            ref: ${{ github.ref }}
+            fetch-depth: 0
+
+        - name: Setup Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: '3.x'
+
+        - name: Install Matplotlib
+          run: pip install matplotlib
+
+        - name: Run script  
+          run: python generate-benchmark-graph.py challenges/2021/runtime-graph.png 2021
+
+        - name: Git commit and push
+          run: |
+            git config user.email 'actions@github.com'
+            git config user.name 'github-actions'
+            git add challenges/2021/runtime-graph.png
+            git commit -m 'Update running time graph'
+            git push origin HEAD:${{ github.ref }}
