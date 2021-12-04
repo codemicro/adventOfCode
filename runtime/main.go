@@ -20,7 +20,7 @@ var args struct {
 	ChallengeDay   *int   `arg:"-d,--day" help:"challenge day number to run"`
 	Implementation string `arg:"-i,--implementation" help:"implementation to use"`
 	Benchmark      bool   `arg:"-b,--benchmark" help:"benchmark a day's implementations'"`
-	BenchmarkN     int    `arg:"-n,--benchmark-n" help:"Number of iterations to run for benchmarking" default:"50"`
+	BenchmarkN     int    `arg:"-n,--benchmark-n" help:"Number of iterations to run for benchmarking" default:"1000"`
 }
 
 func run() error {
