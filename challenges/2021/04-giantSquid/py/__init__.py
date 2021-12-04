@@ -106,6 +106,6 @@ class Challenge(BaseChallenge):
             winners += play_round(boards, number)
 
             if len(boards) == 0:
-                break
+                return calculate_board_score(winners[-1], number)
 
-        return calculate_board_score(winners[-1], number)
+        return -1
