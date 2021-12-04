@@ -21,7 +21,8 @@ proc partTwo*(instr: string): int =
     let input = parseInput(instr)
     var sums: seq[int]
     for i in countup(0, len(input)-3):
-        sums.add(
-            (@input[i..i+2]).foldl(a+b),
-        )
+        sums.add(input[i] + input[i+1] + input[i+2])
+        # sums.add(
+        #     (@input[i..i+2]).foldl(a+b),
+        # )
     return countIncreases(sums)
