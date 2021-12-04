@@ -71,6 +71,9 @@ func (g *golangRunner) Run() (chan ResultOrError, func()) {
 		return makeErrorChan(err), nil
 	}
 
+	fmt.Print("Compiling...\r")
+	defer fmt.Print("\n\n")
+
 	// compile executable
 	stderrBuffer := new(bytes.Buffer)
 
@@ -89,6 +92,8 @@ func (g *golangRunner) Run() (chan ResultOrError, func()) {
 	if err != nil {
 		return makeErrorChan(err), nil
 	}
+
+	fmt.Print("Running...         ")
 
 	// run executable
 	cmd = exec.Command(absExecPath)

@@ -68,7 +68,7 @@ func run() error {
 	setupTestTasks(challengeInfo, runner, &lookupTable)
 	setupMainTasks(challengeInputString, runner, &lookupTable)
 
-	fmt.Println("\nRunning...\n")
+	fmt.Println()
 
 	r, cleanupFn := runner.Run()
 	for roe := range r {

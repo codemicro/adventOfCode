@@ -52,6 +52,9 @@ func (n *nimRunner) Run() (chan ResultOrError, func()) {
 		return makeErrorChan(err), nil
 	}
 
+	fmt.Print("Compiling...\r")
+	defer fmt.Print("\n\n")
+
 	// compile
 	stderrBuffer := new(bytes.Buffer)
 	cmd := exec.Command(nimInstallation, "compile", "-o:"+executableFilepath, "-d:release", wrapperFilepath)
@@ -64,6 +67,8 @@ func (n *nimRunner) Run() (chan ResultOrError, func()) {
 	if !cmd.ProcessState.Success() {
 		return makeErrorChan(errors.New("compilation failed, hence cannot continue")), nil
 	}
+
+	fmt.Print("Running...         ")
 
 	absExecPath, err := filepath.Abs(executableFilepath)
 	if err != nil {

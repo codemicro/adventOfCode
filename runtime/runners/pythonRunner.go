@@ -4,6 +4,7 @@ import (
 	"bytes"
 	_ "embed"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -54,9 +55,11 @@ func (p *pythonRunner) Run() (chan ResultOrError, func()) {
 
 	pythonPathVar := filepath.Join(cwd, "lib")
 
+	fmt.Println("Running...")
+
 	// Run Python and gather output
 	cmd := exec.Command(python3Installation, "-B", wrapperFilename) // -B prevents .pyc files from being written
-	cmd.Env = append(cmd.Env, "PYTHONPATH="+pythonPathVar) // this allows the aocpy lib to be imported
+	cmd.Env = append(cmd.Env, "PYTHONPATH="+pythonPathVar)          // this allows the aocpy lib to be imported
 	cmd.Dir = p.dir
 
 	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
