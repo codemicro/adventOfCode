@@ -17,3 +17,7 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 05 - Hydrothermal Venture           | Complete           | [Python](05-hydrothermalVenture/py)                                          | Pointy.                                                          |
 
 <!-- PARSE END -->
+
+---
+
+![Running times](running-times.png)

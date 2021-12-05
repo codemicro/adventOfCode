@@ -1,0 +1,15 @@
+{
+  "day": 5,
+  "dir": "challenges/2021/05-hydrothermalVenture",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.20267126321792603,
+      "part.1.max": 0.32232069969177246,
+      "part.1.min": 0.1738419532775879,
+      "part.2.avg": 0.34542202472686767,
+      "part.2.max": 0.5185151100158691,
+      "part.2.min": 0.28497791290283203
+    }
+  },
+  "numRuns": 100
+}
