@@ -21,6 +21,7 @@ var args struct {
 	Implementation string `arg:"-i,--implementation" help:"implementation to use"`
 	Benchmark      bool   `arg:"-b,--benchmark" help:"benchmark a day's implementations'"`
 	BenchmarkN     int    `arg:"-n,--benchmark-n" help:"Number of iterations to run for benchmarking" default:"1000"`
+	TestOnly       bool   `arg:"-t,--test-only" help"Only run test inputs"`
 }
 
 func run() error {
@@ -66,7 +67,9 @@ func run() error {
 
 	lookupTable := make(taskLookupTable)
 	setupTestTasks(challengeInfo, runner, &lookupTable)
-	setupMainTasks(challengeInputString, runner, &lookupTable)
+	if !args.TestOnly {
+		setupMainTasks(challengeInputString, runner, &lookupTable)
+	}
 
 	fmt.Println()
 
