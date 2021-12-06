@@ -11,7 +11,7 @@ type
 
 
 proc pointFromString(instr: string): Point =
-    let 
+    let
         parts = instr.split(",")
         x = parts[0].parseInt
         y = parts[1].parseInt
@@ -27,7 +27,8 @@ proc parse(instr: string): seq[Line] =
 
 proc removeDiagonalLines(lines: seq[Line]): seq[Line] =
     return lines.filter(
-        proc(line: Line): bool = line[0].x == line[1].x or line[0].y == line[1].y,
+        proc(line: Line): bool = line[0].x == line[1].x or line[0].y == line[
+                1].y,
     )
 
 iterator iteratePoints(line: Line): Point =
@@ -60,7 +61,7 @@ iterator iteratePoints(line: Line): Point =
         yield np
         lastPoint = np
 
-proc countOverlappingPoints(lines: seq[Line]): int = 
+proc countOverlappingPoints(lines: seq[Line]): int =
     var areas = initTable[Point, int]()
     for line in lines:
         for point in iteratePoints(line):
