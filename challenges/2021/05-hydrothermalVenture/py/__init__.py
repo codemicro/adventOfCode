@@ -29,7 +29,7 @@ def parse(instr: str) -> List[Line]:
     return o
 
 
-def remove_diagonal_lines(lines: List[Line]):
+def remove_diagonal_lines(lines: List[Line]) -> List[Line]:
     return list(
         filter(
             lambda line: line[0].x == line[1].x or line[0].y == line[1].y,
