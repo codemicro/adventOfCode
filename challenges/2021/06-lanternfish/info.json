@@ -1,0 +1,17 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "3,4,3,1,2",
+                "expected": "5934"
+            }
+        ],
+        "two": [
+            {
+                "input": "3,4,3,1,2",
+                "expected": "26984457539"
+            }
+        ]
+    }
+}
