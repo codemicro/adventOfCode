@@ -1,0 +1,15 @@
+{
+  "day": 7,
+  "dir": "challenges/2021/07-theTreacheryOfWhales",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.0003524906635284424,
+      "part.1.max": 0.0011348724365234375,
+      "part.1.min": 0.00024008750915527344,
+      "part.2.avg": 0.033716694355010984,
+      "part.2.max": 0.08556342124938965,
+      "part.2.min": 0.025210857391357422
+    }
+  },
+  "numRuns": 1000
+}
