@@ -16,6 +16,7 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 04 - Giant Squid                    | Complete           | [Python](04-giantSquid/py)                                                                              | B-I-N-G-O, B-I-N-G-O, B-I-N-G-O and Bingo was his name-o!                          |
 | 05 - Hydrothermal Venture           | Complete           | [Python](05-hydrothermalVenture/py), [Go](05-hydrothermalVenture/go), [Nim](05-hydrothermalVenture/nim) | Pointy.                                                                            |
 | 06 - Lanternfish                    | Complete           | [Python](06-lanternfish/py)                                                                             | At this rate, the mass of the fish would surpass that of the Earth pretty quickly. |
+| 07 - The Treachery of Whales        | Complete           | [Python](07-theTreacheryOfWhales/py)                                                                    | I'm not 100% sure my solution for part two is valid for all possible inputs.       |
 
 <!-- PARSE END -->
 
