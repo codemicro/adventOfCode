@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 const python3Installation = "python3"
@@ -53,7 +54,15 @@ func (p *pythonRunner) Run() (chan ResultOrError, func()) {
 		return makeErrorChan(err), nil
 	}
 
-	pythonPathVar := filepath.Join(cwd, "lib")
+	absDir, err := filepath.Abs(p.dir)
+	if err != nil {
+		return makeErrorChan(err), nil
+	}
+
+	pythonPathVar := strings.Join([]string{
+		filepath.Join(cwd, "lib"),
+		filepath.Join(absDir, "py"),
+	}, ":")
 
 	fmt.Println("Running...")
 
