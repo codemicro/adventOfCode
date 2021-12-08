@@ -145,12 +145,6 @@ func benchmarkImplementation(implementation string, dir string, inputString stri
 	}
 
 	fmt.Println()
-	pb = progressbar.NewOptions(
-		len(results) + 1, // two parts means 2x the number of runs
-		progressbar.OptionSetDescription(
-			fmt.Sprintf("Processing %s results", runners.RunnerNames[implementation]),
-		),
-	)
 
 	var (
 		p1, p2 []float64
@@ -164,11 +158,7 @@ func benchmarkImplementation(implementation string, dir string, inputString stri
 		} else if strings.HasPrefix(result.TaskID, p2id) {
 			p2 = append(p2, result.Duration)
 		}
-		_ = pb.Add(1)
 	}
-
-	_ = pb.Finish()
-	fmt.Println()
 
 	if cleanup != nil {
 		cleanup()
