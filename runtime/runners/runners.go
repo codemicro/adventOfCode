@@ -24,12 +24,12 @@ type RunnerCreator func(dir string) Runner
 
 var Available = map[string]RunnerCreator{
 	"py": newPythonRunner,
-	"go": newGolangRunner,
-	"nim": newNimRunner,
+	//"go": newGolangRunner,
+	//"nim": newNimRunner,
 }
 
 var RunnerNames = map[string]string{
 	"py": "Python",
-	"go": "Golang",
-	"nim": "Nim",
+	//"go": "Golang",
+	//"nim": "Nim",
 }
