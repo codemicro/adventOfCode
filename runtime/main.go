@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"path/filepath"
+
 	"github.com/alexflint/go-arg"
 	"github.com/codemicro/adventOfCode/runtime/benchmark"
 	"github.com/codemicro/adventOfCode/runtime/challenge"
 	"github.com/codemicro/adventOfCode/runtime/runners"
-	"io/ioutil"
-	"path/filepath"
+	au "github.com/logrusorgru/aurora"
 )
 
 const (
@@ -21,7 +23,8 @@ var args struct {
 	Implementation string `arg:"-i,--implementation" help:"implementation to use"`
 	Benchmark      bool   `arg:"-b,--benchmark" help:"benchmark a day's implementations'"`
 	BenchmarkN     int    `arg:"-n,--benchmark-n" help:"Number of iterations to run for benchmarking" default:"1000"`
-	TestOnly       bool   `arg:"-t,--test-only" help"Only run test inputs"`
+	TestOnly       bool   `arg:"-t,--test-only" help:"Only run test inputs"`
+	Visualise      bool   `arg:"-g,--visualise" help:"Run visualisation generation"`
 }
 
 func run() error {
@@ -54,8 +57,8 @@ func run() error {
 	challengeInputString := string(challengeInput)
 
 	if args.Benchmark {
-        return benchmark.Run(selectedChallenge, challengeInputString, args.BenchmarkN)
-    }
+		return benchmark.Run(selectedChallenge, challengeInputString, args.BenchmarkN)
+	}
 
 	// List and select implementations
 	selectedImplementation, err := selectImplementation(selectedChallenge)
@@ -66,9 +69,42 @@ func run() error {
 	runner := runners.Available[selectedImplementation](selectedChallenge.Dir)
 
 	lookupTable := make(taskLookupTable)
-	setupTestTasks(challengeInfo, runner, &lookupTable)
-	if !args.TestOnly {
-		setupMainTasks(challengeInputString, runner, &lookupTable)
+
+	if args.Visualise {
+		id := "vis"
+		runner.Queue(&runners.Task{
+			TaskID:    id,
+			Part:      runners.Visualise,
+			Input:     challengeInputString,
+			OutputDir: ".", // directory the runner is run in, which is the challenge directory
+		})
+
+		lookupTable[id] = func(r *runners.Result) {
+
+			fmt.Print(au.Bold("Visualisation: "))
+
+			var status string
+			var followUpText string
+			if !r.Ok {
+				status = incompleteLabel
+				followUpText = "saying \"" + r.Output + "\""
+			} else {
+				status = passLabel
+			}
+
+			if followUpText == "" {
+				followUpText = fmt.Sprintf("in %.4f seconds", r.Duration)
+			}
+
+			fmt.Print(status)
+			fmt.Println(au.Gray(10, " "+followUpText))
+		}
+
+	} else {
+		setupTestTasks(challengeInfo, runner, &lookupTable)
+		if !args.TestOnly {
+			setupMainTasks(challengeInputString, runner, &lookupTable)
+		}
 	}
 
 	fmt.Println()
