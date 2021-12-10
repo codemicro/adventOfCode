@@ -9,9 +9,7 @@ Basin = List[Point]
 
 def parse(instr: str) -> Cave:
     o = {}
-    for y, line in enumerate(
-        instr.strip().splitlines()
-    ):
+    for y, line in enumerate(instr.strip().splitlines()):
         for x, digit in enumerate(line):
             o[(x, y)] = int(digit)
     return o
@@ -27,7 +25,10 @@ def find_adjacent_points(cave: Cave, position: Point) -> List[Point]:
     #
 
     x, y = position
-    return [pos for pos in [(x, y-1), (x-1, y), (x+1, y), (x, y+1)] if pos in cave]
+    return [
+        pos for pos in [(x, y - 1), (x - 1, y), (x + 1, y), (x, y + 1)] if pos in cave
+    ]
+
 
 def find_adjacent_heights(cave: Cave, position: Point) -> List[int]:
     # Returns a list of heights of points horizontally or vertically adjacent to
@@ -37,20 +38,22 @@ def find_adjacent_heights(cave: Cave, position: Point) -> List[int]:
 
 
 def find_low_points(cave: Cave) -> List[Point]:
-    # Retusn a list of points in `cave` where all adjacent points are higher 
+    # Retusn a list of points in `cave` where all adjacent points are higher
     # than the current point under inspection.
 
     o = []
     for position in cave:
         height = cave[position]
-        are_adjacent_heights_higher = [height < adjacent for adjacent in find_adjacent_heights(cave, position)]
+        are_adjacent_heights_higher = [
+            height < adjacent for adjacent in find_adjacent_heights(cave, position)
+        ]
         if False not in are_adjacent_heights_higher:
             o.append(position)
     return o
 
 
 def find_points_in_basin(cave: Cave, low_point: Point) -> List[Point]:
-    # Returns a list of points that belong to the basin in `cave` that's 
+    # Returns a list of points that belong to the basin in `cave` that's
     # centered around `low_point`
 
     queue = find_adjacent_points(cave, low_point)
@@ -82,7 +85,6 @@ def find_basins(cave: Cave) -> List[Basin]:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         cave = parse(instr)
@@ -90,8 +92,8 @@ class Challenge(BaseChallenge):
         cumulative_risk_level = 0
         for low_point in find_low_points(cave):
             cumulative_risk_level += cave[low_point] + 1
-            
-        return cumulative_risk_level    
+
+        return cumulative_risk_level
 
     @staticmethod
     def two(instr: str) -> int:
@@ -101,7 +103,7 @@ class Challenge(BaseChallenge):
         # reverse == descending order
         basins = list(sorted(basins, key=lambda x: len(x), reverse=True))
 
-        return foldl(lambda x, y: x*len(y), basins[0:3], 1)
+        return foldl(lambda x, y: x * len(y), basins[0:3], 1)
 
     @staticmethod
     def vis(instr: str, outputDir: str):
@@ -162,7 +164,10 @@ class Challenge(BaseChallenge):
                 manager.save(img)
 
                 height = cave[position]
-                are_adjacent_heights_higher = [height < adjacent for adjacent in find_adjacent_heights(cave, position)]
+                are_adjacent_heights_higher = [
+                    height < adjacent
+                    for adjacent in find_adjacent_heights(cave, position)
+                ]
                 if False not in are_adjacent_heights_higher:
                     o.append(position)
                     img.putpixel(position, COLOUR_LOW_POINT)
@@ -176,5 +181,7 @@ class Challenge(BaseChallenge):
         for point in low_points:
             find_points_in_basin(cave, point)
 
-        os.system(f"""ffmpeg -framerate 480 -i {outputDir}/vis-temp/frame_%04d.png -start_number 0 -c:v libx264 -vf "scale=iw*5:ih*5:flags=neighbor" -r 30 -pix_fmt yuv420p {outputDir}/out.mp4""")
+        os.system(
+            f"""ffmpeg -framerate 480 -i {outputDir}/vis-temp/frame_%04d.png -start_number 0 -c:v libx264 -vf "scale=iw*5:ih*5:flags=neighbor" -r 30 -pix_fmt yuv420p {outputDir}/out.mp4"""
+        )
         shutil.rmtree(temp_dir)

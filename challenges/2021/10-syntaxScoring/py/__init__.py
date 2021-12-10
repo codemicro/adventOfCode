@@ -51,7 +51,7 @@ class Chunk:
         n = 0
         while True:
 
-            char = None 
+            char = None
             if n < len(self.text):
                 char = self.text[n]
 
@@ -71,7 +71,9 @@ class Chunk:
             elif char == ")" or char == "]" or char == "}" or char == ">":
                 r = stack.pop()
                 if r != char:
-                    raise ValueError(f"cannot correct corrupted chunk (wanted {r}, got {char})")
+                    raise ValueError(
+                        f"cannot correct corrupted chunk (wanted {r}, got {char})"
+                    )
             else:
                 raise ValueError(f"unknown character in chunk string ({char=})")
 
@@ -85,7 +87,6 @@ def parse(instr: str) -> List[Chunk]:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         chunks = parse(instr)
@@ -103,7 +104,7 @@ class Challenge(BaseChallenge):
         def f(x):
             y, _ = x.is_corrupted()
             return not y
-        
+
         chunks = list(filter(f, chunks))
         points = []
         for chunk in chunks:
@@ -115,6 +116,6 @@ class Challenge(BaseChallenge):
             points.append(n)
 
         points = list(sorted(points))
-        median = points[math.floor(len(points)/2)]
+        median = points[math.floor(len(points) / 2)]
 
         return median
