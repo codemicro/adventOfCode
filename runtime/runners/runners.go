@@ -9,8 +9,10 @@ const (
 )
 
 type Runner interface {
-	Queue(task *Task)
-	Run() (chan ResultOrError, func())
+	Start() error
+	Stop() error
+	Cleanup() error
+	Run(task *Task) (*Result, error)
 }
 
 type ResultOrError struct {
