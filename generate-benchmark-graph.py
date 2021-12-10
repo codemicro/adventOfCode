@@ -1,5 +1,6 @@
 import json
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import os
 import sys
 import re
@@ -13,6 +14,8 @@ COLOURS = {
     "Nim": "#ffc200"
 }
 
+BAR_WIDTH = 0.25
+
 challenge_dir_regex = re.compile("""(?m)^(\d{2})-([a-zA-Z]+)$""")
 
 directories = []
@@ -23,7 +26,7 @@ for filename in os.listdir(path):
 
 files = [os.path.join(x, "benchmark.json") for x in directories]
 
-benchmark_data = {}
+benchmark_data = {"Python": {}, "Golang": {}, "Nim": {}}  # adding dicts here sets the order of points being plotted
 
 for filename in files:
     with open(os.path.join(path, filename)) as f:
@@ -34,10 +37,19 @@ for filename in files:
         x[str(data["day"]) + ".2"] = data["implementations"][language]["part.2.avg"]
         benchmark_data[language] = x
 
-legends = []
 all_days = set()
 
-for language in benchmark_data:
+for lang in benchmark_data:
+    for key in benchmark_data[lang]:
+        day = int(key.split(".", 1)[0])
+        all_days.add(day)
+
+figure = plt.figure(figsize=(len(all_days), 5))
+axp1 = figure.add_subplot(1, 2, 1)
+axp2 = figure.add_subplot(1, 2, 2, sharey=axp1)
+
+for i, language in enumerate(benchmark_data):
+
     data = benchmark_data[language]
     part_one_times = []
     part_two_times = []
@@ -48,25 +60,38 @@ for language in benchmark_data:
         day = int(key.split(".", 1)[0])
         if day not in days:
             days.append(day)
-        all_days.add(day)
 
         if key.endswith(".1"):
             part_one_times.append(data[key])
         if key.endswith(".2"):
             part_two_times.append(data[key])
     
-    line_colour = COLOURS.get(language)
+    colour = COLOURS.get(language)
 
-    plt.plot(days, part_one_times, "o-", color=line_colour)
-    plt.plot(days, part_two_times, "o--", color=line_colour)
-    legends += [f"{language} part 1", f"{language} part 2"]
+    p1 = axp1.scatter(days, part_one_times, color=colour)
+    p2 = axp2.scatter(days, part_two_times, color=colour)
 
-plt.title("Average challenge running time")
+    for i, day in enumerate(days):
+        if i + 1 >= len(days):
+            continue
+        if days[i+1] == day+1:
+            axp1.plot((day, days[i+1]), (part_one_times[i], part_one_times[i+1]), "-", color=colour)
+            axp2.plot((day, days[i+1]), (part_two_times[i], part_two_times[i+1]), "-", color=colour)
 
-plt.xticks(list(all_days), [str(y) for y in all_days])
-plt.ylabel("Running time (seconds)")
-plt.xlabel("Day")
+figure.suptitle("Average challenge running time")
+axp1.set_title("Part one")
+axp2.set_title("Part two")
 
-plt.legend(legends)
+def do_auxillary_parts(axis):
+    plt.sca(axis)
+    plt.xticks(list(all_days), [str(y) for y in all_days])
+    plt.ylabel("Running time (seconds)")
+    plt.xlabel("Day")
+    plt.legend(handles=[patches.Patch(color=COLOURS[label], label=label) for label in COLOURS])
+    # plt.legend(legends)
 
+do_auxillary_parts(axp1)
+do_auxillary_parts(axp2)
+
+plt.tight_layout()
 plt.savefig(OUTPUT_FILE)
