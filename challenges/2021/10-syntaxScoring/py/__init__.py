@@ -2,6 +2,7 @@ from typing import List, Optional, Tuple
 from aocpy import BaseChallenge
 from dataclasses import dataclass
 import math
+from collections import deque
 
 
 CHECKER_POINTS = {
@@ -24,7 +25,7 @@ class Chunk:
     text: str
 
     def is_corrupted(self) -> Tuple[bool, Optional[str]]:
-        stack = []
+        stack = deque()
         for char in self.text:
 
             if char == "(":
@@ -45,7 +46,7 @@ class Chunk:
         return False, None
 
     def complete(self) -> str:
-        stack = []
+        stack = deque()
         output = ""
 
         n = 0
