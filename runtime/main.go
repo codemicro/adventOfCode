@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/codemicro/adventOfCode/runtime/benchmark"
 	"io/ioutil"
 	"path/filepath"
 
@@ -55,7 +56,7 @@ func run() error {
 	challengeInputString := string(challengeInput)
 
 	if args.Benchmark {
-		//return benchmark.Run(selectedChallenge, challengeInputString, args.BenchmarkN)
+		return benchmark.Run(selectedChallenge, challengeInputString, args.BenchmarkN)
 	}
 
 	// List and select implementations
@@ -80,8 +81,10 @@ func run() error {
 		return err
 	}
 
-	if err := runMainTasks(runner, challengeInputString); err != nil {
-		return err
+	if !args.TestOnly {
+		if err := runMainTasks(runner, challengeInputString); err != nil {
+			return err
+		}
 	}
 
 	return nil
