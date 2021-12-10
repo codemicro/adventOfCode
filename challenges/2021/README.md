@@ -18,7 +18,8 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 06 - Lanternfish                    | Complete           | [Python](06-lanternfish/py)                                                                             | At this rate, the mass of the fish would surpass that of the Earth pretty quickly.                                                  |
 | 07 - The Treachery of Whales        | Complete           | [Python](07-theTreacheryOfWhales/py)                                                                    | I'm not 100% sure my solution for part two is valid for all possible inputs.                                                        |
 | 08 - Seven Segment Search           | Complete           | [Python](08-sevenSegmentSearch/py), [Go](08-sevenSegmentSearch)                                         | I may have taken the easy way out for part two, but it does work! No-one ever said the smart solution is the best solution, anyway. |
-| 09 - Smoke Basin *                  | Complete           | [Python](09-smokeBasin/py)                                                                              | Schmokey! Also, as it turns out, I struggle to implement basic logic. Fun.                                                          |
+| 09 - Smoke Basin \*                 | Complete           | [Python](09-smokeBasin/py)                                                                              | Schmokey! Also, as it turns out, I struggle to implement basic logic. Fun.                                                          |
+| 10 - Syntax Scoring                 | Complete           | [Python](10-syntaxScoring/py)                                                                           | I can't say I've ever broken something so thoroughly that it has a syntax error on *every* line...                                  |
 
 <!-- PARSE END -->
 
