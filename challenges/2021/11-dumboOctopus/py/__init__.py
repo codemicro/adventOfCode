@@ -14,16 +14,6 @@ def parse(instr: str) -> Cave:
     return o
 
 
-def print_cave(cave: Cave):
-    max_x = max(x for x, y in cave)
-    max_y = max(y for x, y in cave)
-    for y in range(max_y + 1):
-        for x in range(max_x + 1):
-            print(cave[(x, y)], end="")
-        print(flush=True)
-    print()
-
-
 def get_adjacent_points(point: Point) -> List[Point]:
     x, y = point
     return [
