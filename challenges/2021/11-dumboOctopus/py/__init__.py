@@ -4,6 +4,7 @@ from aocpy import BaseChallenge
 Point = Tuple[int, int]
 Cave = Dict[Point, int]
 
+
 def parse(instr: str) -> Cave:
     # I would be lying if I said I didn't copy this from day 9
     o = {}
@@ -12,11 +13,12 @@ def parse(instr: str) -> Cave:
             o[(x, y)] = int(digit)
     return o
 
+
 def print_cave(cave: Cave):
     max_x = max(x for x, y in cave)
     max_y = max(y for x, y in cave)
-    for y in range(max_y+1):
-        for x in range(max_x+1):
+    for y in range(max_y + 1):
+        for x in range(max_x + 1):
             print(cave[(x, y)], end="")
         print(flush=True)
     print()
@@ -24,11 +26,20 @@ def print_cave(cave: Cave):
 
 def get_adjacent_points(point: Point) -> List[Point]:
     x, y = point
-    return [(x, y - 1), (x - 1, y), (x + 1, y), (x, y + 1), (x-1, y-1), (x+1, y+1), (x-1, y+1), (x+1, y-1)]
+    return [
+        (x, y - 1),
+        (x - 1, y),
+        (x + 1, y),
+        (x, y + 1),
+        (x - 1, y - 1),
+        (x + 1, y + 1),
+        (x - 1, y + 1),
+        (x + 1, y - 1),
+    ]
 
 
 def iterate(cave: Cave) -> Tuple[Cave, int, bool]:
-    
+
     for point in cave:
         cave[point] = cave[point] + 1
 
@@ -41,7 +52,7 @@ def iterate(cave: Cave) -> Tuple[Cave, int, bool]:
         for adjacent in get_adjacent_points(point):
             if adjacent not in cave:
                 continue
-            
+
             previous_value = cave[adjacent]
             if adjacent in updates:
                 previous_value = updates[adjacent]
@@ -66,7 +77,6 @@ def iterate(cave: Cave) -> Tuple[Cave, int, bool]:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         cave = parse(instr)
