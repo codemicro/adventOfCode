@@ -144,7 +144,7 @@ func selectImplementation(ch *challenge.Challenge) (string, error) {
 
 	if x := len(implementations); x == 1 {
 		selectedImplementationIndex = 0
-		fmt.Printf("Automatically selecting %s implementation", runners.RunnerNames[implementations[0]])
+		fmt.Printf("Automatically selecting %s implementation\n", runners.RunnerNames[implementations[0]])
 	} else {
 		var opts []string
 		for _, i := range implementations {
