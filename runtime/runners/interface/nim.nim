@@ -22,10 +22,12 @@ type
         input: string
         output_dir: Option[string]
 
-let tasksString = readLine(stdin)
-let tasks = to(parseJson(tasksString), seq[Task])
+while true: 
 
-for _, task in tasks: 
+    let
+        taskString = readLine(stdin)
+        task = to(parseJson(taskString), Task)    
+
     var runProc: proc(): string
 
     case task.part
