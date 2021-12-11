@@ -28,17 +28,16 @@ func sendResult(taskID string, ok bool, output string, duration float64) {
 
 func run() error {
 	reader := bufio.NewReader(os.Stdin)
-	tasksBytes, err := reader.ReadBytes('\n')
-	if err != nil {
-		return err
-	}
+	for {
+		task := new(runners.Task)
+		taskBytes, err := reader.ReadBytes('\n')
+		if err != nil {
+			return err
+		}
+		if err := json.Unmarshal(taskBytes, task); err != nil {
+			return err
+		}
 
-	var tasks []*runners.Task
-	if err := json.Unmarshal(tasksBytes, &tasks); err != nil {
-		return err
-	}
-
-	for _, task := range tasks {
 		var run func() (interface{}, error)
 
 		switch task.Part {

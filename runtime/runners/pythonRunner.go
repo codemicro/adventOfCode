@@ -1,10 +1,11 @@
 package runners
 
 import (
-	"bytes"
 	_ "embed"
 	"encoding/json"
 	"fmt"
+	au "github.com/logrusorgru/aurora"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -12,11 +13,16 @@ import (
 	"strings"
 )
 
-const python3Installation = "python3"
+const (
+	python3Installation   = "python3"
+	pythonWrapperFilename = "runtime-wrapper.py"
+)
 
 type pythonRunner struct {
-	dir   string
-	tasks []*Task
+	dir             string
+	cmd             *exec.Cmd
+	wrapperFilepath string
+	stdin           io.WriteCloser
 }
 
 func newPythonRunner(dir string) Runner {
@@ -25,56 +31,82 @@ func newPythonRunner(dir string) Runner {
 	}
 }
 
-func (p *pythonRunner) Queue(task *Task) {
-	p.tasks = append(p.tasks, task)
-}
-
 //go:embed interface/python.py
 var pythonInterface []byte
 
-func (p *pythonRunner) Run() (chan ResultOrError, func()) {
-
-	wrapperFilename := "runtime-wrapper.py"
-	wrapperFilepath := filepath.Join(p.dir, wrapperFilename)
-
-	// Generate interaction data
-	taskJSON, err := json.Marshal(p.tasks)
-	if err != nil {
-		return makeErrorChan(err), nil
-	}
+func (p *pythonRunner) Start() error {
+	p.wrapperFilepath = filepath.Join(p.dir, pythonWrapperFilename)
 
 	// Save interaction code
-	err = ioutil.WriteFile(wrapperFilepath, pythonInterface, 0644)
-	if err != nil {
-		return makeErrorChan(err), nil
+	if err := ioutil.WriteFile(p.wrapperFilepath, pythonInterface, 0644); err != nil {
+		return err
 	}
 
+	// Sort out PYTHONPATH
 	cwd, err := os.Getwd()
 	if err != nil {
-		return makeErrorChan(err), nil
+		return err
 	}
 
 	absDir, err := filepath.Abs(p.dir)
 	if err != nil {
-		return makeErrorChan(err), nil
+		return err
 	}
 
 	pythonPathVar := strings.Join([]string{
-		filepath.Join(cwd, "lib"),
-		filepath.Join(absDir, "py"),
+		filepath.Join(cwd, "lib"),   // so we can use aocpy
+		filepath.Join(absDir, "py"), // so we can import stuff in the challenge directory
 	}, ":")
 
-	fmt.Println("Running...")
+	p.cmd = exec.Command(python3Installation, "-B", pythonWrapperFilename) // -B prevents .pyc files from being written
+	p.cmd.Env = append(p.cmd.Env, "PYTHONPATH="+pythonPathVar)
+	p.cmd.Dir = p.dir
 
-	// Run Python and gather output
-	cmd := exec.Command(python3Installation, "-B", wrapperFilename) // -B prevents .pyc files from being written
-	cmd.Env = append(cmd.Env, "PYTHONPATH="+pythonPathVar)          // this allows the aocpy lib to be imported
-	cmd.Dir = p.dir
-
-	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
-
-	return readResultsFromCommand(cmd), func() {
-		// Remove leftover files
-		_ = os.Remove(wrapperFilepath)
+	if stdin, err := setupBuffers(p.cmd); err != nil {
+		return err
+	} else {
+		p.stdin = stdin
 	}
+
+	return p.cmd.Start()
+}
+
+func (p *pythonRunner) Stop() error {
+	if p.cmd == nil || p.cmd.Process == nil {
+		return nil
+	}
+	return p.cmd.Process.Kill()
+}
+
+func (p *pythonRunner) Cleanup() error {
+	if p.wrapperFilepath == "" {
+		return nil
+	}
+	_ = os.Remove(p.wrapperFilepath)
+	return nil
+}
+
+func (p *pythonRunner) Run(task *Task) (*Result, error) {
+	taskJSON, err := json.Marshal(task)
+	if err != nil {
+		return nil, err
+	}
+	_, _ = p.stdin.Write(append(taskJSON, '\n'))
+
+	res := new(Result)
+	for {
+		inp, err := checkWait(p.cmd)
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal(inp, res)
+		if err != nil {
+			// echo anything that won't parse to stdout (this lets us add debug print statements)
+			fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
+		} else {
+			break
+		}
+	}
+	return res, nil
 }

@@ -5,9 +5,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os/exec"
 	"strings"
 	"sync"
+	"time"
 
 	au "github.com/logrusorgru/aurora"
 )
@@ -66,6 +68,30 @@ func (c *customWriter) GetEntry() ([]byte, error) {
 	var x []byte
 	x, c.entries = c.entries[0], c.entries[1:]
 	return x, nil
+}
+
+func setupBuffers(cmd *exec.Cmd) (io.WriteCloser, error) {
+	stdoutWriter := &customWriter{}
+	cmd.Stdout = stdoutWriter
+	cmd.Stderr = new(bytes.Buffer)
+	return cmd.StdinPipe()
+}
+
+func checkWait(cmd *exec.Cmd) ([]byte, error) {
+	c := cmd.Stdout.(*customWriter)
+	for {
+		e, err := c.GetEntry()
+		if err == nil {
+			return e, nil
+		}
+
+		if cmd.ProcessState != nil {
+			// this is only populated after program exit - we have an issue
+			return nil, fmt.Errorf("run failed with exit code %d: %s", cmd.ProcessState.ExitCode(), cmd.Stderr.(*bytes.Buffer).String())
+		}
+
+		time.Sleep(time.Millisecond * 10)
+	}
 }
 
 func readResultsFromCommand(cmd *exec.Cmd) chan ResultOrError {

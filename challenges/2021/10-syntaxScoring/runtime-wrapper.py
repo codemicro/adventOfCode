@@ -3,8 +3,8 @@ from py import Challenge
 import time
 import json
 
-# TASKS_STR = input()
-# TASKS = json.loads(TASKS_STR)
+TASKS_STR = input()
+TASKS = json.loads(TASKS_STR)
 
 def send_result(task_id, ok, output, duration):
     print(json.dumps({
@@ -14,8 +14,7 @@ def send_result(task_id, ok, output, duration):
         "duration": float(duration),
     }), flush=True)
 
-while True:
-    task = json.loads(input())
+for task in TASKS:
     taskPart = task["part"]
     task_id = task["task_id"]
 

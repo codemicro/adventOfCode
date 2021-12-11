@@ -107,18 +107,19 @@ type kv struct {
 
 func benchmarkImplementation(implementation string, dir string, inputString string, numberRuns int) (*values, error) {
 
-	var results []*runners.Result
+	var (
+		tasks []*runners.Task
+		results []*runners.Result
+	)
 
 	runner := runners.Available[implementation](dir)
 	for i := 0; i < numberRuns; i++ {
 
-		runner.Queue(&runners.Task{
+		tasks = append(tasks, &runners.Task{
 			TaskID: makeBenchmarkID(runners.PartOne, i),
 			Part:   runners.PartOne,
 			Input:  inputString,
-		})
-
-		runner.Queue(&runners.Task{
+		}, &runners.Task{
 			TaskID: makeBenchmarkID(runners.PartTwo, i),
 			Part:   runners.PartTwo,
 			Input:  inputString,
@@ -133,14 +134,21 @@ func benchmarkImplementation(implementation string, dir string, inputString stri
 		),
 	)
 
-	res, cleanup := runner.Run()
+	if err := runner.Start(); err != nil {
+		return nil, err
+	}
+	defer func() {
+		_ = runner.Stop()
+		_ = runner.Cleanup()
+	}()
 
-	for roe := range res {
-		if roe.Error != nil {
+	for _, task := range tasks {
+		res, err := runner.Run(task)
+		if err != nil {
 			_ = pb.Close()
-			return nil, roe.Error
+			return nil, err
 		}
-		results = append(results, roe.Result)
+		results = append(results, res)
 		_ = pb.Add(1)
 	}
 
@@ -158,10 +166,6 @@ func benchmarkImplementation(implementation string, dir string, inputString stri
 		} else if strings.HasPrefix(result.TaskID, p2id) {
 			p2 = append(p2, result.Duration)
 		}
-	}
-
-	if cleanup != nil {
-		cleanup()
 	}
 
 	return &values{

@@ -6,17 +6,27 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	au "github.com/logrusorgru/aurora"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
-const nimInstallation = "nim"
+const (
+	nimInstallation = "nim"
+	nimWrapperFilename = "runtimeWrapper.nim"
+	nimWrapperExecutableFilename = "runtimeWrapper"
+)
 
 type nimRunner struct {
-	dir   string
-	tasks []*Task
+	dir             string
+	cmd             *exec.Cmd
+	wrapperFilepath string
+	executableFilepath string
+	stdin           io.WriteCloser
 }
 
 func newNimRunner(dir string) Runner {
@@ -25,63 +35,88 @@ func newNimRunner(dir string) Runner {
 	}
 }
 
-func (n *nimRunner) Queue(task *Task) {
-	n.tasks = append(n.tasks, task)
-}
-
 //go:embed interface/nim.nim
 var nimInterface []byte
 
-func (n *nimRunner) Run() (chan ResultOrError, func()) {
-
-	wrapperExecutable := "runtimeWrapper"
-	wrapperFilename := wrapperExecutable + ".nim"
-
-	executableFilepath := filepath.Join(n.dir, wrapperExecutable)
-	wrapperFilepath := filepath.Join(n.dir, wrapperFilename)
-
-	// generate interaction data
-	taskJSON, err := json.Marshal(n.tasks)
-	if err != nil {
-		return makeErrorChan(err), nil
-	}
+func (n *nimRunner) Start() error {
+	n.wrapperFilepath = filepath.Join(n.dir, nimWrapperFilename)
+	n.executableFilepath = filepath.Join(n.dir, nimWrapperExecutableFilename)
 
 	// save interaction code
-	err = ioutil.WriteFile(wrapperFilepath, nimInterface, 0644)
+	err := ioutil.WriteFile(n.wrapperFilepath, nimInterface, 0644)
 	if err != nil {
-		return makeErrorChan(err), nil
+		return err
 	}
-
-	fmt.Print("Compiling...\r")
-	defer fmt.Print("\n\n")
 
 	// compile
 	stderrBuffer := new(bytes.Buffer)
-	cmd := exec.Command(nimInstallation, "compile", "-o:"+executableFilepath, "-d:release", wrapperFilepath)
+	cmd := exec.Command(nimInstallation, "compile", "-o:"+n.executableFilepath, "-d:release", n.wrapperFilepath)
 	cmd.Stderr = stderrBuffer
 	err = cmd.Run()
 	if err != nil {
-		return makeErrorChan(fmt.Errorf("compilation failed: %s: %s", err, stderrBuffer.String())), nil
+		return fmt.Errorf("compilation failed: %s: %s", err, stderrBuffer.String())
 	}
 
 	if !cmd.ProcessState.Success() {
-		return makeErrorChan(errors.New("compilation failed, hence cannot continue")), nil
+		return errors.New("compilation failed, hence cannot continue")
 	}
 
-	fmt.Print("Running...         ")
-
-	absExecPath, err := filepath.Abs(executableFilepath)
+	// now we run!
+	absExecPath, err := filepath.Abs(n.executableFilepath)
 	if err != nil {
-		return makeErrorChan(err), nil
+		return err
 	}
 
-	// run
-	cmd = exec.Command(absExecPath)
-	cmd.Dir = n.dir
-	cmd.Stdin = bytes.NewReader(append(taskJSON, '\n'))
+	n.cmd = exec.Command(absExecPath)
+	n.cmd.Dir = n.dir
 
-	return readResultsFromCommand(cmd), func() {
-		_ = os.Remove(executableFilepath)
-		_ = os.Remove(wrapperFilepath)
+	if stdin, err := setupBuffers(n.cmd); err != nil {
+		return err
+	} else {
+		n.stdin = stdin
 	}
+
+	return n.cmd.Start()
+}
+
+func (n *nimRunner) Stop() error {
+	if n.cmd == nil || n.cmd.Process == nil {
+		return nil
+	}
+	return n.cmd.Process.Kill()
+}
+
+func (n *nimRunner) Cleanup() error {
+	if n.wrapperFilepath != "" {
+		_ = os.Remove(n.wrapperFilepath)
+	}
+	if n.executableFilepath != "" {
+		_ = os.Remove(n.executableFilepath)
+	}
+	return nil
+}
+
+func (n *nimRunner) Run(task *Task) (*Result, error) {
+	taskJSON, err := json.Marshal(task)
+	if err != nil {
+		return nil, err
+	}
+	_, _ = n.stdin.Write(append(taskJSON, '\n'))
+
+	res := new(Result)
+	for {
+		inp, err := checkWait(n.cmd)
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal(inp, res)
+		if err != nil {
+			// echo anything that won't parse to stdout (this lets us add debug print statements)
+			fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
+		} else {
+			break
+		}
+	}
+	return res, nil
 }
