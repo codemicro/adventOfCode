@@ -66,8 +66,6 @@ func run() error {
 		return err
 	}
 
-	fmt.Println()
-
 	runner := runners.Available[selectedImplementation](selectedChallenge.Dir)
 	if err := runner.Start(); err != nil {
 		return err
