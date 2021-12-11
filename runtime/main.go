@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/codemicro/adventOfCode/runtime/benchmark"
+	au "github.com/logrusorgru/aurora"
 	"io/ioutil"
 	"path/filepath"
 
@@ -77,6 +78,38 @@ func run() error {
 	}()
 
 
+	if args.Visualise {
+		id := "vis"
+		r, err := runner.Run(&runners.Task{
+			TaskID:    id,
+			Part:      runners.Visualise,
+			Input:     challengeInputString,
+			OutputDir: ".", // directory the runner is run in, which is the challenge directory
+		})
+		if err != nil {
+			return err
+		}
+
+		fmt.Print(au.Bold("Visualisation: "))
+
+		var status string
+		var followUpText string
+		if !r.Ok {
+			status = incompleteLabel
+			followUpText = "saying \"" + r.Output + "\""
+		} else {
+			status = passLabel
+		}
+
+		if followUpText == "" {
+			followUpText = fmt.Sprintf("in %.4f seconds", r.Duration)
+		}
+
+		fmt.Print(status)
+		fmt.Println(au.Gray(10, " "+followUpText))
+
+	} else {
+
 	if err := runTests(runner, challengeInfo); err != nil {
 		return err
 	}
@@ -85,7 +118,7 @@ func run() error {
 		if err := runMainTasks(runner, challengeInputString); err != nil {
 			return err
 		}
-	}
+	}}
 
 	return nil
 }
