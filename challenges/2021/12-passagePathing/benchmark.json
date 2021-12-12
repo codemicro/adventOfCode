@@ -1,0 +1,15 @@
+{
+  "day": 12,
+  "dir": "challenges/2021/12-passagePathing",
+  "implementations": {
+    "Golang": {
+      "part.1.avg": 0.004089135783000003,
+      "part.1.max": 0.015094977,
+      "part.1.min": 0.002771765,
+      "part.2.avg": 0.090934005394,
+      "part.2.max": 0.250616487,
+      "part.2.min": 0.065061159
+    }
+  },
+  "numRuns": 1000
+}

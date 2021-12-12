@@ -1,0 +1,33 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "start-A\nstart-b\nA-c\nA-b\nb-d\nA-end\nb-end",
+                "expected": "10"
+            },
+            {
+                "input": "dc-end\nHN-start\nstart-kj\ndc-start\ndc-HN\nLN-dc\nHN-end\nkj-sa\nkj-HN\nkj-dc\n",
+                "expected": "19"
+            },
+            {
+                "input": "fs-end\nhe-DX\nfs-he\nstart-DX\npj-DX\nend-zg\nzg-sl\nzg-pj\npj-he\nRW-he\nfs-DX\npj-RW\nzg-RW\nstart-pj\nhe-WI\nzg-he\npj-fs\nstart-RW",
+                "expected": "226"
+            }
+        ],
+        "two": [
+            {
+                "input": "start-A\nstart-b\nA-c\nA-b\nb-d\nA-end\nb-end",
+                "expected": "36"
+            },
+            {
+                "input": "dc-end\nHN-start\nstart-kj\ndc-start\ndc-HN\nLN-dc\nHN-end\nkj-sa\nkj-HN\nkj-dc\n",
+                "expected": "103"
+            },
+            {
+                "input": "fs-end\nhe-DX\nfs-he\nstart-DX\npj-DX\nend-zg\nzg-sl\nzg-pj\npj-he\nRW-he\nfs-DX\npj-RW\nzg-RW\nstart-pj\nhe-WI\nzg-he\npj-fs\nstart-RW",
+                "expected": "3509"
+            }
+        ]
+    }
+}
