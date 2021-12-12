@@ -21,7 +21,7 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 09 - Smoke Basin \*                 | Complete           | [Python](09-smokeBasin/py)                                                                              | Schmokey! Also, as it turns out, I struggle to implement basic logic. Fun.                                                          |
 | 10 - Syntax Scoring                 | Complete           | [Python](10-syntaxScoring/py)                                                                           | I can't say I've ever broken something so thoroughly that it has a syntax error on *every* line...                                  |
 | 11 - Dumbo Octopus                  | Complete           | [Python](11-dumboOctopus/py), [Nim](11-dumboOctopus/nim)                                                | Cellular automata my beloved <3                                                                                                     |
-| 12 - Passage Pathing                | Complete           | [Go][12-passagePathing/go]                                                                              | I couldn't tell you how it works, but it does kinda work and I think I have a vague idea (external help was used).                  |
+| 12 - Passage Pathing                | Complete           | [Go](12-passagePathing/go)                                                                              | I couldn't tell you how it works, but it does kinda work and I think I have a vague idea (external help was used).                  |
 
 <!-- PARSE END -->
 
