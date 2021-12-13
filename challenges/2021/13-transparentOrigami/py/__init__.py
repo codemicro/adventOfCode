@@ -19,7 +19,7 @@ class Instruction:
 
 def parse(instr: str) -> Tuple[Sheet, List[Instruction]]:
     sheetPoints, instructions = instr.strip().split("\n\n")
-    
+
     sheet = {}
     for point in sheetPoints.splitlines():
         x, y = point.split(",")
@@ -28,12 +28,12 @@ def parse(instr: str) -> Tuple[Sheet, List[Instruction]]:
     ins = []
     for line in instructions.splitlines():
         m = INSTRUCTION_REGEX.match(line)
-        ins.append(Instruction(
-            m.group(1),
-            int(m.group(2)),
+        ins.append(
+            Instruction(
+                m.group(1),
+                int(m.group(2)),
+            )
         )
-        )
-
 
     return sheet, ins
 
@@ -52,9 +52,6 @@ def print_sheet(sheet: Sheet):
 
 
 def apply_instruction(sheet: Sheet, instruction: Instruction) -> Sheet:
-
-    # max_val = max((x for x, _ in sheet) if instruction.axis == "x" else (y for _, y in sheet))
-
     def mod_point(p: Point) -> Point:
         v = p[0]
         if instruction.axis == "y":
@@ -66,7 +63,7 @@ def apply_instruction(sheet: Sheet, instruction: Instruction) -> Sheet:
             elif instruction.axis == "y":
                 return (p[0], instruction.n - (p[1] - instruction.n))
             raise ValueError(f"unknown axis {instruction.axis}")
-        
+
         return p
 
     new_sheet = {}
@@ -77,7 +74,6 @@ def apply_instruction(sheet: Sheet, instruction: Instruction) -> Sheet:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         sheet, instructions = parse(instr)
