@@ -1,0 +1,15 @@
+{
+  "day": 13,
+  "dir": "challenges/2021/13-transparentOrigami",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.002360786199569702,
+      "part.1.max": 0.004988908767700195,
+      "part.1.min": 0.0005254745483398438,
+      "part.2.avg": 0.006699836015701294,
+      "part.2.max": 0.014143228530883789,
+      "part.2.min": 0.001451253890991211
+    }
+  },
+  "numRuns": 1000
+}
