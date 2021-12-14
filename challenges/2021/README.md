@@ -25,6 +25,7 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 11 - Dumbo Octopus                  | ★ ★                | [Python](11-dumboOctopus/py), [Nim](11-dumboOctopus/nim)                                                | Cellular automata my beloved <3                                                                                                     |
 | 12 - Passage Pathing                | ★ ★                | [Go](12-passagePathing/go)                                                                              | I couldn't tell you how it works, but it does kinda work and I think I have a vague idea (external help was used).                  |
 | 13 - Transparent Origami            | ★ ★                | [Python](13-transparentOrigami/py), [Nim](13-transparentOrigami/nim)                                    | I got stuck for hours on an intermittent off-by-one error. :(                                                                       |
+| 14 - Extended Polymerization        | ★ ★                | [Python](14-extendedPolymerization/py)                                                                  | Another off-by-one error, but this time it was because of dodgy division. Wonderful.                                                |
 
 <!-- PARSE END -->
 

@@ -1,0 +1,15 @@
+{
+  "day": 14,
+  "dir": "challenges/2021/14-extendedPolymerization",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.0009306585788726807,
+      "part.1.max": 0.002932310104370117,
+      "part.1.min": 0.0006134510040283203,
+      "part.2.avg": 0.0037261221408843993,
+      "part.2.max": 0.008280754089355469,
+      "part.2.min": 0.0021991729736328125
+    }
+  },
+  "numRuns": 1000
+}
