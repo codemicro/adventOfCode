@@ -15,10 +15,11 @@ class Consumer:
         self.pointer += n
         if self.pointer > len(self.input):
             raise IndexError("index out of bounds")
-        return self.input[self.pointer-n:self.pointer]
+        return self.input[self.pointer - n : self.pointer]
 
     def finished(self) -> bool:
         return len(self.input) == self.pointer
+
 
 @dataclass
 class Packet:
@@ -26,14 +27,17 @@ class Packet:
     type_indicator: int
     content: Any
 
+
 def hex_to_binary_string(n: str) -> str:
     o = ""
     for char in n:
         o += bin(int(char, base=16))[2:].zfill(4)
     return o
 
+
 def from_binary_string(x: str) -> int:
     return int(x, base=2)
+
 
 def decode_all(input_stream: Consumer) -> List[Packet]:
     o = []
@@ -44,6 +48,7 @@ def decode_all(input_stream: Consumer) -> List[Packet]:
             break
     return o
 
+
 def decode_one(input_stream: Consumer) -> Packet:
     version = from_binary_string(input_stream.get_n(3))
     packet_type = from_binary_string(input_stream.get_n(3))
@@ -52,7 +57,9 @@ def decode_one(input_stream: Consumer) -> Packet:
         literal_number = 0
         while True:
             continue_bit = from_binary_string(input_stream.get())
-            literal_number = (literal_number << 4) | from_binary_string(input_stream.get_n(4))
+            literal_number = (literal_number << 4) | from_binary_string(
+                input_stream.get_n(4)
+            )
             if continue_bit == 0:
                 break
         return Packet(version, packet_type, literal_number)
@@ -77,7 +84,7 @@ def parse(instr: str) -> List[Packet]:
 
 
 def sum_version_numbers(packets: List[Packet]) -> int:
-    sigma = 0 
+    sigma = 0
     for packet in packets:
         sigma += packet.version
         if type(packet.content) == list:
@@ -132,7 +139,6 @@ def interpet_packet(packet: Packet) -> int:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         packets = parse(instr)
