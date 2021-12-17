@@ -27,6 +27,7 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 13 - Transparent Origami            | ★ ★                | [Python](13-transparentOrigami/py), [Nim](13-transparentOrigami/nim)                                    | I got stuck for hours on an intermittent off-by-one error. :(                                                                       |
 | 14 - Extended Polymerization        | ★ ★                | [Python](14-extendedPolymerization/py)                                                                  | Another off-by-one error, but this time it was because of dodgy division. Wonderful.                                                |
 | 15 - Chiton                         | ★ ☆                | [Python](15-chiton/py)                                                                                  | Pathfinding is hard                                                                                                                 |
+| 16 - Packet Decoder                 | ★ ★                | [Python](16-packetDecoder/py)                                                                           | Parsing and interpreting stuff is surprisingly enjoyable                                                                            |
 
 <!-- PARSE END -->
 
