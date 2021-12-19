@@ -14,7 +14,7 @@ COLOURS = {
     "Nim": "#ffc200"
 }
 
-BAR_WIDTH = 0.25
+MAX_Y_VALUE = 1
 
 challenge_dir_regex = re.compile("""(?m)^(\d{2})-([a-zA-Z]+)$""")
 
@@ -88,6 +88,7 @@ def do_auxillary_parts(axis):
     plt.ylabel("Running time (seconds)")
     plt.xlabel("Day")
     plt.legend(handles=[patches.Patch(color=COLOURS[label], label=label) for label in COLOURS])
+    plt.ylim([0, MAX_Y_VALUE])
     # plt.legend(legends)
 
 do_auxillary_parts(axp1)
