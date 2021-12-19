@@ -28,6 +28,9 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 14 - Extended Polymerization        | ★ ★                | [Python](14-extendedPolymerization/py)                                                                  | Another off-by-one error, but this time it was because of dodgy division. Wonderful.                                                |
 | 15 - Chiton                         | ★ ☆                | [Python](15-chiton/py)                                                                                  | Pathfinding is hard                                                                                                                 |
 | 16 - Packet Decoder                 | ★ ★                | [Python](16-packetDecoder/py)                                                                           | Parsing and interpreting stuff is surprisingly enjoyable                                                                            |
+| 17 - Trick Shot                     | Unattempted        |                                                                                                         |                                                                                                                                     |
+| 18 - Snailfish                      | Could not solve    |                                                                                                         |                                                                                                                                     |
+| 19 - Beacon Scanner                 | Unattempted        |                                                                                                         |                                                                                                                                     |
 
 <!-- PARSE END -->
 
