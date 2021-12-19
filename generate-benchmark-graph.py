@@ -78,7 +78,7 @@ for i, language in enumerate(benchmark_data):
             axp1.plot((day, days[i+1]), (part_one_times[i], part_one_times[i+1]), "-", color=colour)
             axp2.plot((day, days[i+1]), (part_two_times[i], part_two_times[i+1]), "-", color=colour)
 
-figure.suptitle("Average challenge running time")
+figure.suptitle(f"Average {YEAR} challenge running time")
 axp1.set_title("Part one")
 axp2.set_title("Part two")
 
