@@ -24,13 +24,23 @@ def get_adjacent_points(point: Point) -> List[Point]:
     ]
 
 
-def parse(instr: str) -> Graph:
+def parse(instr: str, expand: bool) -> Graph:
     nodes = {}
     edges = {}
 
-    for y, line in enumerate(instr.strip().splitlines()):
+    lines = instr.strip().splitlines()
+    num_lines = len(lines)
+    line_len = len(lines[0])
+
+    for y, line in enumerate(lines):
         for x, char in enumerate(line):
+            number = int(char)
             nodes[(x, y)] = int(char)
+
+            if expand:
+                for my in range(5):
+                    for mx in range(5):
+                        nodes[x + (mx * line_len), y + (my * num_lines)] = ((number + my + mx - 1) % 9) + 1
 
     for node in nodes:
         edges[node] = edges.get(node, []) + [
@@ -75,9 +85,10 @@ def get_shortest_path_len(graph: Graph) -> int:
 class Challenge(BaseChallenge):
     @staticmethod
     def one(instr: str) -> int:
-        g = parse(instr)
+        g = parse(instr, False)
         return get_shortest_path_len(g)
 
     @staticmethod
     def two(instr: str) -> Any:
-        raise NotImplementedError
+        g = parse(instr, True)
+        return get_shortest_path_len(g)
