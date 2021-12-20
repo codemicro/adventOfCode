@@ -1,0 +1,15 @@
+{
+  "day": 20,
+  "dir": "challenges/2021/20-trenchMap",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.0832568073272705,
+      "part.1.max": 0.11255383491516113,
+      "part.1.min": 0.07309865951538086,
+      "part.2.avg": 4.895450177192688,
+      "part.2.max": 7.253676652908325,
+      "part.2.min": 4.276515483856201
+    }
+  },
+  "numRuns": 50
+}
