@@ -97,3 +97,73 @@ class Challenge(BaseChallenge):
     @staticmethod
     def two(instr: str) -> int:
         return Challenge.core(instr, 50)
+
+    @staticmethod
+    def vis(instr: str, output_dir: str):
+        from PIL import Image
+        import os
+        import subprocess
+        import sys
+        from aocpy.vis import SaveManager
+        import shutil
+        import copy
+        import io
+
+        COLOUR_BACKGROUND = tuple(bytes.fromhex("FFFFFF"))
+        COLOUR_DIM = tuple(bytes.fromhex("05445E"))
+        COLOUR_LIT = tuple(bytes.fromhex("189AB4"))
+
+        print("Generating data", flush=True)
+
+        algorithm, image = parse(instr)
+        images = []
+        for _ in range(50):
+            images.append(copy.copy(image))
+            enhance_n(image, algorithm, 1)
+
+        print("Generating frames", flush=True)
+
+        min_x = min(x for x, _ in image)
+        max_x = max(x for x, _ in image)
+        min_y = min(y for _, y in image)
+        max_y = max(y for _, y in image)
+
+        range_x = max_x - min_x
+        range_y = max_y - min_y
+
+        offset_x = -min_x
+        offset_y = -min_y
+
+        temp_dir = os.path.join(output_dir, "vis-temp")
+        try:
+            os.makedirs(temp_dir)
+        except FileExistsError:
+            pass
+
+        manager = SaveManager(temp_dir)
+
+        for frame in images:
+            img = Image.new("RGB", (range_x + 1, range_y + 1), COLOUR_DIM)
+            for pixel in frame:
+                x, y = pixel
+                img.putpixel((x + offset_x, y + offset_y), COLOUR_LIT)
+            manager.save(img)
+
+        print("Encoding frames", flush=True)
+
+        output_file = f"{output_dir}/out.mp4"
+
+        try:
+            os.remove(output_file)
+        except FileNotFoundError:
+            pass
+
+        subprocess.call(
+            ["ffmpeg", "-framerate", "5", "-i", f"{output_dir}/vis-temp/frame_%04d.png", "-start_number", "0", "-c:v", "libx264", "-vf", "scale=iw*5:ih*5:flags=neighbor", "-r", "30", "-pix_fmt", "yuv420p", output_file],
+            stdout=sys.stdout,
+            stderr=subprocess.STDOUT,
+        )
+
+        print("Tidying up", flush=True)
+
+        shutil.rmtree(temp_dir)
