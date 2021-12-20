@@ -44,7 +44,7 @@ for lang in benchmark_data:
         day = int(key.split(".", 1)[0])
         all_days.add(day)
 
-figure = plt.figure(figsize=(len(all_days), 5))
+figure = plt.figure(figsize=(len(all_days)/2, 5))
 axp1 = figure.add_subplot(1, 2, 1)
 axp2 = figure.add_subplot(1, 2, 2, sharey=axp1)
 
@@ -88,7 +88,7 @@ def do_auxillary_parts(axis):
     plt.ylabel("Running time (seconds)")
     plt.xlabel("Day")
     plt.legend(handles=[patches.Patch(color=COLOURS[label], label=label) for label in COLOURS])
-    plt.ylim([0, MAX_Y_VALUE])
+    # plt.ylim([0, MAX_Y_VALUE])
     # plt.legend(legends)
 
 do_auxillary_parts(axp1)
