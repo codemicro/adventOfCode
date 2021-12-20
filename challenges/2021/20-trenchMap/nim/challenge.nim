@@ -11,7 +11,7 @@ type
     Point = (int, int)
     Image = Table[Point, char]
 
-proc parse(instr: string): (string, Image) = 
+proc parse(instr: string): (string, Image) =
     let
         sp = instr.strip.split("\n\n")
         algo = sp[0]
@@ -49,7 +49,7 @@ proc enhanceN(image: Image, algorithm: string, n: int): Image =
             keysSeq = toSeq(result.keys)
             xVals = map(keysSeq, (proc(p: Point): int = p[0]))
             yVals = map(keysSeq, (proc(p: Point): int = p[1]))
-            
+
             minX = min(xVals)
             maxX = max(xVals)
             minY = min(yVals)
@@ -60,14 +60,15 @@ proc enhanceN(image: Image, algorithm: string, n: int): Image =
         for y in minY - 2 ..< maxY + 2:
             for x in minX - 2 ..< maxX + 2:
                 let p = (x, y)
-                
+
                 var n: int
-                
+
                 for point in getAdjacentPoints(p):
                     let (px, py) = point
                     var isLit: bool
 
-                    if algorithm[0] == LIT and not (minX <= px and px <= maxX and minY <= py and py <= maxY):
+                    if algorithm[0] == LIT and not (minX <= px and px <=
+                            maxX and minY <= py and py <= maxY):
                         isLit = i mod 2 != 0
                     else:
                         isLit = result.getOrDefault(point, UNLIT) == LIT
@@ -85,7 +86,7 @@ proc enhanceN(image: Image, algorithm: string, n: int): Image =
             elif change == LIT:
                 result[point] = LIT
 
-proc core(instr: string, n: int): int = 
+proc core(instr: string, n: int): int =
     let
         parsed = parse(instr)
         algorithm = parsed[0]
