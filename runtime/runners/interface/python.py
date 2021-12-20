@@ -38,6 +38,7 @@ while True:
         res = run()
     except Exception as e:
         err = f"{type(e)}: {e}"
+        # err = f"{type(e)}: {e}\n{''.join(traceback.format_tb(e.__traceback__))}"
     end_time = time.time()
 
     running_time = end_time-start_time
