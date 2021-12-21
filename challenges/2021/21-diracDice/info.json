@@ -1,0 +1,17 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "Player 1 starting position: 4\nPlayer 2 starting position: 8\n",
+                "expected": "739785"
+            }
+        ],
+        "two": [
+            {
+                "input": "Player 1 starting position: 4\nPlayer 2 starting position: 8\n",
+                "expected": "444356092776315"
+            }
+        ]
+    }
+}
