@@ -1,3 +1,4 @@
+import sys
 from dataclasses import dataclass
 from typing import List, Tuple, NamedTuple, Generator
 
@@ -79,14 +80,14 @@ def parse(instr: str) -> List[Shape]:
 def is_point_out_of_bounds(p: Point) -> bool:
     return not (-50 <= p.x <= 50 and -50 <= p.y <= 50 and -50 <= p.z <= 50)
 
-def main():
+def main(part_one_only=False):
     shapes = parse(open("input.txt").read())
 
     current_program = shapes[0].openscad()
     for shape in shapes[1:]:
 
-        # if is_point_out_of_bounds(shape.p1) and is_point_out_of_bounds(shape.p2):
-        #         continue
+        if is_point_out_of_bounds(shape.p1) and is_point_out_of_bounds(shape.p2) and not part_one_only:
+            continue
 
         function = ""
         if shape.mode == MODE_ON:
@@ -99,4 +100,7 @@ def main():
     print(current_program)
 
 if __name__ == "__main__":
-    main()
+    x = False
+    if len(sys.argv) > 1:
+        x = bool(sys.argv[1])
+    main(x)
