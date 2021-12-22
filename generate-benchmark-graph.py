@@ -29,8 +29,16 @@ files = [os.path.join(x, "benchmark.json") for x in directories]
 benchmark_data = {"Python": {}, "Golang": {}, "Nim": {}}  # adding dicts here sets the order of points being plotted
 
 for filename in files:
-    with open(os.path.join(path, filename)) as f:
-        data = json.load(f)
+    fpath = os.path.join(path, filename)
+    try:
+        f = open(fpath)
+    except FileNotFoundError:
+        print(f"Warning: missing file {fpath}")
+        continue
+    
+    data = json.load(f)
+    f.close()
+
     for language in data["implementations"]:
         x = benchmark_data.get(language, {})
         x[str(data["day"]) + ".1"] = data["implementations"][language]["part.1.avg"]
