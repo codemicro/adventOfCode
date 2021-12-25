@@ -6,28 +6,26 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	au "github.com/logrusorgru/aurora"
 	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"text/template"
 )
 
 const (
-	golangInstallation = "go"
-	golangWrapperFilename = "runtime-wrapper.go"
+	golangInstallation              = "go"
+	golangWrapperFilename           = "runtime-wrapper.go"
 	golangWrapperExecutableFilename = "runtime-wrapper"
 )
 
 type golangRunner struct {
-	dir             string
-	cmd             *exec.Cmd
-	wrapperFilepath string
+	dir                string
+	cmd                *exec.Cmd
+	wrapperFilepath    string
 	executableFilepath string
-	stdin           io.WriteCloser
+	stdin              io.WriteCloser
 }
 
 func newGolangRunner(dir string) Runner {
@@ -123,19 +121,8 @@ func (g *golangRunner) Run(task *Task) (*Result, error) {
 	_, _ = g.stdin.Write(append(taskJSON, '\n'))
 
 	res := new(Result)
-	for {
-		inp, err := checkWait(g.cmd)
-		if err != nil {
-			return nil, err
-		}
-
-		err = json.Unmarshal(inp, res)
-		if err != nil {
-			// echo anything that won't parse to stdout (this lets us add debug print statements)
-			fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
-		} else {
-			break
-		}
+	if err := readJSONFromCommand(res, g.cmd); err != nil {
+		return nil, err
 	}
 	return res, nil
 }

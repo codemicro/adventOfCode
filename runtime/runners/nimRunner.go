@@ -6,27 +6,25 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	au "github.com/logrusorgru/aurora"
 	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 )
 
 const (
-	nimInstallation = "nim"
-	nimWrapperFilename = "runtimeWrapper.nim"
+	nimInstallation              = "nim"
+	nimWrapperFilename           = "runtimeWrapper.nim"
 	nimWrapperExecutableFilename = "runtimeWrapper"
 )
 
 type nimRunner struct {
-	dir             string
-	cmd             *exec.Cmd
-	wrapperFilepath string
+	dir                string
+	cmd                *exec.Cmd
+	wrapperFilepath    string
 	executableFilepath string
-	stdin           io.WriteCloser
+	stdin              io.WriteCloser
 }
 
 func newNimRunner(dir string) Runner {
@@ -104,19 +102,8 @@ func (n *nimRunner) Run(task *Task) (*Result, error) {
 	_, _ = n.stdin.Write(append(taskJSON, '\n'))
 
 	res := new(Result)
-	for {
-		inp, err := checkWait(n.cmd)
-		if err != nil {
-			return nil, err
-		}
-
-		err = json.Unmarshal(inp, res)
-		if err != nil {
-			// echo anything that won't parse to stdout (this lets us add debug print statements)
-			fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
-		} else {
-			break
-		}
+	if err := readJSONFromCommand(res, n.cmd); err != nil {
+		return nil, err
 	}
 	return res, nil
 }

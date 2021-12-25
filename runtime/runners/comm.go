@@ -2,12 +2,16 @@ package runners
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"os/exec"
+	"strings"
 	"sync"
 	"time"
+
+	au "github.com/logrusorgru/aurora"
 )
 
 type Task struct {
@@ -80,7 +84,7 @@ func checkWait(cmd *exec.Cmd) ([]byte, error) {
 		if err == nil {
 			return e, nil
 		}
-		
+
 		if cmd.ProcessState != nil {
 			// this is only populated after program exit - we have an issue
 			return nil, fmt.Errorf("run failed with exit code %d: %s", cmd.ProcessState.ExitCode(), cmd.Stderr.(*bytes.Buffer).String())
@@ -88,4 +92,24 @@ func checkWait(cmd *exec.Cmd) ([]byte, error) {
 
 		time.Sleep(time.Millisecond * 10)
 	}
+}
+
+func readJSONFromCommand(res interface{}, cmd *exec.Cmd) error {
+
+	for {
+		inp, err := checkWait(cmd)
+		if err != nil {
+			return err
+		}
+
+		err = json.Unmarshal(inp, res)
+		if err != nil {
+			// echo anything that won't parse to stdout (this lets us add debug print statements)
+			fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
+		} else {
+			break
+		}
+	}
+
+	return nil
 }

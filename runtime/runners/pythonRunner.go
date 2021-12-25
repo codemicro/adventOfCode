@@ -3,8 +3,6 @@ package runners
 import (
 	_ "embed"
 	"encoding/json"
-	"fmt"
-	au "github.com/logrusorgru/aurora"
 	"io"
 	"io/ioutil"
 	"os"
@@ -94,19 +92,8 @@ func (p *pythonRunner) Run(task *Task) (*Result, error) {
 	_, _ = p.stdin.Write(append(taskJSON, '\n'))
 
 	res := new(Result)
-	for {
-		inp, err := checkWait(p.cmd)
-		if err != nil {
-			return nil, err
-		}
-
-		err = json.Unmarshal(inp, res)
-		if err != nil {
-			// echo anything that won't parse to stdout (this lets us add debug print statements)
-			fmt.Printf("[%s] %v\n", au.BrightRed("DBG"), strings.TrimSpace(string(inp)))
-		} else {
-			break
-		}
+	if err := readJSONFromCommand(res, p.cmd); err != nil {
+		return nil, err
 	}
 	return res, nil
 }
