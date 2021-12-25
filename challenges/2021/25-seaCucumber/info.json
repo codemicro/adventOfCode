@@ -1,0 +1,15 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "v...>>.vv>\n.vv>>.vv..\n>>.>v>...v\n>>v>>.>.v.\nv>v.vv.v..\n>.>>..v...\n.vv..>.>v.\nv.v..>>v.v\n....v..v.>",
+                "expected": "58"
+            }
+        ],
+        "two": []
+    },
+    "incorrect": {
+        "one": ["406", "312"]
+    }
+}

@@ -34,6 +34,10 @@ Solutions to the [2021 Advent of Code](https://adventofcode.com/2021).
 | 20 - Trench Map \*                  | ★ ★                | [Python](20-trenchMap/py), [Nim](20-trenchMap/nim)                                                      | Took a moment to realise that the infinite grid alternates between lit and unlit, and even then I had to look at someone else's solution to realise it. |
 | 21 - Dirac Dice                     | ★ ☆                | [Python](21-diracDice/py)                                                                               | Couldn't be bothered with part two - I've got too much going on at the moment to spend a lot of time thinking about it.                                 |
 | 22 - Reactor Reboot                 | ★ ★                | [Python, OpenSCAD and Blender](22-reactorReboot/)                                                       | I did not expect to end up using 3D CAD software to complete AoC...                                                                                     |
+| 23 - Amphipod                       | Unattempted        |                                                                                                         |                                                                                                                                                         |
+| 24 - Arithmetic Logic Unit          | Unattempted        |                                                                                                         |                                                                                                                                                         |
+| 25 - Sea Cucumber                   | ★ ☆                | [Python](25-seaCucumber/py)                                                                             | Missing some stars :(                                                                                                                                   |
+
 
 <!-- PARSE END -->
 
