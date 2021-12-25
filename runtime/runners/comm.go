@@ -28,13 +28,6 @@ type Result struct {
 	Duration float64 `json:"duration"`
 }
 
-func makeErrorChan(err error) chan ResultOrError {
-	c := make(chan ResultOrError, 1)
-	c <- ResultOrError{Error: err}
-	close(c)
-	return c
-}
-
 type customWriter struct {
 	pending []byte
 	entries [][]byte
