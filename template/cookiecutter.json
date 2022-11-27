@@ -1,0 +1,12 @@
+{
+    "_extensions": ["local_extensions.camel_case"],
+
+    "year": 2022,
+    "dayNumber": 1,
+    "challengeTitle": null,
+    
+    "__formattedTitle": "{{ cookiecutter.challengeTitle | title }}",
+    "__camelTitle": "{{ cookiecutter.challengeTitle | camel_case }}",
+    "__formattedDayNumber": "{{ '%02d' | format(cookiecutter.dayNumber|int) }}"
+}
+
