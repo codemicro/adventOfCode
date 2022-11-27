@@ -1,8 +1,8 @@
 {
-    "_extensions": ["local_extensions.camel_case"],
+    "_extensions": ["local_extensions.camel_case", "local_extensions.current_year", "local_extensions.current_day"],
 
-    "year": 2022,
-    "dayNumber": 1,
+    "year": "{{ 0 | current_year }}",
+    "dayNumber": "{{ 0 | current_day }}",
     "challengeTitle": null,
     
     "__formattedTitle": "{{ cookiecutter.challengeTitle | title }}",

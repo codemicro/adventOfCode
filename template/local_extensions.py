@@ -1,3 +1,4 @@
+import datetime
 from cookiecutter.utils import simple_filter
 
 
@@ -12,3 +13,13 @@ def camel_case(v):
         res[i] = f(res[i][0]) + res[i][1:]
 
     return "".join(res)
+
+
+@simple_filter
+def current_year(_):
+    return datetime.datetime.now().year
+
+
+@simple_filter
+def current_day(_):
+    return datetime.datetime.now().day
