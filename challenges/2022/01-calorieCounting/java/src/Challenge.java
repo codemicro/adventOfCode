@@ -25,6 +25,8 @@ public class Challenge {
                 acc += Integer.parseInt(thisLine);
             }
         }
+
+        reader.close();
     }
 
     public int partOne() {
