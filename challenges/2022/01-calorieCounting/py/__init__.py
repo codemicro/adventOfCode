@@ -8,13 +8,13 @@ def parse(instr: str) -> List[List[int]]:
 
 class Challenge(BaseChallenge):
     @staticmethod
-    def one(instr: str) -> Any:
+    def one(instr: str) -> int:
         parsed = parse(instr)
         x = [sum(y) for y in parsed]
         return max(x)
 
     @staticmethod
-    def two(instr: str) -> Any:
+    def two(instr: str) -> int:
         parsed = parse(instr)
         x = [sum(y) for y in parsed]
         x = list(sorted(x, reverse=True))
