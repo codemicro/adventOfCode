@@ -21,10 +21,9 @@ SCORES = {
     DRAW: 3,
 }
 
+MAGIC_BEANS = [SCISSORS, ROCK, PAPER, SCISSORS, ROCK]
 
-magic_beans = [SCISSORS, ROCK, PAPER, SCISSORS, ROCK]
-
-outcome_offsets = {
+OUTCOME_OFFSETS = {
     WIN: 1,
     LOSE: -1,
     DRAW: 0,
@@ -51,10 +50,10 @@ class Challenge(BaseChallenge):
             if m[0] == m[1]:
                 score += SCORES[DRAW]
             else:
-                opponent = magic_beans.index(m[1], 1)
-                ours = magic_beans.index(m[0], opponent-1, opponent+2)
-                
-                if opponent - ours == outcome_offsets[WIN]:
+                opponent = MAGIC_BEANS.index(m[1], 1)
+                ours = MAGIC_BEANS.index(m[0], opponent - 1, opponent + 2)
+
+                if opponent - ours == OUTCOME_OFFSETS[WIN]:
                     score += SCORES[WIN]
 
         return score
@@ -66,7 +65,7 @@ class Challenge(BaseChallenge):
         score = 0
         for m in inp:
             score += SCORES[m[1]]
-            our_move = magic_beans[magic_beans.index(m[0], 1) + outcome_offsets[m[1]]]
+            our_move = MAGIC_BEANS[MAGIC_BEANS.index(m[0], 1) + OUTCOME_OFFSETS[m[1]]]
             score += SCORES[our_move]
 
         return score
