@@ -1,0 +1,15 @@
+{
+  "day": 2,
+  "dir": "challenges/2022/02-rockPaperScissors",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.005764134883880615,
+      "part.1.max": 0.013495206832885742,
+      "part.1.min": 0.0013463497161865234,
+      "part.2.avg": 0.0034727907180786134,
+      "part.2.max": 0.008818864822387695,
+      "part.2.min": 0.0007967948913574219
+    }
+  },
+  "numRuns": 1000
+}
