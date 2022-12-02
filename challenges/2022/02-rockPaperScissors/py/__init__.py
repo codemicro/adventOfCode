@@ -22,6 +22,15 @@ SCORES = {
 }
 
 
+magic_beans = [SCISSORS, ROCK, PAPER, SCISSORS, ROCK]
+
+outcome_offsets = {
+    WIN: 1,
+    LOSE: -1,
+    DRAW: 0,
+}
+
+
 def parse(instr: str) -> List[Match]:
     return [x.split(" ") for x in instr.strip().splitlines()]
 
@@ -41,26 +50,18 @@ class Challenge(BaseChallenge):
 
             if m[0] == m[1]:
                 score += SCORES[DRAW]
-            elif (
-                (m[1] == ROCK and m[0] == SCISSORS)
-                or (m[1] == PAPER and m[0] == ROCK)
-                or (m[1] == SCISSORS and m[0] == PAPER)
-            ):
-                score += SCORES[WIN]
+            else:
+                opponent = magic_beans.index(m[1], 1)
+                ours = magic_beans.index(m[0], opponent-1, opponent+2)
+                
+                if opponent - ours == outcome_offsets[WIN]:
+                    score += SCORES[WIN]
 
         return score
 
     @staticmethod
     def two(instr: str) -> int:
         inp = parse(instr)
-
-        magic_beans = [SCISSORS, ROCK, PAPER, SCISSORS, ROCK]
-
-        outcome_offsets = {
-            WIN: 1,
-            LOSE: -1,
-            DRAW: 0,
-        }
 
         score = 0
         for m in inp:
