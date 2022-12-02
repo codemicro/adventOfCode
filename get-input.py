@@ -22,7 +22,7 @@ args = parser.parse_args()
 with open(args.config_file) as f:
     config_data = json.load(f)
 
-r = requests.get(f"https://adventofcode.com/{args.year}/day/{args.day}/input", cookies={"session": config_data["session"]})
+r = requests.get(f"https://adventofcode.com/{args.year}/day/{args.day}/input", cookies={"session": config_data["session"]}, headers={"User-Agent": config_data["userAgent"]})
 
 sys.stdout.write(r.text + "\n")
 
