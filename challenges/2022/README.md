@@ -12,6 +12,7 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | ----------------------------------- | ------------------ | ---------- | ------ |
 | 01 - Calorie Counting               | ★ ★                | [Python](01-calorieCounting/py), [Nim](01-calorieCounting/nim), [Java](01-calorieCounting/java/src) | Summing numbers |
 | 02 - Rock Paper Scissors            | ★ ★                | [Python](02-rockPaperScissors/py) | Programmatically playing Rock Paper Scissors |
+| 03 - Rucksack Reorganization        | ★ ★                | [Python](03-rucksackReorganization/py) | Sets and intersections |
 
 <!-- PARSE END -->
 

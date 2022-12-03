@@ -1,0 +1,15 @@
+{
+  "day": 3,
+  "dir": "challenges/2022/03-rucksackReorganization",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.0015598664283752442,
+      "part.1.max": 0.0057833194732666016,
+      "part.1.min": 0.00038242340087890625,
+      "part.2.avg": 0.0011923382282257081,
+      "part.2.max": 0.003597736358642578,
+      "part.2.min": 0.00029277801513671875
+    }
+  },
+  "numRuns": 1000
+}
