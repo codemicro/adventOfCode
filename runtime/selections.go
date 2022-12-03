@@ -55,7 +55,6 @@ func selectYear(dir string) (string, error) {
 	if args.Year != "" {
 		for _, x := range opts {
             if x == args.Year {
-                fmt.Printf("Selecting year %s\n", args.Year)
 				return filepath.Join(dir, x), nil
             }
         }
@@ -66,7 +65,6 @@ func selectYear(dir string) (string, error) {
 
 	if x := len(opts); x == 1 {
 		selectedYearIndex = 0
-		fmt.Printf("Automatically selecting year %s\n", opts[selectedYearIndex])
 	} else {
 		selectedYearIndex, err = userSelect("Which year do you want to use?", opts)
 		if err != nil {
@@ -91,7 +89,6 @@ func selectChallenge(dir string) (*challenge.Challenge, error) {
 	if args.ChallengeDay != nil {
 		for _, ch := range challenges {
 			if ch.Number == *args.ChallengeDay {
-				fmt.Printf("Selecting day %d (%s)\n", ch.Number, ch.Name)
 				return ch, nil
 			}
 		}
@@ -102,8 +99,6 @@ func selectChallenge(dir string) (*challenge.Challenge, error) {
 
 	if x := len(challenges); x == 1 {
 		selectedChallengeIndex = 0
-		c := challenges[0]
-		fmt.Printf("Automatically selecting day %d (%s)\n", c.Number, c.Name)
 	} else {
 		var opts []string
 		for _, c := range challenges {
@@ -133,7 +128,6 @@ func selectImplementation(ch *challenge.Challenge) (string, error) {
 	if args.Implementation != "" {
 		for _, im := range implementations {
 			if strings.EqualFold(im, args.Implementation) {
-				fmt.Printf("Selecting %s implementation\n", runners.RunnerNames[im])
 				return im, nil
 			}
 		}
@@ -144,7 +138,6 @@ func selectImplementation(ch *challenge.Challenge) (string, error) {
 
 	if x := len(implementations); x == 1 {
 		selectedImplementationIndex = 0
-		fmt.Printf("Automatically selecting %s implementation\n", runners.RunnerNames[implementations[0]])
 	} else {
 		var opts []string
 		for _, i := range implementations {

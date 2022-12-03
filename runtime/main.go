@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/codemicro/adventOfCode/runtime/benchmark"
-	au "github.com/logrusorgru/aurora"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
+
+	"github.com/codemicro/adventOfCode/runtime/benchmark"
+	au "github.com/logrusorgru/aurora"
 
 	"github.com/alexflint/go-arg"
 	"github.com/codemicro/adventOfCode/runtime/challenge"
@@ -66,6 +68,18 @@ func run() error {
 		return err
 	}
 
+	fmt.Print(
+		au.Bold(
+			fmt.Sprintf(
+				"%s-%d %s (%s)\n\n",
+				strings.TrimPrefix(selectedYear, "challenges/"),
+				selectedChallenge.Number,
+				selectedChallenge.Name,
+				runners.RunnerNames[selectedImplementation],
+			),
+		),
+	)
+
 	runner := runners.Available[selectedImplementation](selectedChallenge.Dir)
 	if err := runner.Start(); err != nil {
 		return err
@@ -74,7 +88,6 @@ func run() error {
 		_ = runner.Stop()
 		_ = runner.Cleanup()
 	}()
-
 
 	if args.Visualise {
 		id := "vis"
@@ -108,15 +121,16 @@ func run() error {
 
 	} else {
 
-	if err := runTests(runner, challengeInfo); err != nil {
-		return err
-	}
-
-	if !args.TestOnly {
-		if err := runMainTasks(runner, challengeInputString); err != nil {
+		if err := runTests(runner, challengeInfo); err != nil {
 			return err
 		}
-	}}
+
+		if !args.TestOnly {
+			if err := runMainTasks(runner, challengeInputString); err != nil {
+				return err
+			}
+		}
+	}
 
 	return nil
 }
