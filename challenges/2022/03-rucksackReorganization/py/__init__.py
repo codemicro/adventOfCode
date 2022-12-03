@@ -13,8 +13,8 @@ def get_priority(char: str) -> int:
         return (co - ord("a")) + 1
     return (co - ord("A")) + 27
 
-class Challenge(BaseChallenge):
 
+class Challenge(BaseChallenge):
     @staticmethod
     def one(instr: str) -> int:
         inp = parse(instr)
@@ -22,7 +22,7 @@ class Challenge(BaseChallenge):
         sigma = 0
         for x in inp:
             assert len(x) % 2 == 0
-            l = len(x)//2
+            l = len(x) // 2
             y = set(x[:l]).intersection(x[l:])
             sigma += get_priority(y.pop())
 
@@ -36,9 +36,9 @@ class Challenge(BaseChallenge):
         sigma = 0
         for i in range(0, len(inp), 3):
             y = set(inp[i])
-            y.intersection_update(inp[i+1])
-            y.intersection_update(inp[i+2])
-            
+            y.intersection_update(inp[i + 1])
+            y.intersection_update(inp[i + 2])
+
             sigma += get_priority(y.pop())
 
         return sigma
