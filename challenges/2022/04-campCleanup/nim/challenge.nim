@@ -1,6 +1,5 @@
 import std/strutils
 import std/sequtils
-import std/enumerate
 import std/re
 import std/sets
 
