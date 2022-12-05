@@ -14,6 +14,7 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | 02 - Rock Paper Scissors            | ★ ★                | [Python](02-rockPaperScissors/py), [Nim](02-rockPaperScissors/nim) | Programmatically playing Rock Paper Scissors |
 | 03 - Rucksack Reorganization        | ★ ★                | [Python](03-rucksackReorganization/py), [Nim](03-rucksackReorganization/nim) | Sets and intersections |
 | 04 - Camp Cleanup                   | ★ ★                | [Python](04-campCleanup/py), [Nim](04-campCleanup/nim) | More sets and more intersections! |
+| 05 - Supply Stacks                  | ★ ★                | [Python](05-supplyStacks/py) | Believe it or not, this one involved stacks. |
 
 <!-- PARSE END -->
 

@@ -1,0 +1,15 @@
+{
+  "day": 5,
+  "dir": "challenges/2022/05-supplyStacks",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.0073598167896270755,
+      "part.1.max": 0.03172612190246582,
+      "part.1.min": 0.005206584930419922,
+      "part.2.avg": 0.00753035569190979,
+      "part.2.max": 0.04000711441040039,
+      "part.2.min": 0.005285978317260742
+    }
+  },
+  "numRuns": 1000
+}
