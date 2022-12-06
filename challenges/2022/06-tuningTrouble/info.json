@@ -1,0 +1,19 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {"input": "mjqjpqmgbljsphdztnvjfqwrcgsmlb", "expected": "7"},
+            {"input": "bvwbjplbgvbhsrlpgdmjqwftvncz", "expected": "5"},
+            {"input": "nppdvjthqldpwncqszvftbrmjlhg", "expected": "6"},
+            {"input": "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", "expected": "10"},
+            {"input": "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", "expected": "11"}
+        ],
+        "two": [
+            {"input": "mjqjpqmgbljsphdztnvjfqwrcgsmlb", "expected": "19"},
+            {"input": "bvwbjplbgvbhsrlpgdmjqwftvncz", "expected": "23"},
+            {"input": "nppdvjthqldpwncqszvftbrmjlhg", "expected": "23"},
+            {"input": "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", "expected": "29"},
+            {"input": "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", "expected": "26"}
+        ]
+    }
+}
