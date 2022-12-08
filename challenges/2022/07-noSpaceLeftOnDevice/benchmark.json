@@ -1,0 +1,15 @@
+{
+  "day": 7,
+  "dir": "challenges/2022/07-noSpaceLeftOnDevice",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.007820404291152954,
+      "part.1.max": 0.027557849884033203,
+      "part.1.min": 0.00545811653137207,
+      "part.2.avg": 0.00781301736831665,
+      "part.2.max": 0.030576467514038086,
+      "part.2.min": 0.005479097366333008
+    }
+  },
+  "numRuns": 1000
+}

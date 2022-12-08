@@ -16,7 +16,7 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | 04 - Camp Cleanup                   | ★ ★                | [Python](04-campCleanup/py), [Nim](04-campCleanup/nim) | More sets and more intersections! |
 | 05 - Supply Stacks                  | ★ ★                | [Python](05-supplyStacks/py), [Nim](05-supplyStacks/nim) | Believe it or not, this one involved stacks. |
 | 06 - Tuning Trouble                 | ★ ★                | [Python](06-tuningTrouble/py), [Nim](06-tuningTrouble/nim) | This is the first year I've not repeatedly forgotten about the existence of sets, and it's coming in quite handy. |
-| 07 - No Space Left On Device        | ☆ ☆                | | Fake file systems are much more difficult to implement than one might expect. |
+| 07 - No Space Left On Device        | ★ ★                | [Python](07-noSpaceLeftOnDevice/py) | Turns out that fake file systems are prone to very subtle and infuriating bugs. |
 | 08 - Treetop Tree House             | ★ ★                | [Python](08-treetopTreeHouse/py) | Magical coordinate dictionary tuple things do be magical. |
 
 <!-- PARSE END -->
