@@ -1,0 +1,15 @@
+{
+  "day": 8,
+  "dir": "challenges/2022/08-treetopTreeHouse",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.033502077102661135,
+      "part.1.max": 0.06080937385559082,
+      "part.1.min": 0.023911237716674805,
+      "part.2.avg": 0.04170952320098877,
+      "part.2.max": 0.0762169361114502,
+      "part.2.min": 0.02996683120727539
+    }
+  },
+  "numRuns": 500
+}
