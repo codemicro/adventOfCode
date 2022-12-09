@@ -22,5 +22,5 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | 06 - Tuning Trouble                 | ★ ★                | [Python](06-tuningTrouble/py), [Nim](06-tuningTrouble/nim) | This is the first year I've not repeatedly forgotten about the existence of sets, and it's coming in quite handy. |
 | 07 - No Space Left On Device        | ★ ★                | [Python](07-noSpaceLeftOnDevice/py) | Turns out that fake file systems are prone to very subtle and infuriating bugs. |
 | 08 - Treetop Tree House             | ★ ★                | [Python](08-treetopTreeHouse/py) | Magical coordinate dictionary tuple things do be magical. |
-| 09 - Rope Bridge                    | ★ ★                | [Python](09-ropeBridge/py) | Does this count as this year's first cellular automata? |
+| 09 - Rope Bridge                    | ★ ★                | [Python](09-ropeBridge/py), [Nim](09-ropeBridge/nim) | Does this count as this year's first cellular automata? |
 

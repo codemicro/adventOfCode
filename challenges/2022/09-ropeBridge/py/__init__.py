@@ -21,10 +21,6 @@ def parse(instr: str) -> List[Instruction]:
     return [(x[0], int(x[2:])) for x in instr.strip().splitlines()]
 
 
-def apply_delta(coord: Vector, delta: Vector) -> Vector:
-    return (coord[0] + delta[0], coord[1] + delta[1])
-
-
 def vector_sum(a: Vector, b: Vector) -> Vector:
     return (a[0] + b[0], a[1] + b[1])
 
@@ -76,14 +72,14 @@ def run_with_length(instructions: List[Instruction], length: int) -> int:
 
     for (direction, magnitude) in instructions:
         for _ in range(magnitude):
-            positions[0] = apply_delta(positions[0], OFFSETS[direction])
+            positions[0] = vector_sum(positions[0], OFFSETS[direction])
 
             for pos_num in range(1, len(positions)):
                 delta = get_next_move_delta(positions[pos_num], positions[pos_num - 1])
                 if delta is None:
                     break
 
-                positions[pos_num] = apply_delta(positions[pos_num], delta)
+                positions[pos_num] = vector_sum(positions[pos_num], delta)
 
             if delta is None:
                 # Python scope nastiness coming in useful for once
