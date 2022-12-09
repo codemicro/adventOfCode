@@ -66,7 +66,7 @@ def get_next_move_delta(
 
 
 def run_with_length(instructions: List[Instruction], length: int) -> int:
-    tail_visited: List[Vector] = [(0, 0)]
+    tail_visited: Dict[Vector, None] = {(0, 0): None}
 
     positions: List[Vector] = [(0, 0) for _ in range(length)]
 
@@ -86,7 +86,7 @@ def run_with_length(instructions: List[Instruction], length: int) -> int:
                 continue
 
             if positions[-1] not in tail_visited:
-                tail_visited.append(positions[-1])
+                tail_visited[positions[-1]] = None
 
     return len(tail_visited)
 

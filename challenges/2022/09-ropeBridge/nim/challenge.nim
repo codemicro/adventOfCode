@@ -1,4 +1,3 @@
-import std/sequtils
 import std/strutils
 import std/tables
 
@@ -65,7 +64,7 @@ proc getNextMoveDelta(currentPosition, preceedingPosition: Vector): Vector =
 proc runWithLength(instructions: seq[Instruction], ropeLength: int): int =
     var 
         positions: seq[Vector] = newSeq[Vector](ropeLength)
-        tailVisited: seq[Vector] = [(0, 0)].toSeq()
+        tailVisited: Table[Vector, int] = {(0, 0): 0}.toTable()
 
     for (direction, magnitude) in instructions:
         for _ in countup(0, magnitude - 1):
@@ -84,7 +83,7 @@ proc runWithLength(instructions: seq[Instruction], ropeLength: int): int =
 
             let last = positions[positions.len-1]
             if not tailVisited.contains(last):
-                tailVisited.add(last)
+                tailVisited[last] = 0
 
     return len(tailVisited)
 
