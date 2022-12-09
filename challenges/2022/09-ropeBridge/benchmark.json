@@ -1,0 +1,15 @@
+{
+  "day": 9,
+  "dir": "challenges/2022/09-ropeBridge",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.40573710823059084,
+      "part.1.max": 0.5149297714233398,
+      "part.1.min": 0.3336000442504883,
+      "part.2.avg": 0.08495945644378662,
+      "part.2.max": 0.13427042961120605,
+      "part.2.min": 0.0677499771118164
+    }
+  },
+  "numRuns": 250
+}
