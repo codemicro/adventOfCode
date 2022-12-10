@@ -23,4 +23,5 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | 07 - No Space Left On Device        | ★ ★                | [Python](07-noSpaceLeftOnDevice/py) | Turns out that fake file systems are prone to very subtle and infuriating bugs. |
 | 08 - Treetop Tree House             | ★ ★                | [Python](08-treetopTreeHouse/py) | Magical coordinate dictionary tuple things do be magical. |
 | 09 - Rope Bridge                    | ★ ★                | [Python](09-ropeBridge/py), [Nim](09-ropeBridge/nim) | Does this count as this year's first cellular automata? |
+| 10 - Cathode-Ray Tube               | ★ ★                | [Python](10-cathodeRayTube/py) | A nasty problem with a nasty solution and nasty outputs that mess with my framework. |
 
