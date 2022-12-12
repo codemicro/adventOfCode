@@ -1,0 +1,15 @@
+{
+  "day": 11,
+  "dir": "challenges/2022/11-monkeyInTheMiddle",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.0008889389038085938,
+      "part.1.max": 0.002737283706665039,
+      "part.1.min": 0.0006763935089111328,
+      "part.2.avg": 0.46039318370819093,
+      "part.2.max": 0.6005921363830566,
+      "part.2.min": 0.3884415626525879
+    }
+  },
+  "numRuns": 250
+}
