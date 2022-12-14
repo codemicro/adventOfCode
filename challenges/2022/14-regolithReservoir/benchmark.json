@@ -1,0 +1,15 @@
+{
+  "day": 14,
+  "dir": "challenges/2022/14-regolithReservoir",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.052977256774902344,
+      "part.1.max": 0.059580087661743164,
+      "part.1.min": 0.04468560218811035,
+      "part.2.avg": 3.079384412765503,
+      "part.2.max": 3.293449640274048,
+      "part.2.min": 2.7332167625427246
+    }
+  },
+  "numRuns": 25
+}

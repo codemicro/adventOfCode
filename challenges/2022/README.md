@@ -24,4 +24,8 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | 08 - Treetop Tree House             | ★ ★                | [Python](08-treetopTreeHouse/py) | Magical coordinate dictionary tuple things do be magical. |
 | 09 - Rope Bridge                    | ★ ★                | [Python](09-ropeBridge/py), [Nim](09-ropeBridge/nim) | Does this count as this year's first cellular automata? |
 | 10 - Cathode-Ray Tube               | ★ ★                | [Python](10-cathodeRayTube/py) | A nasty problem with a nasty solution and nasty outputs that mess with my framework. |
+| 11 - Monkey in the Middle           | ★ ★                | [Python](11-monkeyInTheMiddle/py) | Return of Advent of Maths! |
+| 12 - Hill Climbing Algorithm        | ☆ ☆                |  |  |
+| 13 - Distress Signal                | ☆ ☆                |  |  |
+| 14 - Regolith Reservoir             | ★ ★                | [Python](14-regolithReservoir/py) | Simulating falling sand |
 
