@@ -1,0 +1,15 @@
+{
+  "day": 15,
+  "dir": "challenges/2022/15-beaconExclusionZone",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 2.488755464553833,
+      "part.1.max": 2.488755464553833,
+      "part.1.min": 2.488755464553833,
+      "part.2.avg": 295.4520,
+      "part.2.max": 295.4520,
+      "part.2.min": 295.4520
+    }
+  },
+  "numRuns": 1
+}

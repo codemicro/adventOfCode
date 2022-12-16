@@ -35,14 +35,14 @@ def parse(instr: str) -> Tuple[Scan, Vector, Vector]:
                 f = lambda x, y: x + y
                 if dy < 0:
                     f = lambda x, y: x - y
-                
+
                 for j in range(abs(dy) + 1):
                     res[(points[i][0], f(points[i][1], j))] = State.WALL
             else:
                 f = lambda x, y: x + y
                 if dx < 0:
                     f = lambda x, y: x - y
-                
+
                 for j in range(abs(dx) + 1):
                     res[(f(points[i][0], j), points[i][1])] = State.WALL
 
@@ -51,16 +51,11 @@ def parse(instr: str) -> Tuple[Scan, Vector, Vector]:
     max_x = max(keys, key=lambda x: x[0])[0]
     min_y = min(keys, key=lambda x: x[1])[1]
     max_y = max(keys, key=lambda x: x[1])[1]
-    
+
     return res, (min_x, min_y), (max_x, max_y)
 
 
-def is_out_of_bounds(v: Vector, min_v: Vector, max_v: Vector) -> bool:
-    return not ((min_v[0] <= v[0] <= max_v[0]) and (0 <= v[1] <= max_v[1]))
-
-
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         inp, min_pos, max_pos = parse(instr)
@@ -68,7 +63,9 @@ class Challenge(BaseChallenge):
         cursor = (500, 0)
         grains = 0
 
-        while not is_out_of_bounds(cursor, min_pos, max_pos):
+        while (min_pos[0] <= cursor[0] <= max_pos[0]) and (
+            0 <= cursor[1] <= max_pos[1]
+        ):
             x, y = cursor
 
             if inp.get((x, y + 1)) is None:
@@ -91,7 +88,7 @@ class Challenge(BaseChallenge):
 
     @staticmethod
     def two(instr: str) -> int:
-        inp, min_pos, max_pos = parse(instr)
+        inp, _, max_pos = parse(instr)
 
         max_pos = (max_pos[0], max_pos[1] + 2)
 
