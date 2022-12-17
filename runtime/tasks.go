@@ -10,8 +10,6 @@ import (
 	au "github.com/logrusorgru/aurora"
 )
 
-type taskLookupTable map[string]func(*runners.Result)
-
 var (
 	passLabel       = au.BrightGreen("pass").String()
 	failLabel       = au.BrightRed("fail").String()
