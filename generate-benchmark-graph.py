@@ -58,6 +58,9 @@ figure = plt.figure(figsize=(25/2, 5))
 axp1 = figure.add_subplot(1, 2, 1)
 axp2 = figure.add_subplot(1, 2, 2, sharey=axp1)
 
+axp1.axhline(y=15, color="#fc8080", linestyle="--")
+axp2.axhline(y=15, color="#fc8080", linestyle="--")
+
 for i, language in enumerate(benchmark_data):
 
     data = benchmark_data[language]

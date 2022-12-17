@@ -121,6 +121,8 @@ func run() error {
 
 	} else {
 
+		fmt.Print("Running...\n\n")
+
 		if err := runTests(runner, challengeInfo); err != nil {
 			return err
 		}

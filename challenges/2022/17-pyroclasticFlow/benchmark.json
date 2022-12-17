@@ -1,0 +1,15 @@
+{
+  "day": 17,
+  "dir": "challenges/2022/17-pyroclasticFlow",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.5983425378799438,
+      "part.1.max": 0.6658821105957031,
+      "part.1.min": 0.5308029651641846,
+      "part.2.avg": 12.261357307434082,
+      "part.2.max": 12.877821207046509,
+      "part.2.min": 11.644893407821655
+    }
+  },
+  "numRuns": 2
+}

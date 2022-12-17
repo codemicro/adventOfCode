@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any, TypeVar, Callable, Iterable
+from collections.abc import Sequence
 
 
 class BaseChallenge:
@@ -34,9 +35,16 @@ class Vector:
     x: int
     y: int
 
-    def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
+    def __init__(self, *args):
+        if len(args) == 1 and Vector._is_vector_tuple(args[0]):
+            x, y = args[0]
+        elif len(args) != 2:
+            return ValueError("expected integer tuple or pair of integers")
+        else:
+            x, y = args
+        
+        self.x = int(x)
+        self.y = int(y)
 
     @staticmethod
     def _is_vector_tuple(o: Any) -> bool:
@@ -74,4 +82,30 @@ class Vector:
         return f"({self.x}, {self.y})"
 
     def __hash__(self):
-        return hash(f"{self.x},{self.y}")
+        return hash((self.x, self.y))
+
+class Consumer:
+    x: Sequence[T]
+    i: int
+
+    def __init__(self, x: Sequence[T]):
+        self.x = x
+        self.i = 0
+    
+    def take(self) -> T:
+        self.i += 1
+        return self.x[self.i-1]
+
+    def undo(self):
+        self.i -= 1
+
+class RepeatingConsumer(Consumer):
+    def take(self) -> T:
+        val = super().take()
+        self.i = self.i % len(self.x)
+        return val
+
+    def undo(self):
+        super().undo()
+        if self.i < 0:
+            self.i += len(self.x)
