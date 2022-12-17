@@ -1,0 +1,15 @@
+{
+  "day": 16,
+  "dir": "challenges/2022/16-proboscideaVolcanium",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 3.520505666732788,
+      "part.1.max": 3.520505666732788,
+      "part.1.min": 3.520505666732788,
+      "part.2.avg": 18.672574281692505,
+      "part.2.max": 18.672574281692505,
+      "part.2.min": 18.672574281692505
+    }
+  },
+  "numRuns": 1
+}

@@ -29,3 +29,4 @@ Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 | 13 - Distress Signal                | ☆ ☆                |  |  |
 | 14 - Regolith Reservoir             | ★ ★                | [Python](14-regolithReservoir/py) | Simulating falling sand |
 | 15 - Beacon Exclusion Zone          | ★ ★                | [Python](15-beaconExclusionZone/py) | Searching through a 4000000^2 size grid for a literal single empty spot |
+| 16 - Proboscidea Volcanium          | ★ ★                | [Python](16-proboscideaVolcanium/py) | Nasty combinatorics |
