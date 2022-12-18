@@ -1,0 +1,17 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "Sabqponm\nabcryxxl\naccszExk\nacctuvwj\nabdefghi\n",
+                "expected": "31"
+            }
+        ],
+        "two": [
+            {
+                "input": "Sabqponm\nabcryxxl\naccszExk\nacctuvwj\nabdefghi\n",
+                "expected": "29"
+            }
+        ]
+    }
+}

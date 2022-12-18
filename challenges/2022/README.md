@@ -27,7 +27,7 @@ The red dotted line denotes 15 seconds.
 | 09 - Rope Bridge                    | ★ ★                | [Python](09-ropeBridge/py/__init__.py), [Nim](09-ropeBridge/nim/challenge.nim) | Does this count as this year's first cellular automata? |
 | 10 - Cathode-Ray Tube               | ★ ★                | [Python](10-cathodeRayTube/py/__init__.py) | A nasty problem with a nasty solution and nasty outputs that mess with my framework. |
 | 11 - Monkey in the Middle           | ★ ★                | [Python](11-monkeyInTheMiddle/py/__init__.py) | Return of Advent of Maths! |
-| 12 - Hill Climbing Algorithm        | ☆ ☆                |  |  |
+| 12 - Hill Climbing Algorithm        | ★ ★                | [Python](12-hillClimbingAlgorithm/py/__init__.py) | Iiiiiiiiiiiiiiiit's Djikstra's! |
 | 13 - Distress Signal                | ☆ ☆                |  |  |
 | 14 - Regolith Reservoir             | ★ ★                | [Python](14-regolithReservoir/py/__init__.py) | Simulating falling sand |
 | 15 - Beacon Exclusion Zone          | ★ ★                | [Python](15-beaconExclusionZone/py/__init__.py) | Searching through a 4000000^2 size grid for a literal single empty spot |

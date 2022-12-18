@@ -1,0 +1,15 @@
+{
+  "day": 12,
+  "dir": "challenges/2022/12-hillClimbingAlgorithm",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 2.804302930831909,
+      "part.1.max": 2.804302930831909,
+      "part.1.min": 2.804302930831909,
+      "part.2.avg": 191.0712034702301,
+      "part.2.max": 191.0712034702301,
+      "part.2.min": 191.0712034702301
+    }
+  },
+  "numRuns": 1
+}
