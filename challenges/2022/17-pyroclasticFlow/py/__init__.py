@@ -118,57 +118,6 @@ def add_rock(rock: Rock, position: Vector, tube: Tube):
         tube[Vector(position.x + p.x, position.y + p.y)] = None
 
 
-def get_row_bitmap(tube: Tube, y: int) -> int:
-    n = 0
-    for i in range(TUBE_WIDTH):
-        n = n << 1
-        n += 1 if (i, y) in tube else 0
-    return n
-
-
-def check_for_sequences(tube: Tube) -> Optional[Tuple[int, int]]:
-    rows = get_num_rows(tube)
-
-    segment_size = rows // 2
-
-    if segment_size % 100 == 0:
-        print(f"starting segment size {segment_size}", flush=True)
-
-    while segment_size > 30:
-        possible_positions = (rows - (segment_size * 2)) + 1
-
-        for i in range(possible_positions):
-            continuous = True
-            for n in range(segment_size):
-
-                for x in range(TUBE_WIDTH):
-                    if (x, i + n) in tube != (x, i + n + segment_size) in tube:
-                        continuous = False
-                        break
-
-                if not continuous:
-                    break
-
-            if continuous:
-                return segment_size, i
-
-        segment_size -= 1
-
-    return None
-
-
-def count_rocks_to_height(
-    tube: Tube, rocks: RepeatingConsumer, instructions: RepeatingConsumer, height: int
-) -> int:
-    n = 0
-    while get_num_rows(tube) != height:
-        rock = rocks.take()
-        pos = get_rock_position(rock, instructions, tube)
-        add_rock(rock, pos, tube)
-        n += 1
-    return n
-
-
 def get_heights(tube: Tube) -> Tuple[Tuple[int], int]:
     max_height = get_num_rows(tube)
     res = []
