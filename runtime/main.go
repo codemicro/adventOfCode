@@ -26,6 +26,7 @@ var args struct {
 	Benchmark      bool   `arg:"-b,--benchmark" help:"benchmark a day's implementations'"`
 	BenchmarkN     int    `arg:"-n,--benchmark-n" help:"Number of iterations to run for benchmarking" default:"1000"`
 	TestOnly       bool   `arg:"-t,--test-only" help:"Only run test inputs"`
+	NoTest         bool   `arg:"-x,--no-test" help:"Do not run test inputs"`
 	Visualise      bool   `arg:"-g,--visualise" help:"Run visualisation generation"`
 }
 
@@ -123,8 +124,10 @@ func run() error {
 
 		fmt.Print("Running...\n\n")
 
-		if err := runTests(runner, challengeInfo); err != nil {
-			return err
+		if !args.NoTest {
+			if err := runTests(runner, challengeInfo); err != nil {
+				return err
+			}
 		}
 
 		if !args.TestOnly {

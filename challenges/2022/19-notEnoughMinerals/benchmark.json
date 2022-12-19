@@ -1,0 +1,15 @@
+{
+  "day": 19,
+  "dir": "challenges/2022/19-notEnoughMinerals",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 17.7188,
+      "part.1.max": 17.7188,
+      "part.1.min": 17.7188,
+      "part.2.avg": 2903.2192,
+      "part.2.max": 2903.2192,
+      "part.2.min": 2903.2192
+    }
+  },
+  "numRuns": 1
+}
