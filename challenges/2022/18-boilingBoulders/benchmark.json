@@ -1,0 +1,15 @@
+{
+  "day": 18,
+  "dir": "challenges/2022/18-boilingBoulders",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.02251845836639404,
+      "part.1.max": 0.03545045852661133,
+      "part.1.min": 0.018925189971923828,
+      "part.2.avg": 0.12088701725006104,
+      "part.2.max": 0.1763911247253418,
+      "part.2.min": 0.10623359680175781
+    }
+  },
+  "numRuns": 200
+}
