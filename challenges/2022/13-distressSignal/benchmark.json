@@ -1,0 +1,15 @@
+{
+  "day": 13,
+  "dir": "challenges/2022/13-distressSignal",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.002429138422012329,
+      "part.1.max": 0.013918876647949219,
+      "part.1.min": 0.0013120174407958984,
+      "part.2.avg": 0.008559255361557007,
+      "part.2.max": 0.03811001777648926,
+      "part.2.min": 0.004506111145019531
+    }
+  },
+  "numRuns": 1000
+}
