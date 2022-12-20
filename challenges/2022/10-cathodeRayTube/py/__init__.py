@@ -3,6 +3,7 @@ from aocpy import BaseChallenge
 
 Instruction = Tuple[str, Optional[int]]
 
+
 def parse(instr: str) -> List[Instruction]:
     res: List[Instruction] = []
     for line in instr.strip().splitlines():
@@ -66,7 +67,7 @@ class MachineTwo(MachineOne):
             self.output += "█"
         else:
             self.output += " "
-    
+
     def execute(self, ins: Instruction):
         (opcode, operand) = ins
         if opcode == "noop":
@@ -81,7 +82,6 @@ class MachineTwo(MachineOne):
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         inp = parse(instr)
@@ -89,7 +89,7 @@ class Challenge(BaseChallenge):
         machine = MachineOne()
         for ins in inp:
             machine.execute(ins)
-            
+
         return sum(machine.vals)
 
     @staticmethod
@@ -99,5 +99,5 @@ class Challenge(BaseChallenge):
         machine = MachineTwo()
         for ins in inp:
             machine.execute(ins)
-            
+
         return "\n" + machine.output.strip()

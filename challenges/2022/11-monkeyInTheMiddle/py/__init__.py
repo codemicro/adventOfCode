@@ -44,11 +44,13 @@ class Monkey:
 
     inspections: int
 
-    def __init__(self, inp: str):   
+    def __init__(self, inp: str):
         self.inspections = 0
 
         parts = inp.splitlines()[1:]
-        self.items = list(map(int, starting_items_regex.match(parts[0]).group(1).split(", ")))
+        self.items = list(
+            map(int, starting_items_regex.match(parts[0]).group(1).split(", "))
+        )
         self.divisor = int(test_regex.match(parts[2]).group(1))
         self.if_true = int(true_regex.match(parts[3]).group(1))
         self.if_false = int(false_regex.match(parts[4]).group(1))
@@ -80,7 +82,7 @@ def run(inp: List[Monkey], n: int, mod: Callable[[int], int]) -> int:
                 item = monkey.inspect_first()
                 item = mod(item)
                 next_monkey = monkey.calculate_throw(item)
-                
+
                 inp[next_monkey].items.append(item)
 
     a, b = list(sorted(inp, reverse=True, key=lambda x: x.inspections))[:2]
@@ -88,12 +90,11 @@ def run(inp: List[Monkey], n: int, mod: Callable[[int], int]) -> int:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         inp = parse(instr)
         return run(inp, 20, lambda x: x // 3)
-        
+
     @staticmethod
     def two(instr: str) -> int:
         inp = parse(instr)

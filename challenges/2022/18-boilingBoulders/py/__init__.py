@@ -6,9 +6,12 @@ CubeMap = Dict[Coordinate, bool]
 
 
 ADJACENT_LOCATIONS = (
-    (1, 0, 0), (-1, 0, 0),
-    (0, 1, 0), (0, -1, 0),
-    (0, 0, 1), (0, 0, -1),
+    (1, 0, 0),
+    (-1, 0, 0),
+    (0, 1, 0),
+    (0, -1, 0),
+    (0, 0, 1),
+    (0, 0, -1),
 )
 
 
@@ -20,7 +23,7 @@ def parse(instr: str) -> CubeMap:
     res: CubeMap = {}
     for line in instr.strip().splitlines():
         res[tuple(map(int, line.split(",")))] = False
-        
+
     for coord in res:
         is_completely_surrounded = True
         for modifier in ADJACENT_LOCATIONS:
@@ -64,7 +67,6 @@ def is_coord_in_range(c: Coordinate, min_c: Coordinate, max_c: Coordinate) -> bo
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         inp = parse(instr)
@@ -73,7 +75,7 @@ class Challenge(BaseChallenge):
     @staticmethod
     def two(instr: str) -> int:
         inp = parse(instr)
-        
+
         min_x, max_x = min_max(c[0] for c in inp)
         min_y, max_y = min_max(c[1] for c in inp)
         min_z, max_z = min_max(c[2] for c in inp)
@@ -91,9 +93,9 @@ class Challenge(BaseChallenge):
 
             for modifier in ADJACENT_LOCATIONS:
                 combined = sum_coordinates(current, modifier)
-                if (not is_coord_in_range(combined, min_coord, max_coord)):
+                if not is_coord_in_range(combined, min_coord, max_coord):
                     continue
-                
+
                 if combined in inp:
                     touchable_faces += 1
                 else:

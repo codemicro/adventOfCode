@@ -21,13 +21,27 @@ class Blueprint:
 
     robots: Dict[Material, MaterialTracker]
 
-    def __init__(self, number: int, ore_robot_cost: int, clay_robot_cost: int, obsidian_robot_cost_ore: int, obsidian_robot_cost_clay: int, geode_robot_cost_ore: int, geode_robot_cost_obsidian: int):
+    def __init__(
+        self,
+        number: int,
+        ore_robot_cost: int,
+        clay_robot_cost: int,
+        obsidian_robot_cost_ore: int,
+        obsidian_robot_cost_clay: int,
+        geode_robot_cost_ore: int,
+        geode_robot_cost_obsidian: int,
+    ):
         self.number = number
-    
+
         self.robots = {
             Material.ORE: (ore_robot_cost, 0, 0, 0),
             Material.CLAY: (clay_robot_cost, 0, 0, 0),
-            Material.OBSIDIAN: (obsidian_robot_cost_ore, obsidian_robot_cost_clay, 0, 0),
+            Material.OBSIDIAN: (
+                obsidian_robot_cost_ore,
+                obsidian_robot_cost_clay,
+                0,
+                0,
+            ),
             Material.GEODE: (geode_robot_cost_ore, 0, geode_robot_cost_obsidian, 0),
         }
 
@@ -39,7 +53,9 @@ class Blueprint:
         return hash(self.number)
 
 
-parse_re = re.compile(r"Blueprint (\d+): Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\.")
+parse_re = re.compile(
+    r"Blueprint (\d+): Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\."
+)
 
 
 def parse(instr: str) -> List[Blueprint]:
@@ -51,7 +67,15 @@ def parse(instr: str) -> List[Blueprint]:
     return res
 
 
-def calc_max_geodes(blueprint: Blueprint, max_time: int, materials: MaterialTracker, robots: MaterialTracker, robot_quota: MaterialTracker, minute: int, cannot_build: int) -> int:
+def calc_max_geodes(
+    blueprint: Blueprint,
+    max_time: int,
+    materials: MaterialTracker,
+    robots: MaterialTracker,
+    robot_quota: MaterialTracker,
+    minute: int,
+    cannot_build: int,
+) -> int:
     if minute == max_time + 1:
         return materials[Material.GEODE.value]
 
@@ -84,7 +108,15 @@ def calc_max_geodes(blueprint: Blueprint, max_time: int, materials: MaterialTrac
     for i in range(5):
         if i == 4 and cannot_build | try_build != 0b1111:
             # always try not building anything
-            sc = calc_max_geodes(blueprint, max_time, materials, robots, robot_quota, minute + 1, cannot_build | try_build)
+            sc = calc_max_geodes(
+                blueprint,
+                max_time,
+                materials,
+                robots,
+                robot_quota,
+                minute + 1,
+                cannot_build | try_build,
+            )
         else:
             if try_build & (1 << i) == 0:
                 continue
@@ -104,16 +136,17 @@ def calc_max_geodes(blueprint: Blueprint, max_time: int, materials: MaterialTrac
             rc = tuple((robots[j] + (1 if i == j else 0) for j in range(4)))
 
             # recurse
-            sc = calc_max_geodes(blueprint, max_time, mc, rc, robot_quota, minute + 1, 0)
-        
+            sc = calc_max_geodes(
+                blueprint, max_time, mc, rc, robot_quota, minute + 1, 0
+            )
+
         if sc is not None and sc > max_score:
             max_score = sc
-        
+
     return max_score
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         inp = parse(instr)
@@ -122,7 +155,8 @@ class Challenge(BaseChallenge):
         for bp in inp:
             robot_quota: Tuple[int] = tuple(max(x) for x in zip(*bp.robots.values()))
             quals.append(
-                calc_max_geodes(bp, 24, (0,0,0,0), (1,0,0,0), robot_quota, 1, 0) * bp.number,
+                calc_max_geodes(bp, 24, (0, 0, 0, 0), (1, 0, 0, 0), robot_quota, 1, 0)
+                * bp.number,
             )
 
         return sum(quals)
@@ -132,11 +166,11 @@ class Challenge(BaseChallenge):
         inp = parse(instr)
 
         nums: List[int] = []
-        for bp in inp[:min(3, len(inp))]:
+        for bp in inp[: min(3, len(inp))]:
             print(f"{bp.number=}", flush=True)
             robot_quota: Tuple[int] = tuple(max(x) for x in zip(*bp.robots.values()))
             nums.append(
-                calc_max_geodes(bp, 32, (0,0,0,0), (1,0,0,0), robot_quota, 1, 0)
+                calc_max_geodes(bp, 32, (0, 0, 0, 0), (1, 0, 0, 0), robot_quota, 1, 0)
             )
             print(nums[-1], flush=True)
 

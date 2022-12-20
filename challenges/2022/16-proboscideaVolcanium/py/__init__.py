@@ -8,20 +8,25 @@ from math import inf
 import itertools
 import copy
 
+
 @dataclass
 class Node:
     name: str
     value: int
     edges: List[Node]
 
-    def __init__(self, name: str, value: int = 0, edges: Optional[List[Tuple[Node, int]]] = None):
+    def __init__(
+        self, name: str, value: int = 0, edges: Optional[List[Tuple[Node, int]]] = None
+    ):
         self.name = name
         self.value = value
         self.edges = [] if edges is None else edges
-        
+
 
 def shortest_path(nodes: Dict[str, Node], begin: str, end: str) -> List[str]:
-    priorities: Dict[str, Tuple[Union[int, float], Optional[str]]] = {node: (inf, None) for node in nodes}
+    priorities: Dict[str, Tuple[Union[int, float], Optional[str]]] = {
+        node: (inf, None) for node in nodes
+    }
     visited: Dict[str, None] = {begin: None}
 
     cursor = begin
@@ -59,10 +64,14 @@ def shortest_path(nodes: Dict[str, Node], begin: str, end: str) -> List[str]:
     return route[:-1]
 
 
-parse_re = re.compile(r"Valve ([A-Z]+) has flow rate=(\d+); tunnels? leads? to valves? ((?:[A-Z]+,? ?)+)")
+parse_re = re.compile(
+    r"Valve ([A-Z]+) has flow rate=(\d+); tunnels? leads? to valves? ((?:[A-Z]+,? ?)+)"
+)
 
 
-def parse(instr: str) -> Tuple[Dict[str, Node], List[str], Dict[Tuple[str, str], List[str]]]:
+def parse(
+    instr: str,
+) -> Tuple[Dict[str, Node], List[str], Dict[Tuple[str, str], List[str]]]:
     sp = [parse_re.match(line).groups() for line in instr.strip().splitlines()]
 
     nodes: Dict[str, Node] = {}
@@ -93,20 +102,34 @@ def parse(instr: str) -> Tuple[Dict[str, Node], List[str], Dict[Tuple[str, str],
             pl = len(path) + 1
             shortest_paths[(start_node, end_node)] = pl
             shortest_paths[(end_node, start_node)] = pl
-    
+
     return nodes, unjammed_nodes, shortest_paths
 
 
-def permutations(current_node: str, nodes_remaining: List[str], shortest_paths: Dict[Tuple[str, str], List[str]], path: List[str], cost_remaining: int) -> Generator[List[str]]:
+def permutations(
+    current_node: str,
+    nodes_remaining: List[str],
+    shortest_paths: Dict[Tuple[str, str], List[str]],
+    path: List[str],
+    cost_remaining: int,
+) -> Generator[List[str]]:
     for next_node in nodes_remaining:
         cost = shortest_paths[(current_node, next_node)]
         if cost < cost_remaining:
             nr = copy.copy(nodes_remaining)
             nr.remove(next_node)
-            yield from permutations(next_node, nr, shortest_paths, path + [next_node], cost_remaining - cost)
+            yield from permutations(
+                next_node, nr, shortest_paths, path + [next_node], cost_remaining - cost
+            )
     yield path
 
-def calc_vented(nodes: Dict[str, Node], shortest_paths: Dict[Tuple[str, str], List[str]], visit_order: List[str], time_remaining: int) -> int:
+
+def calc_vented(
+    nodes: Dict[str, Node],
+    shortest_paths: Dict[Tuple[str, str], List[str]],
+    visit_order: List[str],
+    time_remaining: int,
+) -> int:
     current = "AA"
     pressure = 0
 
@@ -118,8 +141,8 @@ def calc_vented(nodes: Dict[str, Node], shortest_paths: Dict[Tuple[str, str], Li
 
     return pressure
 
-class Challenge(BaseChallenge):
 
+class Challenge(BaseChallenge):
     @staticmethod
     def one(instr: str) -> int:
         nodes, unjammed_nodes, shortest_paths = parse(instr)
@@ -137,13 +160,20 @@ class Challenge(BaseChallenge):
     def two(instr: str) -> int:
         nodes, unjammed_nodes, shortest_paths = parse(instr)
 
-        pressures = [(calc_vented(nodes, shortest_paths, visit_order, 26), visit_order) for visit_order in permutations("AA", unjammed_nodes, shortest_paths, [], 26)]
+        pressures = [
+            (calc_vented(nodes, shortest_paths, visit_order, 26), visit_order)
+            for visit_order in permutations(
+                "AA", unjammed_nodes, shortest_paths, [], 26
+            )
+        ]
 
         max_pressure = 0
-        for i, (pressure_a, order_a) in enumerate(sorted(pressures, reverse=True, key=lambda x: x[0])):
+        for i, (pressure_a, order_a) in enumerate(
+            sorted(pressures, reverse=True, key=lambda x: x[0])
+        ):
             if pressure_a * 2 < max_pressure:
                 break
-            for (pressure_b, order_b) in pressures[i+1:]:
+            for (pressure_b, order_b) in pressures[i + 1 :]:
                 if len(set(order_a).intersection(order_b)) == 0:
                     pressure = pressure_a + pressure_b
                     if pressure > max_pressure:

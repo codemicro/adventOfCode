@@ -14,7 +14,12 @@ class Node:
     value: int
     edges: List[Node]
 
-    def __init__(self, pos: Vector, value: int = 0, edges: Optional[List[Tuple[Node, int]]] = None):
+    def __init__(
+        self,
+        pos: Vector,
+        value: int = 0,
+        edges: Optional[List[Tuple[Node, int]]] = None,
+    ):
         self.pos = pos
         self.value = value
         self.edges = [] if edges is None else edges
@@ -46,7 +51,6 @@ def parse(instr: str) -> Tuple[Dict[Vector, Node], Vector, Vector]:
             elif char == "E":
                 end = n.pos
 
-    
     for coord in nodes:
         n = nodes[coord]
 
@@ -62,7 +66,9 @@ def parse(instr: str) -> Tuple[Dict[Vector, Node], Vector, Vector]:
 
 
 def shortest_path(nodes: Dict[Vector, Node], begin: Vector, end: Vector) -> int:
-    priorities: Dict[Vector, Tuple[Union[int, float], Optional[Vector]]] = {node: (inf, None) for node in nodes}
+    priorities: Dict[Vector, Tuple[Union[int, float], Optional[Vector]]] = {
+        node: (inf, None) for node in nodes
+    }
     visited: Dict[Vector, None] = {begin: None}
 
     cursor = begin
@@ -99,8 +105,8 @@ def shortest_path(nodes: Dict[Vector, Node], begin: Vector, end: Vector) -> int:
 
     return len(route)
 
-class Challenge(BaseChallenge):
 
+class Challenge(BaseChallenge):
     @staticmethod
     def one(instr: str) -> int:
         nodes, start, end = parse(instr)
@@ -109,7 +115,7 @@ class Challenge(BaseChallenge):
     @staticmethod
     def two(instr: str) -> int:
         nodes, _, end = parse(instr)
-        
+
         # possible starting positions are ones with value=0 bordering one with value=1
 
         starting_positions: List[Vector] = []
@@ -130,4 +136,3 @@ class Challenge(BaseChallenge):
                 shortest = x
 
         return shortest
-                
