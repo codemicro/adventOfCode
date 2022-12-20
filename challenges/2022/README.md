@@ -34,4 +34,5 @@ The red dotted line denotes 15 seconds.
 | 16 - Proboscidea Volcanium          | ★ ★                | [Python](16-proboscideaVolcanium/py/__init__.py) | Nasty combinatorics |
 | 17 - Pyroclastic Flow               | ★ ★                | [Python](17-pyroclasticFlow/py/__init__.py) | Detecting cycles in a large amount of knock-off Tetris. |
 | 18 - Boiling Boulders               | ★ ★                | [Python](18-boilingBoulders/py/__init__.py) | Finding the surface area of a shape specified by a list of unit cubes. |
-| 19 - Not Enough Minerals               | ★ ★                | [Python](19-notEnoughMinerals/py/__init__.py) | Finding the most effective sequence of operations to complete a specific task. |
+| 19 - Not Enough Minerals            | ★ ★                | [Python](19-notEnoughMinerals/py/__init__.py) | Finding the most effective sequence of operations to complete a specific task. |
+| 20 - Grove Positioning System       | ★ ★                | [Python](20-grovePositioningSystem/py/__init__.py) | My hell is lined with circular sequences. |

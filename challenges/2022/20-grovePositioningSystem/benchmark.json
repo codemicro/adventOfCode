@@ -1,0 +1,15 @@
+{
+  "day": 20,
+  "dir": "challenges/2022/20-grovePositioningSystem",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.6482098897298177,
+      "part.1.max": 0.6944289207458496,
+      "part.1.min": 0.5697693824768066,
+      "part.2.avg": 12.018423795700073,
+      "part.2.max": 12.624868154525757,
+      "part.2.min": 11.30324387550354
+    }
+  },
+  "numRuns": 3
+}
