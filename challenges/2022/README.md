@@ -36,3 +36,4 @@ The red dotted line denotes 15 seconds.
 | 18 - Boiling Boulders               | ★ ★                | [Python](18-boilingBoulders/py/__init__.py) | Finding the surface area of a shape specified by a list of unit cubes. |
 | 19 - Not Enough Minerals            | ★ ★                | [Python](19-notEnoughMinerals/py/__init__.py) | Finding the most effective sequence of operations to complete a specific task. |
 | 20 - Grove Positioning System       | ★ ★                | [Python](20-grovePositioningSystem/py/__init__.py) | My hell is lined with circular sequences. |
+| 21 - Monkey Math                    | ★ ★                | [Python](21-monkeyMath/py/__init__.py) | Trees of math with a fairly satisfying solution :D |

@@ -4,18 +4,21 @@ import json
 from functools import cmp_to_key
 
 
-_Pair = Union[int, List['_Pair']]
+_Pair = Union[int, List["_Pair"]]
 Pair = Tuple[_Pair, _Pair]
+
 
 def parse(instr: str) -> List[Pair]:
     res = []
 
     for raw_pair in instr.strip().split("\n\n"):
         a, b = raw_pair.splitlines()
-        res.append((
-            json.loads(a),
-            json.loads(b),
-        ))
+        res.append(
+            (
+                json.loads(a),
+                json.loads(b),
+            )
+        )
 
     return res
 
@@ -26,7 +29,7 @@ def is_pair_well_ordered(pair: Pair) -> Optional[bool]:
 
     if type_a == int and type_b == list:
         return is_pair_well_ordered(([a], b))
-    
+
     elif type_a == list and type_b == int:
         return is_pair_well_ordered((a, [b]))
 
@@ -34,9 +37,9 @@ def is_pair_well_ordered(pair: Pair) -> Optional[bool]:
         if a == b:
             return None
         return a < b
-        
+
     elif type_a == list and type_b == list:
-    
+
         for x in zip(a, b):
             y = is_pair_well_ordered(x)
             if y is not None:
@@ -47,7 +50,7 @@ def is_pair_well_ordered(pair: Pair) -> Optional[bool]:
         if la == lb:
             return None
         return la < lb
-    
+
     raise ValueError(f"impossible combiation of types ({type_a} and {type_b})")
 
 
@@ -60,7 +63,6 @@ def is_well_ordered(a, b: Any) -> int:
 
 
 class Challenge(BaseChallenge):
-
     @staticmethod
     def one(instr: str) -> int:
         inp = parse(instr)
