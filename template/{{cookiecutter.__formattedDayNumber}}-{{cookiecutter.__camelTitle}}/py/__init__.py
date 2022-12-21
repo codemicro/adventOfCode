@@ -1,8 +1,8 @@
 from typing import *
 from aocpy import BaseChallenge
 
-class Challenge(BaseChallenge):
 
+class Challenge(BaseChallenge):
     @staticmethod
     def one(instr: str) -> int:
         raise NotImplementedError

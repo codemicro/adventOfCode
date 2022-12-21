@@ -6,13 +6,20 @@ import json
 # TASKS_STR = input()
 # TASKS = json.loads(TASKS_STR)
 
+
 def send_result(task_id, ok, output, duration):
-    print(json.dumps({
-        "task_id": task_id,
-        "ok": ok,
-        "output": str(output) if output is not None else "",
-        "duration": float(duration),
-    }), flush=True)
+    print(
+        json.dumps(
+            {
+                "task_id": task_id,
+                "ok": ok,
+                "output": str(output) if output is not None else "",
+                "duration": float(duration),
+            }
+        ),
+        flush=True,
+    )
+
 
 while True:
     task = json.loads(input())
@@ -39,10 +46,11 @@ while True:
     except Exception as e:
         err = f"{type(e)}: {e}"
         import traceback
+
         err = f"{type(e)}: {e}\n{''.join(traceback.format_tb(e.__traceback__))}"
     end_time = time.time()
 
-    running_time = end_time-start_time
+    running_time = end_time - start_time
 
     if err is not None:
         send_result(task_id, False, err, running_time)
