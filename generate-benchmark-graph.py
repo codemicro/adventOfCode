@@ -111,7 +111,7 @@ axp2.set_title("Part two")
 def do_auxillary_parts(axis):
     plt.sca(axis)
     plt.xticks(list(all_days), [str(y) for y in all_days])
-    plt.ylabel("Running time (log seconds)")
+    plt.ylabel("Running time (seconds)")
     plt.yscale("log")
     plt.xlabel("Day")
     plt.legend(
