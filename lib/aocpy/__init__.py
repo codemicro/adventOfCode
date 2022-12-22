@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, TypeVar, Callable, Iterable
+from typing import *
 from collections.abc import Sequence
 
 
@@ -30,6 +30,21 @@ def foldl(p: Callable[[U, T], U], i: Iterable[T], start: U) -> U:
 
 def foldr(p: Callable[[U, T], U], i: Iterable[T], start: U) -> U:
     return foldl(p, reversed(i), start)
+
+
+def min_max(x: Iterable[int]) -> Tuple[int, int]:
+    mini, maxi = None, 0
+
+    for item in x:
+        if item > maxi:
+            maxi = item
+        if mini is None or item < mini:
+            mini = item
+
+    if mini is None:
+        raise ValueError("empty set")
+
+    return mini, maxi
 
 
 class Vector:
