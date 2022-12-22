@@ -18,7 +18,7 @@ class Direction(Enum):
 
     def rotate(self, rot_dir: str) -> Direction:
         n = self.value
-        n += (-1 if rot_dir == "L" else 1)
+        n += -1 if rot_dir == "L" else 1
 
         if n < 0:
             n = 3
@@ -93,7 +93,6 @@ def calc_answer(pos: Vector, facing: Direction) -> int:
     return (1000 * pos.y) + (4 * pos.x) + facing.value
 
 
-
 def build_adjacency_mapping() -> Dict[Vector, Tuple[Vector, Direction]]:
     res: Dict[Vector, Tuple[Vector, Direction]] = {}
 
@@ -120,7 +119,7 @@ def build_adjacency_mapping() -> Dict[Vector, Tuple[Vector, Direction]]:
             Vector(150, 1 + i),
             Direction.RIGHT,
             Vector(100, 150 - i),
-            Direction.LEFT,           
+            Direction.LEFT,
         )
 
         add(
@@ -137,26 +136,11 @@ def build_adjacency_mapping() -> Dict[Vector, Tuple[Vector, Direction]]:
             Direction.UP,
         )
 
-        add(
-            Vector(100, 101 + i),
-            Direction.RIGHT,
-            Vector(150, 50 - i),
-            Direction.LEFT
-        )
+        add(Vector(100, 101 + i), Direction.RIGHT, Vector(150, 50 - i), Direction.LEFT)
 
-        add(
-            Vector(51 + i, 150),
-            Direction.DOWN,
-            Vector(50, 151 + i),
-            Direction.LEFT
-        )
+        add(Vector(51 + i, 150), Direction.DOWN, Vector(50, 151 + i), Direction.LEFT)
 
-        add(
-            Vector(50, 151 + i),
-            Direction.RIGHT,
-            Vector(51 + i, 150),
-            Direction.UP
-        )
+        add(Vector(50, 151 + i), Direction.RIGHT, Vector(51 + i, 150), Direction.UP)
 
         add(
             Vector(1 + i, 200),
@@ -172,19 +156,9 @@ def build_adjacency_mapping() -> Dict[Vector, Tuple[Vector, Direction]]:
             Direction.DOWN,
         )
 
-        add(
-            Vector(1, 101 + i),
-            Direction.LEFT,
-            Vector(51, 50 - i),
-            Direction.RIGHT
-        )
+        add(Vector(1, 101 + i), Direction.LEFT, Vector(51, 50 - i), Direction.RIGHT)
 
-        add(
-            Vector(1 + i, 101),
-            Direction.UP,
-            Vector(51, 51 + i),
-            Direction.RIGHT
-        )
+        add(Vector(1 + i, 101), Direction.UP, Vector(51, 51 + i), Direction.RIGHT)
 
         add(
             Vector(51, 51 + i),
@@ -208,20 +182,22 @@ class Challenge(BaseChallenge):
     def one(instr: str) -> int:
         monkey_map, path = parse(instr)
 
-
         @lru_cache
         def calc_row_caps(row: int) -> Tuple[int, int]:
             return min_max(q.x for q in monkey_map if q.y == row)
-
 
         @lru_cache
         def calc_col_caps(col: int) -> Tuple[int, int]:
             return min_max(q.y for q in monkey_map if q.x == col)
 
-
-        current_pos = Vector(min(p.x for p in monkey_map if p.y == 1 and monkey_map[p] == CellState.OPEN), 1)
+        current_pos = Vector(
+            min(
+                p.x for p in monkey_map if p.y == 1 and monkey_map[p] == CellState.OPEN
+            ),
+            1,
+        )
         facing = Direction.RIGHT
-        
+
         for instruction in path:
             if type(instruction) == int:
 
@@ -248,12 +224,12 @@ class Challenge(BaseChallenge):
                         bound = rc[0]
                         if next_pos.x < bound:
                             next_pos.x = rc[1]
- 
+
                     if monkey_map[next_pos] == CellState.WALL:
                         break
 
                     current_pos = next_pos
-                    
+
             elif type(instruction) == str:
                 facing = facing.rotate(instruction)
             else:
@@ -267,9 +243,14 @@ class Challenge(BaseChallenge):
 
         adj = build_adjacency_mapping()
 
-        current_pos = Vector(min(p.x for p in monkey_map if p.y == 1 and monkey_map[p] == CellState.OPEN), 1)
+        current_pos = Vector(
+            min(
+                p.x for p in monkey_map if p.y == 1 and monkey_map[p] == CellState.OPEN
+            ),
+            1,
+        )
         facing = Direction.RIGHT
-        
+
         for instruction in path:
             if type(instruction) == int:
 
@@ -286,11 +267,10 @@ class Challenge(BaseChallenge):
 
                     current_pos = next_pos
                     facing = next_dir
-                    
+
             elif type(instruction) == str:
                 facing = facing.rotate(instruction)
             else:
                 raise TypeError(f"unknown instruction type {type(instruction)}")
 
         return calc_answer(current_pos, facing)
-
