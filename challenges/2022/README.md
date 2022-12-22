@@ -37,3 +37,4 @@ The red dotted line denotes 15 seconds.
 | 19 - Not Enough Minerals            | ★ ★                | [Python](19-notEnoughMinerals/py/__init__.py) | Finding the most effective sequence of operations to complete a specific task. |
 | 20 - Grove Positioning System       | ★ ★                | [Python](20-grovePositioningSystem/py/__init__.py) | My hell is lined with circular sequences. |
 | 21 - Monkey Math                    | ★ ★                | [Python](21-monkeyMath/py/__init__.py) | Trees of math with a fairly satisfying solution :D |
+| 21 - Monkey Map                     | ★ ★                | [Python](21-monkeyMap/py/__init__.py) | Please never ever make me trace a path around a 3D shape in two dimensions ever again |
