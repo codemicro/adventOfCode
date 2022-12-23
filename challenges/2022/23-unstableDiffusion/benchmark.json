@@ -1,0 +1,15 @@
+{
+  "day": 23,
+  "dir": "challenges/2022/23-unstableDiffusion",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 0.5044037818908691,
+      "part.1.max": 0.6002228260040283,
+      "part.1.min": 0.4217519760131836,
+      "part.2.avg": 39.05081315040589,
+      "part.2.max": 41.361868143081665,
+      "part.2.min": 38.02052927017212
+    }
+  },
+  "numRuns": 5
+}
