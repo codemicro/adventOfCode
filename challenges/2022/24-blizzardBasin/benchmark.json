@@ -1,0 +1,15 @@
+{
+  "day": 24,
+  "dir": "challenges/2022/24-blizzardBasin",
+  "implementations": {
+    "Python": {
+      "part.1.avg": 3.8155926863352456,
+      "part.1.max": 3.83038330078125,
+      "part.1.min": 3.801712989807129,
+      "part.2.avg": 11.761492411295572,
+      "part.2.max": 11.78315782546997,
+      "part.2.min": 11.74697995185852
+    }
+  },
+  "numRuns": 3
+}

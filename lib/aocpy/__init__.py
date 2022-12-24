@@ -55,7 +55,7 @@ class Vector:
         if len(args) == 1 and Vector._is_vector_tuple(args[0]):
             x, y = args[0]
         elif len(args) != 2:
-            return ValueError("expected integer tuple or pair of integers")
+            raise ValueError("expected integer tuple or pair of integers")
         else:
             x, y = args
 
@@ -70,6 +70,10 @@ class Vector:
 
     def manhattan_distance(self, o: Vector) -> int:
         return abs(self.x - o.x) + abs(self.y - o.y)
+
+    @property
+    def tuple(self) -> Tuple[int, int]:
+        return self.x, self.y
 
     def __add__(self, o: Any) -> Vector:
         if Vector._is_vector_tuple(o):
