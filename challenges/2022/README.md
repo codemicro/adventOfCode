@@ -2,6 +2,8 @@
 
 Solutions to the [2022 Advent of Code](https://adventofcode.com/2022).
 
+**Total stars: ★50!**
+
 ---
 
 The red dotted line denotes 15 seconds.
