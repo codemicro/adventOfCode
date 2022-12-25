@@ -1,0 +1,26 @@
+{
+    "inputFile": "input.txt",
+    "testCases": {
+        "one": [
+            {
+                "input": "1=-0-2\n12111\n2=0=\n21\n2=01\n111\n20012\n112\n1=-1=\n1-12\n12\n1=\n122\n",
+                "expected": "2=-1=0"
+            },
+            {"input": "1", "expected": "1"},
+            {"input": "2", "expected": "2"},
+            {"input": "1=", "expected": "1="},
+            {"input": "1-", "expected": "1-"},
+            {"input": "10", "expected": "10"},
+            {"input": "11", "expected": "11"},
+            {"input": "12", "expected": "12"},
+            {"input": "2=", "expected": "2="},
+            {"input": "2-", "expected": "2-"},
+            {"input": "20", "expected": "20"},
+            {"input": "1=0", "expected": "1=0"},
+            {"input": "1-0", "expected": "1-0"},
+            {"input": "1=11-2", "expected": "1=11-2"},
+            {"input": "1-0---0", "expected": "1-0---0"},
+            {"input": "1121-1110-1=0", "expected": "1121-1110-1=0"}
+        ]
+    }
+}
