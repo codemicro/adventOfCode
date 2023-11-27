@@ -13,7 +13,10 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 The method of running solutions varies by year.
 
 <details><summary><b>2021 and 2022</b></summary>
-Solutions to other years' solutions are run via the runner program contained in [`./runtime`](./runtime).
+
+In order to run solutions from 2021 and 2022, you should switch to the `2022` branch first.
+
+Solutions to 2021's and 2022's solutions are run via the runner program contained in [`./runtime`](./runtime).
 
 To run a solution, run `go run github.com/codemicro/adventOfCode/runtime` and follow the on-screen prompts. Configurisation options can be seen by running with the `--help` flag.
 
@@ -23,6 +26,7 @@ For example, to generate a graph for the 2021 benchmarks and save it to `challen
 </details>
 
 <details><summary><b>2020</b></summary>
+
 In 2020, all solutions are in Python and/or Go.
 
 1. `cd` to the challenge directory
@@ -32,4 +36,5 @@ In 2020, all solutions are in Python and/or Go.
    * For Go, run `go run ./go`
 
 Dependencies for 2020 challenges are not neatly defined anywhere, so determing and installing the correct ones is an exercise for the reader.
+
 </details>
