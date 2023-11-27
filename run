@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import fire
+
+# Commands
+# - init
+# - run
+# - bench (later)
+
+
+class CLI(object):
+    @staticmethod
+    def init(year: int, day: int):
+        """
+        Initialise a day's AoC challenge
+        """
+        raise NotImplementedError("init unimplemented")
+    
+    @staticmethod
+    def run(fpath: str):
+        """
+        Run a day's code
+        """
+        raise NotImplementedError("run unimplemented")
+
+
+if __name__ == "__main__":
+    fire.Fire(CLI)
