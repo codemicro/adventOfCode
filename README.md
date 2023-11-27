@@ -1,6 +1,6 @@
 # Advent of Code 🎄
 
-Jump to: [2020](challenges/2020) - [2021](challenges/2021) - [2022](challenges/2022)
+Jump to: [2020](challenges/2020) - [2021](challenges/2021) - [2022](challenges/2022) - [2023](challenges/2023)
 
 Solutions to [Advent of Code](https://adventofcode.com) challenges.
 
@@ -12,8 +12,7 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 The method of running solutions varies by year.
 
-### All years other than 2020
-
+<details><summary>**2021 and 2022**</summary>
 Solutions to other years' solutions are run via the runner program contained in [`./runtime`](./runtime).
 
 To run a solution, run `go run github.com/codemicro/adventOfCode/runtime` and follow the on-screen prompts. Configurisation options can be seen by running with the `--help` flag.
@@ -21,9 +20,9 @@ To run a solution, run `go run github.com/codemicro/adventOfCode/runtime` and fo
 A benchmark graph can be generated using [`generate-benchmark-graph.py`](./generate-benchmark-graph.py) as follows: `python3 generate-benchmark-graph.py <output file> <year>`.
 
 For example, to generate a graph for the 2021 benchmarks and save it to `challenges/2021/running-times.png`, you can run `python3 generate-benchmark-graph.py challenges/2021/running-times.png 2021`.
+</details>
 
-### 2020
-
+<details><summary>**2020**</summary>
 In 2020, all solutions are in Python and/or Go.
 
 1. `cd` to the challenge directory
@@ -33,3 +32,4 @@ In 2020, all solutions are in Python and/or Go.
    * For Go, run `go run ./go`
 
 Dependencies for 2020 challenges are not neatly defined anywhere, so determing and installing the correct ones is an exercise for the reader.
+</details>
