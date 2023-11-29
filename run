@@ -1,10 +1,37 @@
 #!/usr/bin/env python3
 import fire
+import os
+from pathlib import Path
+import re
+import requests
+import sys
+import json
 
-# Commands
-# - init
-# - run
-# - bench (later)
+
+CHALLENGES_DIR = "challenges-staging"
+SAMPLE_TEST_JSON = """{
+    "1": [
+        {"in": "", "res": ""}
+    ],
+    "2": [
+        {"in": "", "res": ""}
+    ]
+}
+"""
+
+
+def convert_to_camel_case(inp: str) -> str:
+    parts = list(map(lambda x: x.lower(), filter(lambda x: len(x) != 0, inp.split(" "))))
+    for i, st in enumerate(parts):
+        if i == 0:
+            continue
+        parts[i] = st[0].upper() + st[1:]       
+    return "".join(parts)
+
+
+def load_credentials() -> dict[str, str]:
+    with open("credentials.json") as f:
+        return json.load(f)
 
 
 class CLI(object):
@@ -13,13 +40,63 @@ class CLI(object):
         """
         Initialise a day's AoC challenge
         """
-        raise NotImplementedError("init unimplemented")
+
+        day_url = f"https://adventofcode.com/{year}/day/{day}"
+
+        page_resp = requests.get(day_url)
+        if page_resp.status_code == 404:
+            print("Challenge page not found: has that day been released yet?", file=sys.stderr)
+            raise SystemExit(1)
+        
+        page_resp.raise_for_status()
+
+        # get title
+
+        matches = re.findall(r"--- Day \d{1,2}: ([\w ]+) ---", page_resp.content.decode())
+        assert len(matches) >= 1, "must be able to discover at least one day title"
+        day_title = matches[0]
+
+        p = Path(CHALLENGES_DIR)
+        p /= str(year)
+        p /= str(day).zfill(2) + "-" + convert_to_camel_case(day_title)
+
+        os.makedirs(p)
+
+        with open(p / "README.md", "w") as f:
+            f.write(f"# [Day {day}: {day_title}]({day_url})\n")
+
+        with open(p / "tests.json", "w") as f:
+            f.write(SAMPLE_TEST_JSON)
+
+        # download input and drop in input.txt
+        creds = load_credentials()
+        input_resp = requests.get(day_url + "/input",
+            cookies={"session": creds["session"]},
+            headers={"User-Agent": creds["userAgent"]},
+        )
+        input_resp.raise_for_status()
+
+        with open(p / "input.txt", "wb") as f:
+            f.write(input_resp.content)
+
+        print(p)
     
     @staticmethod
-    def run(fpath: str):
+    def exec(fpath: str):
         """
-        Run a day's code
+        Execute a day's code
         """
+
+        # Stat file
+        # Get file extension
+        # Based on file extension, run
+
+        try:
+            os.stat(fpath)
+        except FileNotFoundError:
+            print(f"Could not stat {fpath}", file=sys.stderr)
+            raise SystemExit(1)
+
         raise NotImplementedError("run unimplemented")
 
 
