@@ -11,7 +11,7 @@ def parse(inp: str) -> list[str]:
     return inp.splitlines()
 
 
-def one(inp: str):
+def one(inp: str) -> int:
     parsed = parse(inp)
     acc = 0
     for line in parsed:
@@ -46,7 +46,7 @@ def find_first(inp: str, opts: list[str]) -> Optional[str]:
     return li[0][1]
 
 
-def two(inp: str):
+def two(inp: str) -> int:
     parsed = parse(inp)
     acc = 0
 
