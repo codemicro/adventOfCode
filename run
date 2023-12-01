@@ -6,9 +6,11 @@ import re
 import requests
 import sys
 import json
+import subprocess
+from io import StringIO
 
 
-CHALLENGES_DIR = "challenges-staging"
+CHALLENGES_DIR = "challenges"
 SAMPLE_TEST_JSON = """{
     "1": [
         {"in": "", "res": ""}
@@ -18,6 +20,9 @@ SAMPLE_TEST_JSON = """{
     ]
 }
 """
+RUNNERS = {
+    "py": ["python3"],
+}
 
 
 def convert_to_camel_case(inp: str) -> str:
@@ -25,7 +30,7 @@ def convert_to_camel_case(inp: str) -> str:
     for i, st in enumerate(parts):
         if i == 0:
             continue
-        parts[i] = st[0].upper() + st[1:]       
+        parts[i] = st[0].upper() + st[1:]
     return "".join(parts)
 
 
@@ -34,12 +39,46 @@ def load_credentials() -> dict[str, str]:
         return json.load(f)
 
 
+class Recorder(StringIO):
+    def __init__(self, buf):
+        self.out = buf
+        super().__init__()
+
+    def write(self, data):
+        self.out.write(data)
+        super().write(data)
+
+    def flush(self):
+        self.out.flush()
+        super().flush()
+
+    def fileno(self):
+        return self.out.fileno()
+
+
+def set_terminal_colour(colour: str):
+    colcodes = {
+        "grey": "\033[37m",
+        "reset": "\033[0m"
+    }
+    sys.stdout.write(colcodes.get(colour, ""))
+    sys.stdout.flush()
+
+
+def run_command(args: list[str], stdin=None) -> tuple[int, str]:
+    proc = subprocess.run(args, stdin=stdin, stdout=subprocess.PIPE)
+    return proc.returncode, proc.stdout
+
+
 class CLI(object):
     @staticmethod
     def init(year: int, day: int):
         """
         Initialise a day's AoC challenge
         """
+
+        # Load day's page to verify that it has been released and to get the
+        # challenge title
 
         day_url = f"https://adventofcode.com/{year}/day/{day}"
 
@@ -50,11 +89,11 @@ class CLI(object):
         
         page_resp.raise_for_status()
 
-        # get title
-
         matches = re.findall(r"--- Day \d{1,2}: ([\w ]+) ---", page_resp.content.decode())
         assert len(matches) >= 1, "must be able to discover at least one day title"
         day_title = matches[0]
+
+        # Work out the challenge's directory.
 
         p = Path(CHALLENGES_DIR)
         p /= str(year)
@@ -62,13 +101,16 @@ class CLI(object):
 
         os.makedirs(p)
 
+        # Drop a basic README and tests file
+
         with open(p / "README.md", "w") as f:
             f.write(f"# [Day {day}: {day_title}]({day_url})\n")
 
         with open(p / "tests.json", "w") as f:
             f.write(SAMPLE_TEST_JSON)
 
-        # download input and drop in input.txt
+        # Download input and drop it in the challenge's directory
+
         creds = load_credentials()
         input_resp = requests.get(day_url + "/input",
             cookies={"session": creds["session"]},
@@ -78,6 +120,8 @@ class CLI(object):
 
         with open(p / "input.txt", "wb") as f:
             f.write(input_resp.content)
+
+        # Output the challenge's directory
 
         print(p)
     
@@ -97,7 +141,36 @@ class CLI(object):
             print(f"Could not stat {fpath}", file=sys.stderr)
             raise SystemExit(1)
 
-        raise NotImplementedError("run unimplemented")
+        file_extension = fpath.split(".")[-1].lower()
+
+        if file_extension not in RUNNERS:
+            print("No compatible runner found", file=sys.stderr)
+            raise SystemExit(1)
+
+        challenge_dir = Path(os.path.dirname(fpath))
+        input_file = open(challenge_dir / "input.txt", "rb")
+
+        cmd = RUNNERS[file_extension].copy()
+        cmd.append(fpath)
+        cmd.append("1")
+
+        print(f"{cmd=}")
+
+        # buf_stdout = Recorder(sys.stdout)
+        # buf_stdout.write("hi\n")
+        # completed_command = subprocess.run(cmd, stdin=input_file, stdout=buf_stdout, stderr=sys.stderr)
+        # print(f"{completed_command.returncode=}")
+        # buf_stdout.flush()
+        # print(f"{buf_stdout.getvalue()=}")
+
+        set_terminal_colour("grey")
+        exit_status, buf_cont = run_command(cmd, stdin=input_file)
+        set_terminal_colour("reset")
+        print(f"{exit_status=}\n{buf_cont=}")
+
+        input_file.close()
+
+        # raise NotImplementedError("run unimplemented")
 
 
 if __name__ == "__main__":
