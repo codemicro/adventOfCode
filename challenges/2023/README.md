@@ -11,3 +11,4 @@ Solutions to the [2023 Advent of Code](https://adventofcode.com/2023).
 | Day | Status | Solutions | Notes |
 |-----|--------|-----------|-------|
 | 01 - Trebuchet?! | ★ ★    | Python | I never knew detecting numbers could be so confusingly tricky |
+| 01 - Cube Conundrum | ★ ★    | Python | Pleasingly straightforwards, though seems like it would be well suited to Haskell |
