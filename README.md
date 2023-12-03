@@ -18,6 +18,8 @@ Use the `./aoc` script and provide it with the filename of the file you would li
 
 Alternatively, run the code directly. Provide it with an input via stdin and set the first command line argument to be either `1` or `2` to run either part 1 or 2 respectively. This should go for all languages.
 
+</details>
+
 <details><summary><b>2021 and 2022</b></summary>
 
 In order to run solutions from 2021 and 2022, you should switch to the `2022` branch first.
