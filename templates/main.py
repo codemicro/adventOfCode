@@ -1,4 +1,3 @@
-import os
 import sys
 
 
@@ -18,7 +17,7 @@ def two(inp: str):
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] not in ["1", "2"]:
         print("Missing day argument", file=sys.stderr)
-        os.exit(1)
+        sys.exit(1)
     inp = sys.stdin.read().strip()
     if sys.argv[1] == "1":
         print(one(inp))
