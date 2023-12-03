@@ -1,17 +1,21 @@
 import sys
 
 
+def parse(instr: str) -> None:
+    return
+
+
+def one(instr: str):
+    return
+
+
+def two(instr: str):
+    return
+
+
 def _debug(*args, **kwargs):
     kwargs["file"] = sys.stderr
     print(*args, **kwargs)
-
-
-def one(inp: str):
-    return
-
-
-def two(inp: str):
-    return
 
 
 if __name__ == "__main__":
