@@ -12,6 +12,12 @@ Puzzle inputs and descriptions are not included in this repository. You'll have 
 
 The method of running solutions varies by year.
 
+<details><summary><b>From 2023 onwards</b></summary>
+
+Use the `./aoc` script and provide it with the filename of the file you would like to run. For example, `./aoc run challenges/01-trebuchet/main.py`.
+
+Alternatively, run the code directly. Provide it with an input via stdin and set the first command line argument to be either `1` or `2` to run either part 1 or 2 respectively. This should go for all languages.
+
 <details><summary><b>2021 and 2022</b></summary>
 
 In order to run solutions from 2021 and 2022, you should switch to the `2022` branch first.
