@@ -13,10 +13,10 @@ from io import StringIO
 CHALLENGES_DIR = "challenges"
 SAMPLE_TEST_JSON = """{
     "1": [
-        {"in": "", "res": ""}
+        {"res": "", "in": ""}
     ],
     "2": [
-        {"in": "", "res": ""}
+        {"res": "", "in": ""}
     ]
 }
 """
@@ -60,12 +60,18 @@ class Recorder(StringIO):
         return self.out.fileno()
 
 
-def set_terminal_colour(colour: str):
+def set_terminal_colour(*colours: str):
     colcodes = {
-        "grey": "\033[37m",
-        "reset": "\033[0m"
+        "bold": "1",
+        "italic": "3",
+        "red": "31",
+        "grey": "37",
+        "reset": "0"
     }
-    sys.stdout.write(colcodes.get(colour, ""))
+    for colour in colours:
+        if colour not in colcodes:
+            continue
+        sys.stdout.write(f"\033[{colcodes[colour]}m")
     sys.stdout.flush()
 
 
@@ -150,6 +156,8 @@ class CLI(object):
         if file_extension not in RUNNERS:
             print("No compatible runner found", file=sys.stderr)
             raise SystemExit(1)
+        else:
+            print("Detected compatible runner")
 
         challenge_dir = Path(os.path.dirname(fpath))
         input_file = open(challenge_dir / "input.txt", "rb")
@@ -157,8 +165,6 @@ class CLI(object):
         cmd = RUNNERS[file_extension].copy()
         cmd.append(fpath)
         cmd.append("1")
-
-        print(f"{cmd=}")
 
         # buf_stdout = Recorder(sys.stdout)
         # buf_stdout.write("hi\n")
@@ -170,7 +176,18 @@ class CLI(object):
         set_terminal_colour("grey")
         exit_status, buf_cont = run_command(cmd, stdin=input_file)
         set_terminal_colour("reset")
-        print(f"{exit_status=}\n{buf_cont=}")
+
+        if exit_status != 0:
+            set_terminal_colour("red")
+            print(f"Exited with a non-zero status code ({exit_status})")
+            set_terminal_colour("reset")
+
+        if (r := buf_cont.decode().strip()) == "":
+            set_terminal_colour("red")
+            print("Nothing outputted")
+            set_terminal_colour("reset")
+        else:
+            print("Output: " + r)
 
         input_file.close()
 
