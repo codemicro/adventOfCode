@@ -12,22 +12,24 @@ def parse(instr: str) -> list[Race]:
     times, distances = [[int(y) for y  in x.split(":")[1].split(" ") if y != ""] for x in instr.splitlines()]
     return list(zip(times, distances))
 
+def solve_quadratic(a: int, b: int, c: int) -> list[float]:
+    # This doesn't handle less than 2 solutions because we're assuming that AoC
+    # isn't (completely) evil
+    res = []
+    res.append((-b + math.sqrt((b**2) - (4*a*c)))/2*a)
+    res.append((-b - math.sqrt((b**2) - (4*a*c)))/2*a)
+    return res
+
 
 def solve_races(races: list[Race]) -> int:
     acc = 1
 
     for (duration, record) in races:
-        winning_plays = 0
-
-        for i in range(duration):
-            time_used = i
-            time_remaining = duration - time_used
-            speed = i
-            distance_travelled = speed * time_remaining
-            if distance_travelled > record:
-                winning_plays += 1
-        
-        acc *= winning_plays
+        roots = solve_quadratic(1, -duration, record)
+        a, b = list(sorted(roots))
+        a = math.floor(a) + 1
+        b = math.ceil(b) - 1
+        acc *= b - a + 1
 
     return acc
 
