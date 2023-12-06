@@ -8,16 +8,19 @@ Race = tuple[int, int]
 
 
 def parse(instr: str) -> list[Race]:
-    
-    times, distances = [[int(y) for y  in x.split(":")[1].split(" ") if y != ""] for x in instr.splitlines()]
+    times, distances = [
+        [int(y) for y in x.split(":")[1].split(" ") if y != ""]
+        for x in instr.splitlines()
+    ]
     return list(zip(times, distances))
+
 
 def solve_quadratic(a: int, b: int, c: int) -> list[float]:
     # This doesn't handle less than 2 solutions because we're assuming that AoC
     # isn't (completely) evil
     res = []
-    res.append((-b + math.sqrt((b**2) - (4*a*c)))/2*a)
-    res.append((-b - math.sqrt((b**2) - (4*a*c)))/2*a)
+    res.append((-b + math.sqrt((b**2) - (4 * a * c))) / 2 * a)
+    res.append((-b - math.sqrt((b**2) - (4 * a * c))) / 2 * a)
     return res
 
 
@@ -40,7 +43,10 @@ def one(instr: str):
 
 def two(instr: str):
     races = parse(instr)
-    race = tuple(int(reduce(lambda x, y: x + str(y), [race[i] for race in races], "")) for i in range(2))
+    race = tuple(
+        int(reduce(lambda x, y: x + str(y), [race[i] for race in races], ""))
+        for i in range(2)
+    )
     return solve_races([race])
 
 
