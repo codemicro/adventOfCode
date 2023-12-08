@@ -29,13 +29,6 @@ def one(instr: str):
     return i
 
 
-def are_cursors_at_z(cursors: list[str]) -> bool:
-    for c in cursors:
-        if c[-1] != "Z":
-            return False
-    return True
-
-
 def two(instr: str):
     instructions, graph = parse(instr)
 
