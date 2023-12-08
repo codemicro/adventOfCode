@@ -8,8 +8,10 @@ def parse(instr: str) -> tuple[str, dict[str, tuple[str, str]]]:
     instructions, raw_graph = instr.split("\n\n")
     graph = {}
 
-    for (this_node, left, right) in re.findall(r"([A-Z\d]{3}) = \(([A-Z\d]{3}), ([A-Z\d]{3})\)", raw_graph):
-         graph[this_node] = (left, right)
+    for (this_node, left, right) in re.findall(
+        r"([A-Z\d]{3}) = \(([A-Z\d]{3}), ([A-Z\d]{3})\)", raw_graph
+    ):
+        graph[this_node] = (left, right)
 
     return instructions, graph
 
@@ -47,7 +49,7 @@ def two(instr: str):
     for start in cursors:
         cursor = start
         instruction_step = 0
-        
+
         history = {}
         i = 0
 
@@ -57,14 +59,16 @@ def two(instr: str):
             cursor = graph[cursor][0 if instruction == "L" else 1]
             i += 1
             instruction_step = i % len(instructions)
-        
-        assert reduce(lambda acc, v: acc or v[0][-1] == "Z", history, False), f"{start} has no end condition"
+
+        assert reduce(
+            lambda acc, v: acc or v[0][-1] == "Z", history, False
+        ), f"{start} has no end condition"
 
         loop_start_key = (cursor, instruction_step)
         loop_starts_at = history[loop_start_key]
 
         loop_lengths.append((max(history.values()) - loop_starts_at) + 1)
-    
+
     return math.lcm(*loop_lengths)
 
 
