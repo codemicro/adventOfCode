@@ -18,3 +18,4 @@ Solutions to the [2023 Advent of Code](https://adventofcode.com/2023).
 | 06 - Wait For It | ★ ★ | Python | Easy, GCSE-level maths :) |
 | 07 - Camel Cards | ★ ★ | Python | Pedantic problem statements will be my downfall |
 | 08 - Haunted Wasteland | ★ ★ | Python | I'm not sure any feasible generic solution exists - but I did work out the infeasible one! |
+| 09 - Mirage Maintenance | ★ ★ | Python | GCSE maths and the n-th term coming in clutch right here |
