@@ -9,6 +9,7 @@ import json
 import subprocess
 from io import BufferedReader
 from typing import Optional
+from glob import glob
 
 
 CHALLENGES_DIR = "challenges"
@@ -47,7 +48,14 @@ def load_credentials() -> dict[str, str]:
 
 
 def set_terminal_colour(*colours: str):
-    colcodes = {"bold": "1", "italic": "3", "red": "31", "green": "32", "grey": "37", "reset": "0"}
+    colcodes = {
+        "bold": "1",
+        "italic": "3",
+        "red": "31",
+        "green": "32",
+        "grey": "37",
+        "reset": "0",
+    }
     for colour in colours:
         if colour not in colcodes:
             continue
@@ -79,7 +87,13 @@ def run_command(args: list[str], stdin=None) -> tuple[int, str]:
     return proc.returncode, proc.stdout
 
 
-def run_part(command: list[str], label: str, spec: dict[str, str|BufferedReader]):
+def format_result(v: str) -> str:
+    if len(v) == len("".join(filter(lambda x: x.isalpha() or x.isdigit(), v))):
+        return v
+    return repr(v)
+
+
+def run_part(command: list[str], label: str, spec: dict[str, str | BufferedReader]):
     set_terminal_colour("grey")
     exit_status, buf_cont = run_command(command, stdin=spec.get("input"))
     set_terminal_colour("reset")
@@ -93,7 +107,7 @@ def run_part(command: list[str], label: str, spec: dict[str, str|BufferedReader]
         return
 
     result_str = buf_cont.decode().strip()
-    formatted_result_str = result_str if len(result_str) == len("".join(filter(lambda x: x.isalpha() or x.isdigit(), result_str))) else repr(result_str)
+    formatted_result_str = format_result(result_str)
 
     if result_str == "":
         set_terminal_colour("red")
@@ -101,19 +115,23 @@ def run_part(command: list[str], label: str, spec: dict[str, str|BufferedReader]
         set_terminal_colour("reset")
         return
     else:
-        if (expected := spec.get("is")):
+        if expected := spec.get("is"):
             if expected == result_str:
                 set_terminal_colour("green")
-                print(formatted_result_str)
+                print(f"pass", end="")
+                set_terminal_colour("grey")
+                print(f" ({formatted_result_str})")
             else:
                 set_terminal_colour("red")
-                print(formatted_result_str, end="")
+                print(f"fail", end="")
                 set_terminal_colour("grey")
-                print(f" expected {repr(expected)}")
+                print(
+                    f" (got {formatted_result_str}, expected {format_result(expected)})"
+                )
             set_terminal_colour("reset")
         else:
             print(formatted_result_str)
-    
+
 
 class CLI(object):
     @staticmethod
@@ -181,13 +199,21 @@ class CLI(object):
         print(p)
 
     @staticmethod
-    def run(fpath: str, test_only: bool = False, no_test: bool = False, select_part: Optional[int] = None):
+    def run(
+        fpath: str,
+        test_only: bool = False,
+        no_test: bool = False,
+        select_part: Optional[int] = None,
+    ):
         """
         Execute a day's code
         """
 
         if test_only and no_test:
-            print(f"Conflicting arguments (test-only and no-test both set)", file=sys.stderr)
+            print(
+                f"Conflicting arguments (test-only and no-test both set)",
+                file=sys.stderr,
+            )
             raise SystemExit(1)
 
         if select_part:
@@ -217,13 +243,13 @@ class CLI(object):
 
         if test_only or not no_test:
             test_specs = json.load(open(challenge_dir / "tests.json"))
-        
+
             for part in ["1", "2"]:
                 if select_part and select_part != part:
                     continue
                 for i, spec in enumerate(test_specs[part]):
                     run_part(cmd + [part], f"Test {part}.{i+1}", spec)
-    
+
         if no_test or not test_only:
             if (select_part and select_part == "1") or not select_part:
                 run_part(cmd + ["1"], "Run 1", {"input": input_file})
@@ -231,10 +257,36 @@ class CLI(object):
             if (select_part and select_part == "2") or not select_part:
                 run_part(cmd + ["2"], "Run 2", {"input": input_file})
 
-
         input_file.close()
 
-        # raise NotImplementedError("run unimplemented")
+    @staticmethod
+    def addtest(year: int, day: int, part: int, output: str):
+        """
+        Add a test to a challenge's test case file
+        """
+
+        p = Path(CHALLENGES_DIR)
+        p /= str(year)
+        p /= glob(str(day).zfill(2) + "-*", root_dir=p)[0]
+        p /= "tests.json"
+
+        existing_tests = {}
+
+        try:
+            with open(p) as f:
+                existing_tests = json.load(f)
+        except FileNotFoundError:
+            pass
+
+        existing_tests[str(part)].append(
+            {
+                "is": output,
+                "input": sys.stdin.read(),
+            }
+        )
+
+        with open(p, "w") as f:
+            json.dump(existing_tests, f, indent="    ")
 
 
 if __name__ == "__main__":
