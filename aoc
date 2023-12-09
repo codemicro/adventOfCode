@@ -13,15 +13,7 @@ from glob import glob
 
 
 CHALLENGES_DIR = "challenges"
-SAMPLE_TEST_JSON = """{
-    "1": [
-        {"is": "", "input": ""}
-    ],
-    "2": [
-        {"is": "", "input": ""}
-    ]
-}
-"""
+SAMPLE_TEST_JSON = "{}"
 RUNNERS = {
     "py": ["python3"],
 }
