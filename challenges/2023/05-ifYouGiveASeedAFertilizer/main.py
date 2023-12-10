@@ -2,6 +2,8 @@ import sys
 import re
 from typing import Optional
 from dataclasses import dataclass
+import math
+from functools import reduce
 
 
 @dataclass
@@ -15,6 +17,9 @@ class Transition:
         self.src_start = src_start
         self.n = n
     
+    def get_delta(self) -> int:
+        return self.dest_start - self.src_start
+
     def get_src_end(self) -> int:
         return self.src_start + self.n - 1
 
@@ -74,107 +79,79 @@ def resolve(x: int, level: str, state_transitions, transition_functions) -> int:
     return x
 
 
-def one(instr: str) -> int:
-    seeds, state_transitions, transition_functions = parse(instr)
+def apply_level(transition_functions: dict[str, list[Transition]], level: str, val: int) -> int:
+    for transition in transition_functions[level]:
+        if transition.is_applicable_to(val):
+            return transition.get_next_value(val)
+    return val
 
-    min_location: Optional[int] = None
+
+def apply_transitions(seeds: list[int], state_transitions: dict[str, str], transition_functions: dict[str, list[Transition]]) -> list[int]:
+    res = []
 
     for item_id in seeds:
         item_type = "seed"
         while item_type != "location":
-            for transition in transition_functions[item_type]:
-                if transition.is_applicable_to(item_id):
-                    item_id = transition.get_next_value(item_id)
-                    break
+            item_id = apply_level(transition_functions, item_type, item_id)
             item_type = state_transitions[item_type]
         
-        if min_location is None or item_id < min_location:
-            min_location = item_id
+        res.append(item_id)
 
-    return min_location
+    return res
+
+
+def one(instr: str) -> int:
+    return min(apply_transitions(*parse(instr)))
 
 
 def two(instr: str):
     seeds, state_transitions, transition_functions = parse(instr)
     assert len(seeds) % 2 == 0
 
-    # seed_ranges = [(seeds[i], seeds[i+1]) for i in range(0, len(seeds), 2)]
+    ranges = []
+    for i in range(0, len(seeds), 2):
+        ranges.append((seeds[i], seeds[i]+seeds[i+1]-1))
 
-    # inverted_states = list(reversed(state_transitions.keys()))
+    level = "seed"
+    while level in transition_functions:
+        _debug(level, ranges)
+        neoranges = []
 
-    # candidates = []
+        while ranges:
+            (range_start, range_end) = ranges.pop(0)
 
-    # for level in inverted_states:
-    #     for transition in transition_functions[level]:
-    #         candidates += [transition.dest_start, transition.dest_start-1, transition.get_dest_end(), transition.get_dest_end() + 1]
-        
-    #     for i, ev in enumerate(candidates):
-    #         for transition in transition_functions[level]:
-    #             if transition.is_inverse_applicable_to(ev):
-    #                 candidates[i] = transition.get_previous_value(ev)
+            modded = False
+            for fn in transition_functions[level]:
+                fn_start = fn.src_start
+                fn_end = fn.get_src_end()
+                delta = fn.get_delta()
 
-    # candidates = list(filter(lambda x: x > 0, set(candidates))) # deduplicate and filter weird values
-
-    # _debug(candidates)
-
-    # trimmed_candidates = []
-
-    # for x in candidates:
-    #     matches_all = False
-
-    #     for transition in transition_functions["seed"]:
-    #         _debug(transition)
-    #         if transition.dest_start <= x <= transition.get_dest_end():
-    #             matches_all = True
-    #             break
-
-    #     if matches_all:
-    #         trimmed_candidates.append(x)
-
-    # _debug(trimmed_candidates)
-
-    # ---
-
-    # # Work out min-max seed numbers
-    # min_seed_id = min(x for x in seeds[::2])
-    # max_seed_id = max((seeds[i] + seeds[i+1] - 1) for i in range(0, len(seeds), 2))
-
-    # vals = []
-
-    # for (lower_seed_id, n) in seed_ranges:
-    #     endpoints = [lower_seed_id, lower_seed_id + n - 1]
-        
-    #     level = "seed"
-    #     while level != "location":
-    #         _debug(level, list(sorted(endpoints)))
-
-    #         transitions = transition_functions[level]
-
-    #         min_endp, max_endp = min(endpoints), max(endpoints)
-
-    #         for transition in transitions:
+                if range_start < fn_start and fn_start <= range_end <= fn_end:
+                    ranges.append((fn_start, range_end))
+                    neoranges.append((range_start + delta, fn_start - 1 + delta))
+                    modded = True
+                    break
                 
-    #             if min_endp < transition.src_start < max_endp:
-    #                 endpoints.append(transition.src_start)
+                if fn_start <= range_start and range_end <= fn_end:
+                    neoranges.append((range_start + delta, range_end + delta))
+                    modded = True
+                    break
 
-    #             if min_endp < (se := transition.get_src_end()) < max_endp:
-    #                 endpoints.append(se)
+                if fn_start <= range_start <= fn_end and fn_end < range_end:
+                    neoranges.append((range_start + delta, fn_end + delta))
+                    ranges.append((fn_end + 1, range_end))
+                    modded = True
+                    break
 
-    #         for i, ev in enumerate(endpoints):
-    #             for transition in transitions:
-    #                 if transition.is_applicable_to(ev):
-    #                     endpoints[i] = transition.get_next_value(ev)
-    #                     break
+            if not modded:
+                neoranges.append((range_start, range_end))
 
-    #         level = state_transitions[level]
+        ranges = neoranges
+        level = state_transitions[level]
 
-    #     _debug()
+    _debug(ranges)
 
-    #     vals = vals + endpoints
-
-    # # _debug(list(sorted(vals)))
-
-    # return min(filter(lambda x: x != 0, vals))
+    return min(map(lambda x: x[0], ranges))
 
 
 def _debug(*args, **kwargs):
