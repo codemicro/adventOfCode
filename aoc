@@ -270,7 +270,10 @@ class CLI(object):
         except FileNotFoundError:
             pass
 
-        existing_tests[str(part)].append(
+        if (sp := str(part)) not in existing_tests:
+            existing_tests[sp] = []
+
+        existing_tests[sp].append(
             {
                 "is": output,
                 "input": sys.stdin.read(),
