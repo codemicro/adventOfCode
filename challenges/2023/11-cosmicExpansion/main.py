@@ -31,40 +31,12 @@ def print_coord_grid(universe: Universe):
         _debug()
 
 
-def get_universe_x_size(universe: Universe):
-    return max(map(lambda x: x[0], universe.keys())) + 1
-
-
-def get_universe_y_size(universe: Universe):
-    return max(map(lambda x: x[1], universe.keys())) + 1
-
-
 def expand_universe(universe: Universe, n: int):
-    n_x = get_universe_x_size(universe)
-    n_y = get_universe_y_size(universe)
-
-    expand_rows = []
-    expand_cols = []
-
-    for y in reversed(range(n_y)):
-        all_are_empty = True
-        for x in range(n_x):
-            if universe.get((x, y)) is not None:
-                all_are_empty = False
-                break
-
-        if all_are_empty:
-            expand_rows.append(y)
-
-    for x in reversed(range(n_x)):
-        all_are_empty = True
-        for y in range(n_y):
-            if universe.get((x, y)) is not None:
-                all_are_empty = False
-                break
-
-        if all_are_empty:
-            expand_cols.append(x)
+    used_rows = list(map(lambda x: x[1], universe.keys()))
+    expand_rows = [i for i in range(max(used_rows)) if i not in used_rows]
+    
+    used_cols = list(map(lambda x: x[0], universe.keys()))
+    expand_cols = [i for i in range(max(used_cols)) if i not in used_cols]
 
     for src_col_x in reversed(sorted(expand_cols)):
         exp = [galaxy for galaxy in universe if galaxy[0] > src_col_x]
