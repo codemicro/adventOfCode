@@ -6,12 +6,6 @@ Coordinate = tuple[int, int]
 Universe = dict[Coordinate, str]
 
 
-def apply_coord_delta(a: Coordinate, b: Coordinate) -> Coordinate:
-    aa, ab = a
-    ba, bb = b
-    return aa + ba, ab + bb
-
-
 def parse(instr: str) -> Universe:
     res = {}
     for y, line in enumerate(instr.splitlines()):
