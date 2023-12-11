@@ -239,7 +239,7 @@ class CLI(object):
             for part in ["1", "2"]:
                 if select_part and select_part != part:
                     continue
-                for i, spec in enumerate(test_specs[part]):
+                for i, spec in enumerate(test_specs.get(part, [])):
                     run_part(cmd + [part], f"Test {part}.{i+1}", spec)
 
         if no_test or not test_only:
