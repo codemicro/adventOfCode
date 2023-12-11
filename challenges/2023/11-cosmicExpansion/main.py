@@ -34,7 +34,7 @@ def print_coord_grid(universe: Universe):
 def expand_universe(universe: Universe, n: int):
     used_rows = list(map(lambda x: x[1], universe.keys()))
     expand_rows = [i for i in range(max(used_rows)) if i not in used_rows]
-    
+
     used_cols = list(map(lambda x: x[0], universe.keys()))
     expand_cols = [i for i in range(max(used_cols)) if i not in used_cols]
 
@@ -44,7 +44,7 @@ def expand_universe(universe: Universe, n: int):
             (gx, gy) = galaxy
             v = universe[galaxy]
             del universe[galaxy]
-            universe[(gx+n, gy)] = v
+            universe[(gx + n, gy)] = v
 
     for src_row_y in reversed(sorted(expand_rows)):
         exp = [galaxy for galaxy in universe if galaxy[1] > src_row_y]
@@ -52,7 +52,7 @@ def expand_universe(universe: Universe, n: int):
             (gx, gy) = galaxy
             v = universe[galaxy]
             del universe[galaxy]
-            universe[(gx, gy+n)] = v
+            universe[(gx, gy + n)] = v
 
 
 def get_shortest_path_len(start: Coordinate, end: Coordinate) -> int:
