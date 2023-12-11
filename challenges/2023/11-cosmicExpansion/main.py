@@ -21,16 +21,6 @@ def parse(instr: str) -> Universe:
     return res
 
 
-def print_coord_grid(universe: Universe):
-    n_x = max(map(lambda x: x[0], universe.keys())) + 1
-    n_y = max(map(lambda x: x[1], universe.keys())) + 1
-
-    for y in range(n_y):
-        for x in range(n_x):
-            _debug(universe.get((x, y), "."), end="")
-        _debug()
-
-
 def expand_universe(universe: Universe, n: int):
     used_rows = list(map(lambda x: x[1], universe.keys()))
     expand_rows = [i for i in range(max(used_rows)) if i not in used_rows]
