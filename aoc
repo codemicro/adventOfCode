@@ -275,7 +275,7 @@ class CLI(object):
 
         existing_tests[sp].append(
             {
-                "is": output,
+                "is": str(output),
                 "input": sys.stdin.read(),
             }
         )
