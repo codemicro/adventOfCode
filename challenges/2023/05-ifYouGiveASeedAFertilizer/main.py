@@ -108,50 +108,30 @@ def two(instr: str):
     seeds, state_transitions, transition_functions = parse(instr)
     assert len(seeds) % 2 == 0
 
-    ranges = []
-    for i in range(0, len(seeds), 2):
-        ranges.append((seeds[i], seeds[i]+seeds[i+1]-1))
+    inverted_transitions = {(k := tuple(reversed(x)))[0]: k[1] for x in state_transitions.items()}
 
-    level = "seed"
-    while level in transition_functions:
-        _debug(level, ranges)
-        neoranges = []
+    end_stop = max(seeds[i-1]+seeds[i] for i in range(1, len(seeds), 2))
 
-        while ranges:
-            (range_start, range_end) = ranges.pop(0)
-
-            modded = False
+    for i in range(0, end_stop):
+        c = i
+        level = "location"
+        while level != "seed":
+            level = inverted_transitions[level]
             for fn in transition_functions[level]:
-                fn_start = fn.src_start
-                fn_end = fn.get_src_end()
-                delta = fn.get_delta()
-
-                if range_start < fn_start and fn_start <= range_end <= fn_end:
-                    ranges.append((fn_start, range_end))
-                    neoranges.append((range_start + delta, fn_start - 1 + delta))
-                    modded = True
-                    break
-                
-                if fn_start <= range_start and range_end <= fn_end:
-                    neoranges.append((range_start + delta, range_end + delta))
-                    modded = True
+                if fn.is_inverse_applicable_to(c):
+                    c = fn.get_previous_value(c)
                     break
 
-                if fn_start <= range_start <= fn_end and fn_end < range_end:
-                    neoranges.append((range_start + delta, fn_end + delta))
-                    ranges.append((fn_end + 1, range_end))
-                    modded = True
-                    break
+        for x in range(0, len(seeds), 2):
+            start = seeds[x]
+            end = seeds[x+1] + start - 1
 
-            if not modded:
-                neoranges.append((range_start, range_end))
+            if start <= c <= end:
+                return i
 
-        ranges = neoranges
-        level = state_transitions[level]
+        i += 1
 
-    _debug(ranges)
-
-    return min(map(lambda x: x[0], ranges))
+    return -1
 
 
 def _debug(*args, **kwargs):
