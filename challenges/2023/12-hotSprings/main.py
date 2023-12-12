@@ -1,5 +1,6 @@
 import sys
-from typing import Generator, Iterable
+from typing import Iterable
+from functools import cache, reduce
 
 
 Rule = tuple[str, list[int]]
@@ -13,60 +14,57 @@ def parse(instr: str) -> list[Rule]:
     return res
 
 
-def generate_permutations(n: int) -> Generator[list[int], None, None]:
-    if n == 0:
-        yield []
-        return
-    for p in generate_permutations(n-1):
-        for c in ".#":
-            yield p + [c]
-    
-
-def generate_possible_observations(x: str) -> Generator[list[str], None, None]:
-    xl = list(x)
-    replacement_locations = [i for i in range(len(xl)) if xl[i] == "?"]
-    for combs in generate_permutations((nrl := len(replacement_locations))):
-        for i in range(nrl):
-            xl[replacement_locations[i]] = combs[i]
-
-        yield xl
+def unfold(rule: Rule) -> Rule:
+    obs, lens = rule
+    return ((obs + "?")*5)[:-1], lens * 5
 
 
-def check_broken_length_constraints(x: Iterable[str], counts: list[int]) -> bool:
-    inside_set = False
-    set_length = 0
-    current_count = 0
-    for i in range((lx := len(x))+1):
-        char = x[i] if i < lx else "-"
-        if char == "#":
-            inside_set = True
-            set_length += 1
-        elif inside_set:
-            inside_set = False
-            try:
-                if set_length != counts[current_count]:
-                    return False
-            except IndexError:
-                # too many counts exist
-                return False
-            set_length = 0
-            current_count += 1
-    return current_count == len(counts)
+@cache
+def solve(observations: str, lengths: list[int]) -> int:
+    if len(lengths) == 0:
+        if "#" in observations:
+            return 0
+        return 1
+    elif len(observations) == 0:
+        return 0
+
+    char = observations[0]
+    if char == ".":
+        return solve(observations[1:], lengths)
+
+    if char == "?":
+        a = solve("." + observations[1:], lengths)
+        b = solve("#" + observations[1:], lengths)
+        return a + b
+
+    # assuming char == "#"
+
+    target_len = lengths[0]
+    if len(observations) < target_len:
+        return 0
+
+    if "." in observations[:target_len]:
+        return 0
+
+
+    if target_len + 1 <= len(observations):
+        if observations[target_len] == "#":
+            return 0
+        if observations[target_len] == "?":
+            return solve("." + observations[target_len+1:], lengths[1:])
+
+    return solve(observations[target_len:], lengths[1:])
+
+
+def run(rules: Iterable[Rule]) -> int:
+    return reduce(lambda acc, x: acc + solve(*x), rules, 0)
 
 
 def one(instr: str):
-    rules = parse(instr)
-
-    acc = 0
-    for (template, lengths) in rules:
-        for obs in generate_possible_observations(template):
-            if check_broken_length_constraints(obs, lengths):
-                acc += 1
-    return acc
-
+    return run(parse(instr))
 
 def two(instr: str):
-    return
+    return run(map(unfold, parse(instr)))
 
 
 def _debug(*args, **kwargs):
