@@ -13,7 +13,7 @@ def get_term(start: list[int], reduction_fn: Callable[[int, list[int]], int]) ->
         cs = seqs[-1]
         x = []
         for i in range(len(cs) - 1):
-            x.append(cs[i+1] - cs[i])
+            x.append(cs[i + 1] - cs[i])
         seqs.append(x)
     return reduce(reduction_fn, seqs[-2::-1], 0)
 
@@ -23,7 +23,7 @@ def run(instr: str, reduction_fn: Callable[[int, list[int]], int]):
     acc = 0
     for sq in sequences:
         acc += get_term(sq, reduction_fn)
-    return acc 
+    return acc
 
 
 def one(instr: str):

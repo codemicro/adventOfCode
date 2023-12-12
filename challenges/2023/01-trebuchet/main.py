@@ -56,11 +56,13 @@ def two(inp: str) -> int:
     for line in parsed:
         first_digit = find_first(line, search_values)
         second_digit = find_first("".join(reversed(line)), reversed_search_values)
-        assert first_digit is not None and second_digit is not None, f"must have at least one digit per line: {line}"
+        assert (
+            first_digit is not None and second_digit is not None
+        ), f"must have at least one digit per line: {line}"
 
         # second digit will be the reversed form
         second_digit = "".join(reversed(second_digit))
-        
+
         first_digit = TRANSFORMATIONS.get(first_digit, first_digit)
         second_digit = TRANSFORMATIONS.get(second_digit, second_digit)
 

@@ -16,7 +16,7 @@ def parse(instr: str) -> list[Rule]:
 
 def unfold(rule: Rule) -> Rule:
     obs, lens = rule
-    return ((obs + "?")*5)[:-1], lens * 5
+    return ((obs + "?") * 5)[:-1], lens * 5
 
 
 @cache
@@ -46,12 +46,11 @@ def solve(observations: str, lengths: list[int]) -> int:
     if "." in observations[:target_len]:
         return 0
 
-
     if target_len + 1 <= len(observations):
         if observations[target_len] == "#":
             return 0
         if observations[target_len] == "?":
-            return solve("." + observations[target_len+1:], lengths[1:])
+            return solve("." + observations[target_len + 1 :], lengths[1:])
 
     return solve(observations[target_len:], lengths[1:])
 
@@ -62,6 +61,7 @@ def run(rules: Iterable[Rule]) -> int:
 
 def one(instr: str):
     return run(parse(instr))
+
 
 def two(instr: str):
     return run(map(unfold, parse(instr)))

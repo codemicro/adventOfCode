@@ -23,11 +23,13 @@ class Card:
 
     def calculate_score(self) -> int:
         n = len(self.get_winning_numbers())
-        score = 0 if n == 0 else 2**(n-1)
+        score = 0 if n == 0 else 2 ** (n - 1)
         return score
 
     def get_prize_copies(self) -> set[int]:
-        return set(map(lambda x: self.id + x + 1, range(len(self.get_winning_numbers()))))
+        return set(
+            map(lambda x: self.id + x + 1, range(len(self.get_winning_numbers())))
+        )
 
 
 def make_card_counter(all_cards: list[Card]) -> Callable[[Card], int]:
@@ -35,11 +37,12 @@ def make_card_counter(all_cards: list[Card]) -> Callable[[Card], int]:
     def fn(c: Card) -> int:
         acc = 1
         won = c.get_prize_copies()
-        
+
         for won_card in won:
-            acc += fn(all_cards[won_card-1])
+            acc += fn(all_cards[won_card - 1])
 
         return acc
+
     return fn
 
 
@@ -48,7 +51,7 @@ def parse(instr: str) -> list[Card]:
 
     for line in instr.splitlines():
         card_decl, numbers_sect = line.split(": ")
-        
+
         card = Card(int(card_decl.lstrip("Card ")))
 
         winning, present = numbers_sect.split("|")
@@ -56,7 +59,7 @@ def parse(instr: str) -> list[Card]:
         card.present = set([int(x) for x in present.split(" ") if x != ""])
 
         res.append(card)
-    
+
     return res
 
 

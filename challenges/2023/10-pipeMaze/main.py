@@ -12,10 +12,10 @@ def parse(instr: str) -> tuple[dict[Coordinate, str], Coordinate]:
     for y, line in enumerate(instr.splitlines()):
         for x, char in enumerate(line):
             coord = (x, y)
-            
+
             if char == "S":
                 s_loc = coord
-            
+
             res[coord] = char
 
     assert s_loc is not None
@@ -53,9 +53,7 @@ acceptable_moves["7"] = {
     (c := (-1, 0)): acceptable_moves["-"][c],
 }
 
-acceptable_moves["S"] = {
-    **acceptable_moves["|"], **acceptable_moves["-"]
-}
+acceptable_moves["S"] = {**acceptable_moves["|"], **acceptable_moves["-"]}
 
 
 def apply_coord_delta(a: Coordinate, b: Coordinate) -> Coordinate:
@@ -64,7 +62,9 @@ def apply_coord_delta(a: Coordinate, b: Coordinate) -> Coordinate:
     return aa + ba, ab + bb
 
 
-def check_coord(grid: dict[Coordinate, str], coord: Coordinate, vals: list[str]) -> bool:
+def check_coord(
+    grid: dict[Coordinate, str], coord: Coordinate, vals: list[str]
+) -> bool:
     v = grid.get(coord)
     if v is None:
         return False
@@ -75,14 +75,16 @@ def check_coord(grid: dict[Coordinate, str], coord: Coordinate, vals: list[str])
     return False
 
 
-def get_loop_boundary(grid: dict[Coordinate, str], start: Coordinate) -> dict[Coordinate, int]:
+def get_loop_boundary(
+    grid: dict[Coordinate, str], start: Coordinate
+) -> dict[Coordinate, int]:
     visited = {start: 0}
     frontier = [start]
 
     while frontier:
         coord = frontier.pop(0)
         char = grid[coord]
-        
+
         for c in acceptable_moves.get(char, {}):
             c_must_be = acceptable_moves[char][c]
             c = apply_coord_delta(coord, c)
@@ -103,7 +105,9 @@ def one(instr: str):
 def area(p):
     # https://stackoverflow.com/a/451482
     # HMM. I BARELY UNDERSTAND THIS.
-    return 0.5 * abs(sum(x0*y1 - x1*y0 for ((x0, y0), (x1, y1)) in zip(p, p[1:] + [p[0]])))
+    return 0.5 * abs(
+        sum(x0 * y1 - x1 * y0 for ((x0, y0), (x1, y1)) in zip(p, p[1:] + [p[0]]))
+    )
 
 
 def two(instr: str):

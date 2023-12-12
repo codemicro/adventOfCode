@@ -16,7 +16,7 @@ class Transition:
         self.dest_start = dest_start
         self.src_start = src_start
         self.n = n
-    
+
     def get_delta(self) -> int:
         return self.dest_start - self.src_start
 
@@ -79,14 +79,20 @@ def resolve(x: int, level: str, state_transitions, transition_functions) -> int:
     return x
 
 
-def apply_level(transition_functions: dict[str, list[Transition]], level: str, val: int) -> int:
+def apply_level(
+    transition_functions: dict[str, list[Transition]], level: str, val: int
+) -> int:
     for transition in transition_functions[level]:
         if transition.is_applicable_to(val):
             return transition.get_next_value(val)
     return val
 
 
-def apply_transitions(seeds: list[int], state_transitions: dict[str, str], transition_functions: dict[str, list[Transition]]) -> list[int]:
+def apply_transitions(
+    seeds: list[int],
+    state_transitions: dict[str, str],
+    transition_functions: dict[str, list[Transition]],
+) -> list[int]:
     res = []
 
     for item_id in seeds:
@@ -94,7 +100,7 @@ def apply_transitions(seeds: list[int], state_transitions: dict[str, str], trans
         while item_type != "location":
             item_id = apply_level(transition_functions, item_type, item_id)
             item_type = state_transitions[item_type]
-        
+
         res.append(item_id)
 
     return res
@@ -108,9 +114,11 @@ def two(instr: str):
     seeds, state_transitions, transition_functions = parse(instr)
     assert len(seeds) % 2 == 0
 
-    inverted_transitions = {(k := tuple(reversed(x)))[0]: k[1] for x in state_transitions.items()}
+    inverted_transitions = {
+        (k := tuple(reversed(x)))[0]: k[1] for x in state_transitions.items()
+    }
 
-    end_stop = max(seeds[i-1]+seeds[i] for i in range(1, len(seeds), 2))
+    end_stop = max(seeds[i - 1] + seeds[i] for i in range(1, len(seeds), 2))
 
     for i in range(0, end_stop):
         c = i
@@ -124,7 +132,7 @@ def two(instr: str):
 
         for x in range(0, len(seeds), 2):
             start = seeds[x]
-            end = seeds[x+1] + start - 1
+            end = seeds[x + 1] + start - 1
 
             if start <= c <= end:
                 return i
