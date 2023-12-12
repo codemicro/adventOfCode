@@ -1,0 +1,1021 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" width="1200" height="2294" onload="init(evt)" viewBox="0 0 1200 2294" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- Flame graph stack visualization. See https://github.com/brendangregg/FlameGraph for latest version, and http://www.brendangregg.com/flamegraphs.html for examples. -->
+<!-- NOTES:  -->
+<defs>
+	<linearGradient id="background" y1="0" y2="1" x1="0" x2="0" >
+		<stop stop-color="#eeeeee" offset="5%" />
+		<stop stop-color="#eeeeb0" offset="95%" />
+	</linearGradient>
+</defs>
+<style type="text/css">
+	text { font-family:Verdana; font-size:12px; fill:rgb(0,0,0); }
+	#search, #ignorecase { opacity:0.1; cursor:pointer; }
+	#search:hover, #search.show, #ignorecase:hover, #ignorecase.show { opacity:1; }
+	#subtitle { text-anchor:middle; font-color:rgb(160,160,160); }
+	#title { text-anchor:middle; font-size:17px}
+	#unzoom { cursor:pointer; }
+	#frames > *:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+	.hide { display:none; }
+	.parent { opacity:0.5; }
+</style>
+<script type="text/ecmascript">
+<![CDATA[
+	"use strict";
+	var details, searchbtn, unzoombtn, matchedtxt, svg, searching, currentSearchTerm, ignorecase, ignorecaseBtn;
+	function init(evt) {
+		details = document.getElementById("details").firstChild;
+		searchbtn = document.getElementById("search");
+		ignorecaseBtn = document.getElementById("ignorecase");
+		unzoombtn = document.getElementById("unzoom");
+		matchedtxt = document.getElementById("matched");
+		svg = document.getElementsByTagName("svg")[0];
+		searching = 0;
+		currentSearchTerm = null;
+
+		// use GET parameters to restore a flamegraphs state.
+		var params = get_params();
+		if (params.x && params.y)
+			zoom(find_group(document.querySelector('[x="' + params.x + '"][y="' + params.y + '"]')));
+                if (params.s) search(params.s);
+	}
+
+	// event listeners
+	window.addEventListener("click", function(e) {
+		var target = find_group(e.target);
+		if (target) {
+			if (target.nodeName == "a") {
+				if (e.ctrlKey === false) return;
+				e.preventDefault();
+			}
+			if (target.classList.contains("parent")) unzoom(true);
+			zoom(target);
+			if (!document.querySelector('.parent')) {
+				// we have basically done a clearzoom so clear the url
+				var params = get_params();
+				if (params.x) delete params.x;
+				if (params.y) delete params.y;
+				history.replaceState(null, null, parse_params(params));
+				unzoombtn.classList.add("hide");
+				return;
+			}
+
+			// set parameters for zoom state
+			var el = target.querySelector("rect");
+			if (el && el.attributes && el.attributes.y && el.attributes._orig_x) {
+				var params = get_params()
+				params.x = el.attributes._orig_x.value;
+				params.y = el.attributes.y.value;
+				history.replaceState(null, null, parse_params(params));
+			}
+		}
+		else if (e.target.id == "unzoom") clearzoom();
+		else if (e.target.id == "search") search_prompt();
+		else if (e.target.id == "ignorecase") toggle_ignorecase();
+	}, false)
+
+	// mouse-over for info
+	// show
+	window.addEventListener("mouseover", function(e) {
+		var target = find_group(e.target);
+		if (target) details.nodeValue = "Function: " + g_to_text(target);
+	}, false)
+
+	// clear
+	window.addEventListener("mouseout", function(e) {
+		var target = find_group(e.target);
+		if (target) details.nodeValue = ' ';
+	}, false)
+
+	// ctrl-F for search
+	// ctrl-I to toggle case-sensitive search
+	window.addEventListener("keydown",function (e) {
+		if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+			e.preventDefault();
+			search_prompt();
+		}
+		else if (e.ctrlKey && e.keyCode === 73) {
+			e.preventDefault();
+			toggle_ignorecase();
+		}
+	}, false)
+
+	// functions
+	function get_params() {
+		var params = {};
+		var paramsarr = window.location.search.substr(1).split('&');
+		for (var i = 0; i < paramsarr.length; ++i) {
+			var tmp = paramsarr[i].split("=");
+			if (!tmp[0] || !tmp[1]) continue;
+			params[tmp[0]]  = decodeURIComponent(tmp[1]);
+		}
+		return params;
+	}
+	function parse_params(params) {
+		var uri = "?";
+		for (var key in params) {
+			uri += key + '=' + encodeURIComponent(params[key]) + '&';
+		}
+		if (uri.slice(-1) == "&")
+			uri = uri.substring(0, uri.length - 1);
+		if (uri == '?')
+			uri = window.location.href.split('?')[0];
+		return uri;
+	}
+	function find_child(node, selector) {
+		var children = node.querySelectorAll(selector);
+		if (children.length) return children[0];
+	}
+	function find_group(node) {
+		var parent = node.parentElement;
+		if (!parent) return;
+		if (parent.id == "frames") return node;
+		return find_group(parent);
+	}
+	function orig_save(e, attr, val) {
+		if (e.attributes["_orig_" + attr] != undefined) return;
+		if (e.attributes[attr] == undefined) return;
+		if (val == undefined) val = e.attributes[attr].value;
+		e.setAttribute("_orig_" + attr, val);
+	}
+	function orig_load(e, attr) {
+		if (e.attributes["_orig_"+attr] == undefined) return;
+		e.attributes[attr].value = e.attributes["_orig_" + attr].value;
+		e.removeAttribute("_orig_"+attr);
+	}
+	function g_to_text(e) {
+		var text = find_child(e, "title").firstChild.nodeValue;
+		return (text)
+	}
+	function g_to_func(e) {
+		var func = g_to_text(e);
+		// if there's any manipulation we want to do to the function
+		// name before it's searched, do it here before returning.
+		return (func);
+	}
+	function update_text(e) {
+		var r = find_child(e, "rect");
+		var t = find_child(e, "text");
+		var w = parseFloat(r.attributes.width.value) -3;
+		var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+		t.attributes.x.value = parseFloat(r.attributes.x.value) + 3;
+
+		// Smaller than this size won't fit anything
+		if (w < 2 * 12 * 0.59) {
+			t.textContent = "";
+			return;
+		}
+
+		t.textContent = txt;
+		var sl = t.getSubStringLength(0, txt.length);
+		// check if only whitespace or if we can fit the entire string into width w
+		if (/^ *$/.test(txt) || sl < w)
+			return;
+
+		// this isn't perfect, but gives a good starting point
+		// and avoids calling getSubStringLength too often
+		var start = Math.floor((w/sl) * txt.length);
+		for (var x = start; x > 0; x = x-2) {
+			if (t.getSubStringLength(0, x + 2) <= w) {
+				t.textContent = txt.substring(0, x) + "..";
+				return;
+			}
+		}
+		t.textContent = "";
+	}
+
+	// zoom
+	function zoom_reset(e) {
+		if (e.attributes != undefined) {
+			orig_load(e, "x");
+			orig_load(e, "width");
+		}
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_reset(c[i]);
+		}
+	}
+	function zoom_child(e, x, ratio) {
+		if (e.attributes != undefined) {
+			if (e.attributes.x != undefined) {
+				orig_save(e, "x");
+				e.attributes.x.value = (parseFloat(e.attributes.x.value) - x - 10) * ratio + 10;
+				if (e.tagName == "text")
+					e.attributes.x.value = find_child(e.parentNode, "rect[x]").attributes.x.value + 3;
+			}
+			if (e.attributes.width != undefined) {
+				orig_save(e, "width");
+				e.attributes.width.value = parseFloat(e.attributes.width.value) * ratio;
+			}
+		}
+
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_child(c[i], x - 10, ratio);
+		}
+	}
+	function zoom_parent(e) {
+		if (e.attributes) {
+			if (e.attributes.x != undefined) {
+				orig_save(e, "x");
+				e.attributes.x.value = 10;
+			}
+			if (e.attributes.width != undefined) {
+				orig_save(e, "width");
+				e.attributes.width.value = parseInt(svg.width.baseVal.value) - (10 * 2);
+			}
+		}
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_parent(c[i]);
+		}
+	}
+	function zoom(node) {
+		var attr = find_child(node, "rect").attributes;
+		var width = parseFloat(attr.width.value);
+		var xmin = parseFloat(attr.x.value);
+		var xmax = parseFloat(xmin + width);
+		var ymin = parseFloat(attr.y.value);
+		var ratio = (svg.width.baseVal.value - 2 * 10) / width;
+
+		// XXX: Workaround for JavaScript float issues (fix me)
+		var fudge = 0.0001;
+
+		unzoombtn.classList.remove("hide");
+
+		var el = document.getElementById("frames").children;
+		for (var i = 0; i < el.length; i++) {
+			var e = el[i];
+			var a = find_child(e, "rect").attributes;
+			var ex = parseFloat(a.x.value);
+			var ew = parseFloat(a.width.value);
+			var upstack;
+			// Is it an ancestor
+			if (0 == 0) {
+				upstack = parseFloat(a.y.value) > ymin;
+			} else {
+				upstack = parseFloat(a.y.value) < ymin;
+			}
+			if (upstack) {
+				// Direct ancestor
+				if (ex <= xmin && (ex+ew+fudge) >= xmax) {
+					e.classList.add("parent");
+					zoom_parent(e);
+					update_text(e);
+				}
+				// not in current path
+				else
+					e.classList.add("hide");
+			}
+			// Children maybe
+			else {
+				// no common path
+				if (ex < xmin || ex + fudge >= xmax) {
+					e.classList.add("hide");
+				}
+				else {
+					zoom_child(e, xmin, ratio);
+					update_text(e);
+				}
+			}
+		}
+		search();
+	}
+	function unzoom(dont_update_text) {
+		unzoombtn.classList.add("hide");
+		var el = document.getElementById("frames").children;
+		for(var i = 0; i < el.length; i++) {
+			el[i].classList.remove("parent");
+			el[i].classList.remove("hide");
+			zoom_reset(el[i]);
+			if(!dont_update_text) update_text(el[i]);
+		}
+		search();
+	}
+	function clearzoom() {
+		unzoom();
+
+		// remove zoom state
+		var params = get_params();
+		if (params.x) delete params.x;
+		if (params.y) delete params.y;
+		history.replaceState(null, null, parse_params(params));
+	}
+
+	// search
+	function toggle_ignorecase() {
+		ignorecase = !ignorecase;
+		if (ignorecase) {
+			ignorecaseBtn.classList.add("show");
+		} else {
+			ignorecaseBtn.classList.remove("show");
+		}
+		reset_search();
+		search();
+	}
+	function reset_search() {
+		var el = document.querySelectorAll("#frames rect");
+		for (var i = 0; i < el.length; i++) {
+			orig_load(el[i], "fill")
+		}
+		var params = get_params();
+		delete params.s;
+		history.replaceState(null, null, parse_params(params));
+	}
+	function search_prompt() {
+		if (!searching) {
+			var term = prompt("Enter a search term (regexp " +
+			    "allowed, eg: ^ext4_)"
+			    + (ignorecase ? ", ignoring case" : "")
+			    + "\nPress Ctrl-i to toggle case sensitivity", "");
+			if (term != null) search(term);
+		} else {
+			reset_search();
+			searching = 0;
+			currentSearchTerm = null;
+			searchbtn.classList.remove("show");
+			searchbtn.firstChild.nodeValue = "Search"
+			matchedtxt.classList.add("hide");
+			matchedtxt.firstChild.nodeValue = ""
+		}
+	}
+	function search(term) {
+		if (term) currentSearchTerm = term;
+
+		var re = new RegExp(currentSearchTerm, ignorecase ? 'i' : '');
+		var el = document.getElementById("frames").children;
+		var matches = new Object();
+		var maxwidth = 0;
+		for (var i = 0; i < el.length; i++) {
+			var e = el[i];
+			var func = g_to_func(e);
+			var rect = find_child(e, "rect");
+			if (func == null || rect == null)
+				continue;
+
+			// Save max width. Only works as we have a root frame
+			var w = parseFloat(rect.attributes.width.value);
+			if (w > maxwidth)
+				maxwidth = w;
+
+			if (func.match(re)) {
+				// highlight
+				var x = parseFloat(rect.attributes.x.value);
+				orig_save(rect, "fill");
+				rect.attributes.fill.value = "rgb(230,0,230)";
+
+				// remember matches
+				if (matches[x] == undefined) {
+					matches[x] = w;
+				} else {
+					if (w > matches[x]) {
+						// overwrite with parent
+						matches[x] = w;
+					}
+				}
+				searching = 1;
+			}
+		}
+		if (!searching)
+			return;
+		var params = get_params();
+		params.s = currentSearchTerm;
+		history.replaceState(null, null, parse_params(params));
+
+		searchbtn.classList.add("show");
+		searchbtn.firstChild.nodeValue = "Reset Search";
+
+		// calculate percent matched, excluding vertical overlap
+		var count = 0;
+		var lastx = -1;
+		var lastw = 0;
+		var keys = Array();
+		for (k in matches) {
+			if (matches.hasOwnProperty(k))
+				keys.push(k);
+		}
+		// sort the matched frames by their x location
+		// ascending, then width descending
+		keys.sort(function(a, b){
+			return a - b;
+		});
+		// Step through frames saving only the biggest bottom-up frames
+		// thanks to the sort order. This relies on the tree property
+		// where children are always smaller than their parents.
+		var fudge = 0.0001;	// JavaScript floating point
+		for (var k in keys) {
+			var x = parseFloat(keys[k]);
+			var w = matches[keys[k]];
+			if (x >= lastx + lastw - fudge) {
+				count += w;
+				lastx = x;
+				lastw = w;
+			}
+		}
+		// display matched percent
+		matchedtxt.classList.remove("hide");
+		var pct = 100 * count / maxwidth;
+		if (pct != 100) pct = pct.toFixed(1)
+		matchedtxt.firstChild.nodeValue = "Matched: " + pct + "%";
+	}
+]]>
+</script>
+<rect x="0.0" y="0" width="1200.0" height="2294.0" fill="url(#background)"  />
+<text id="title" x="600.00" y="24" >Part 2, after optimisation</text>
+<text id="details" x="10.00" y="2277" > </text>
+<text id="unzoom" x="10.00" y="24" class="hide">Reset Zoom</text>
+<text id="search" x="1090.00" y="24" >Search</text>
+<text id="ignorecase" x="1174.00" y="24" >ic</text>
+<text id="matched" x="1090.00" y="2277" > </text>
+<g id="frames">
+<g >
+<title>solve:main.py:22 (5 samples, 3.97%)</title><rect x="1115.1" y="293" width="46.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1118.08" y="303.5" >solv..</text>
+</g>
+<g >
+<title>solve:main.py:22 (34 samples, 26.98%)</title><rect x="843.5" y="965" width="318.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="846.49" y="975.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (13 samples, 10.32%)</title><rect x="1040.2" y="597" width="121.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1043.16" y="607.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="213" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="223.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="165" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="175.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (34 samples, 26.98%)</title><rect x="843.5" y="1013" width="318.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="846.49" y="1023.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (82 samples, 65.08%)</title><rect x="394.0" y="1461" width="767.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="396.97" y="1471.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (118 samples, 93.65%)</title><rect x="56.8" y="2005" width="1105.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="59.83" y="2015.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (110 samples, 87.30%)</title><rect x="131.7" y="1909" width="1030.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="134.75" y="1919.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (36 samples, 28.57%)</title><rect x="824.8" y="1061" width="337.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="827.76" y="1071.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>join:/usr/lib/python3.10/threading.py:1064 (1 samples, 0.79%)</title><rect x="1180.6" y="2213" width="9.4" height="15.0" fill="rgb(207,10,2)" rx="2" ry="2" />
+<text  x="1183.63" y="2223.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (12 samples, 9.52%)</title><rect x="1049.5" y="549" width="112.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1052.52" y="559.5" >solve:main.py..</text>
+</g>
+<g >
+<title>solve:main.py:22 (105 samples, 83.33%)</title><rect x="178.6" y="1829" width="983.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="181.57" y="1839.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (22 samples, 17.46%)</title><rect x="955.9" y="837" width="206.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="958.87" y="847.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (98 samples, 77.78%)</title><rect x="244.1" y="1717" width="917.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="247.13" y="1727.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (60 samples, 47.62%)</title><rect x="600.0" y="1269" width="561.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="603.00" y="1279.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (19 samples, 15.08%)</title><rect x="984.0" y="741" width="177.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="986.97" y="751.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (84 samples, 66.67%)</title><rect x="375.2" y="1477" width="786.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="378.24" y="1487.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (45 samples, 35.71%)</title><rect x="740.5" y="1189" width="421.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="743.48" y="1199.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (91 samples, 72.22%)</title><rect x="309.7" y="1605" width="852.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="312.68" y="1615.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="149" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="159.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (17 samples, 13.49%)</title><rect x="1002.7" y="693" width="159.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1005.70" y="703.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>wait:/usr/lib/python3.10/threading.py:589 (1 samples, 0.79%)</title><rect x="1171.3" y="2197" width="9.3" height="15.0" fill="rgb(213,40,9)" rx="2" ry="2" />
+<text  x="1174.27" y="2207.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (21 samples, 16.67%)</title><rect x="965.2" y="821" width="196.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="968.24" y="831.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (20 samples, 15.87%)</title><rect x="974.6" y="757" width="187.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="977.60" y="767.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (78 samples, 61.90%)</title><rect x="431.4" y="1429" width="730.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="434.43" y="1439.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (71 samples, 56.35%)</title><rect x="497.0" y="1349" width="664.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="499.98" y="1359.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (96 samples, 76.19%)</title><rect x="262.9" y="1653" width="899.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="265.86" y="1663.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (12 samples, 9.52%)</title><rect x="1049.5" y="517" width="112.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1052.52" y="527.5" >solve:main.py..</text>
+</g>
+<g >
+<title>solve:main.py:22 (2 samples, 1.59%)</title><rect x="1143.2" y="101" width="18.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1146.17" y="111.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (37 samples, 29.37%)</title><rect x="815.4" y="1077" width="346.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="818.40" y="1087.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (13 samples, 10.32%)</title><rect x="1040.2" y="565" width="121.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1043.16" y="575.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (97 samples, 76.98%)</title><rect x="253.5" y="1701" width="908.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="256.49" y="1711.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (120 samples, 95.24%)</title><rect x="38.1" y="2053" width="1123.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="41.10" y="2063.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>_wait_for_tstate_lock:/usr/lib/python3.10/threading.py:1102 (1 samples, 0.79%)</title><rect x="1180.6" y="2197" width="9.4" height="15.0" fill="rgb(237,149,35)" rx="2" ry="2" />
+<text  x="1183.63" y="2207.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (38 samples, 30.16%)</title><rect x="806.0" y="1093" width="355.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="809.03" y="1103.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (86 samples, 68.25%)</title><rect x="356.5" y="1509" width="805.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="359.51" y="1519.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (119 samples, 94.44%)</title><rect x="47.5" y="2037" width="1114.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="50.46" y="2047.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (63 samples, 50.00%)</title><rect x="571.9" y="1285" width="590.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="574.90" y="1295.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (101 samples, 80.16%)</title><rect x="216.0" y="1781" width="945.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="219.03" y="1791.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (121 samples, 96.03%)</title><rect x="28.7" y="2101" width="1133.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="31.73" y="2111.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (97 samples, 76.98%)</title><rect x="253.5" y="1685" width="908.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="256.49" y="1695.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (89 samples, 70.63%)</title><rect x="328.4" y="1589" width="833.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="331.41" y="1599.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (41 samples, 32.54%)</title><rect x="777.9" y="1157" width="384.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="780.94" y="1167.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="261" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="271.5" >s..</text>
+</g>
+<g >
+<title>all (126 samples, 100%)</title><rect x="10.0" y="2245" width="1180.0" height="15.0" fill="rgb(213,39,9)" rx="2" ry="2" />
+<text  x="13.00" y="2255.5" ></text>
+</g>
+<g >
+<title>start:/usr/lib/python3.10/threading.py:916 (1 samples, 0.79%)</title><rect x="1171.3" y="2213" width="9.3" height="15.0" fill="rgb(221,73,17)" rx="2" ry="2" />
+<text  x="1174.27" y="2223.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (32 samples, 25.40%)</title><rect x="862.2" y="949" width="299.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="865.22" y="959.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>unfold:main.py:17 (1 samples, 0.79%)</title><rect x="1161.9" y="2181" width="9.4" height="15.0" fill="rgb(234,135,32)" rx="2" ry="2" />
+<text  x="1164.90" y="2191.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (7 samples, 5.56%)</title><rect x="1096.3" y="437" width="65.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1099.35" y="447.5" >solve:m..</text>
+</g>
+<g >
+<title>solve:main.py:22 (111 samples, 88.10%)</title><rect x="122.4" y="1925" width="1039.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="125.38" y="1935.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (122 samples, 96.83%)</title><rect x="19.4" y="2133" width="1142.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="22.37" y="2143.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (102 samples, 80.95%)</title><rect x="206.7" y="1797" width="955.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="209.67" y="1807.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (23 samples, 18.25%)</title><rect x="946.5" y="869" width="215.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="949.51" y="879.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (7 samples, 5.56%)</title><rect x="1096.3" y="389" width="65.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1099.35" y="399.5" >solve:m..</text>
+</g>
+<g >
+<title>solve:main.py:22 (20 samples, 15.87%)</title><rect x="974.6" y="773" width="187.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="977.60" y="783.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (40 samples, 31.75%)</title><rect x="787.3" y="1141" width="374.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="790.30" y="1151.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (5 samples, 3.97%)</title><rect x="1115.1" y="357" width="46.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1118.08" y="367.5" >solv..</text>
+</g>
+<g >
+<title>solve:main.py:22 (5 samples, 3.97%)</title><rect x="1115.1" y="309" width="46.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1118.08" y="319.5" >solv..</text>
+</g>
+<g >
+<title>solve:main.py:22 (18 samples, 14.29%)</title><rect x="993.3" y="725" width="168.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="996.33" y="735.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (64 samples, 50.79%)</title><rect x="562.5" y="1301" width="599.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="565.54" y="1311.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="181" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="191.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (7 samples, 5.56%)</title><rect x="1096.3" y="405" width="65.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1099.35" y="415.5" >solve:m..</text>
+</g>
+<g >
+<title>two:main.py:66 (123 samples, 97.62%)</title><rect x="19.4" y="2213" width="1151.9" height="15.0" fill="rgb(209,20,4)" rx="2" ry="2" />
+<text  x="22.37" y="2223.5" >two:main.py:66</text>
+</g>
+<g >
+<title>&lt;module&gt;:main.py:1 (124 samples, 98.41%)</title><rect x="10.0" y="2229" width="1161.3" height="15.0" fill="rgb(214,43,10)" rx="2" ry="2" />
+<text  x="13.00" y="2239.5" >&lt;module&gt;:main.py:1</text>
+</g>
+<g >
+<title>solve:main.py:22 (99 samples, 78.57%)</title><rect x="234.8" y="1733" width="927.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="237.76" y="1743.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (118 samples, 93.65%)</title><rect x="56.8" y="2021" width="1105.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="59.83" y="2031.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>wait:/usr/lib/python3.10/threading.py:288 (1 samples, 0.79%)</title><rect x="1171.3" y="2181" width="9.3" height="15.0" fill="rgb(239,159,38)" rx="2" ry="2" />
+<text  x="1174.27" y="2191.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (80 samples, 63.49%)</title><rect x="412.7" y="1445" width="749.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="415.70" y="1455.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (35 samples, 27.78%)</title><rect x="834.1" y="1045" width="327.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="837.13" y="1055.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (67 samples, 53.17%)</title><rect x="534.4" y="1317" width="627.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="537.44" y="1327.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="133" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="143.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (116 samples, 92.06%)</title><rect x="75.6" y="1973" width="1086.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="78.56" y="1983.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (1 samples, 0.79%)</title><rect x="1152.5" y="53" width="9.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1155.54" y="63.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (5 samples, 3.97%)</title><rect x="1115.1" y="325" width="46.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1118.08" y="335.5" >solv..</text>
+</g>
+<g >
+<title>solve:main.py:22 (18 samples, 14.29%)</title><rect x="993.3" y="709" width="168.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="996.33" y="719.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (14 samples, 11.11%)</title><rect x="1030.8" y="613" width="131.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1033.79" y="623.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (42 samples, 33.33%)</title><rect x="768.6" y="1173" width="393.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="771.57" y="1183.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (31 samples, 24.60%)</title><rect x="871.6" y="933" width="290.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="874.59" y="943.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (4 samples, 3.17%)</title><rect x="1124.4" y="277" width="37.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1127.44" y="287.5" >sol..</text>
+</g>
+<g >
+<title>solve:main.py:22 (12 samples, 9.52%)</title><rect x="1049.5" y="533" width="112.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1052.52" y="543.5" >solve:main.py..</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="229" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="239.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (21 samples, 16.67%)</title><rect x="965.2" y="789" width="196.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="968.24" y="799.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>&lt;lambda&gt;:main.py:60 (122 samples, 96.83%)</title><rect x="19.4" y="2181" width="1142.5" height="15.0" fill="rgb(211,28,6)" rx="2" ry="2" />
+<text  x="22.37" y="2191.5" >&lt;lambda&gt;:main.py:60</text>
+</g>
+<g >
+<title>solve:main.py:22 (51 samples, 40.48%)</title><rect x="684.3" y="1221" width="477.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="687.29" y="1231.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (75 samples, 59.52%)</title><rect x="459.5" y="1397" width="702.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="462.52" y="1407.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (103 samples, 81.75%)</title><rect x="197.3" y="1813" width="964.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="200.30" y="1823.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (122 samples, 96.83%)</title><rect x="19.4" y="2117" width="1142.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="22.37" y="2127.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>stop:~/.local/lib/python3.10/site-packages/pyflame/sampler.py:29 (1 samples, 0.79%)</title><rect x="1180.6" y="2229" width="9.4" height="15.0" fill="rgb(249,206,49)" rx="2" ry="2" />
+<text  x="1183.63" y="2239.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (39 samples, 30.95%)</title><rect x="796.7" y="1109" width="365.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="799.67" y="1119.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (7 samples, 5.56%)</title><rect x="1096.3" y="421" width="65.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1099.35" y="431.5" >solve:m..</text>
+</g>
+<g >
+<title>solve:main.py:22 (109 samples, 86.51%)</title><rect x="141.1" y="1861" width="1020.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="144.11" y="1871.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (89 samples, 70.63%)</title><rect x="328.4" y="1573" width="833.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="331.41" y="1583.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (35 samples, 27.78%)</title><rect x="834.1" y="1029" width="327.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="837.13" y="1039.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (86 samples, 68.25%)</title><rect x="356.5" y="1525" width="805.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="359.51" y="1535.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (99 samples, 78.57%)</title><rect x="234.8" y="1749" width="927.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="237.76" y="1759.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>__init__:~/.local/lib/python3.10/site-packages/pyflame/sampler.py:13 (1 samples, 0.79%)</title><rect x="1171.3" y="2229" width="9.3" height="15.0" fill="rgb(206,7,1)" rx="2" ry="2" />
+<text  x="1174.27" y="2239.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (115 samples, 91.27%)</title><rect x="84.9" y="1941" width="1077.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="87.92" y="1951.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (9 samples, 7.14%)</title><rect x="1077.6" y="485" width="84.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1080.62" y="495.5" >solve:mai..</text>
+</g>
+<g >
+<title>solve:main.py:22 (96 samples, 76.19%)</title><rect x="262.9" y="1669" width="899.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="265.86" y="1679.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (109 samples, 86.51%)</title><rect x="141.1" y="1877" width="1020.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="144.11" y="1887.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (9 samples, 7.14%)</title><rect x="1077.6" y="469" width="84.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1080.62" y="479.5" >solve:mai..</text>
+</g>
+<g >
+<title>solve:main.py:22 (68 samples, 53.97%)</title><rect x="525.1" y="1333" width="636.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="528.08" y="1343.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (116 samples, 92.06%)</title><rect x="75.6" y="1957" width="1086.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="78.56" y="1967.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="197" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="207.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (3 samples, 2.38%)</title><rect x="1133.8" y="245" width="28.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1136.81" y="255.5" >s..</text>
+</g>
+<g >
+<title>solve:main.py:22 (53 samples, 42.06%)</title><rect x="665.6" y="1237" width="496.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="668.56" y="1247.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (121 samples, 96.03%)</title><rect x="28.7" y="2085" width="1133.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="31.73" y="2095.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (72 samples, 57.14%)</title><rect x="487.6" y="1381" width="674.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="490.62" y="1391.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (24 samples, 19.05%)</title><rect x="937.1" y="885" width="224.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="940.14" y="895.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (5 samples, 3.97%)</title><rect x="1115.1" y="341" width="46.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1118.08" y="351.5" >solv..</text>
+</g>
+<g >
+<title>run:main.py:59 (123 samples, 97.62%)</title><rect x="19.4" y="2197" width="1151.9" height="15.0" fill="rgb(228,109,26)" rx="2" ry="2" />
+<text  x="22.37" y="2207.5" >run:main.py:59</text>
+</g>
+<g >
+<title>solve:main.py:22 (2 samples, 1.59%)</title><rect x="1143.2" y="85" width="18.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1146.17" y="95.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (39 samples, 30.95%)</title><rect x="796.7" y="1125" width="365.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="799.67" y="1135.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (22 samples, 17.46%)</title><rect x="955.9" y="853" width="206.0" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="958.87" y="863.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (16 samples, 12.70%)</title><rect x="1012.1" y="661" width="149.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1015.06" y="671.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (54 samples, 42.86%)</title><rect x="656.2" y="1253" width="505.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="659.19" y="1263.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (27 samples, 21.43%)</title><rect x="909.0" y="901" width="252.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="912.05" y="911.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (72 samples, 57.14%)</title><rect x="487.6" y="1365" width="674.3" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="490.62" y="1375.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (13 samples, 10.32%)</title><rect x="1040.2" y="581" width="121.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1043.16" y="591.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (1 samples, 0.79%)</title><rect x="1152.5" y="37" width="9.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1155.54" y="47.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (34 samples, 26.98%)</title><rect x="843.5" y="997" width="318.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="846.49" y="1007.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (122 samples, 96.83%)</title><rect x="19.4" y="2149" width="1142.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="22.37" y="2159.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (109 samples, 86.51%)</title><rect x="141.1" y="1893" width="1020.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="144.11" y="1903.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (86 samples, 68.25%)</title><rect x="356.5" y="1541" width="805.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="359.51" y="1551.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (17 samples, 13.49%)</title><rect x="1002.7" y="677" width="159.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1005.70" y="687.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (5 samples, 3.97%)</title><rect x="1115.1" y="373" width="46.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1118.08" y="383.5" >solv..</text>
+</g>
+<g >
+<title>solve:main.py:22 (7 samples, 5.56%)</title><rect x="1096.3" y="453" width="65.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1099.35" y="463.5" >solve:m..</text>
+</g>
+<g >
+<title>solve:main.py:22 (34 samples, 26.98%)</title><rect x="843.5" y="981" width="318.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="846.49" y="991.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (21 samples, 16.67%)</title><rect x="965.2" y="805" width="196.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="968.24" y="815.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (86 samples, 68.25%)</title><rect x="356.5" y="1493" width="805.4" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="359.51" y="1503.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (118 samples, 93.65%)</title><rect x="56.8" y="1989" width="1105.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="59.83" y="1999.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (89 samples, 70.63%)</title><rect x="328.4" y="1557" width="833.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="331.41" y="1567.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (14 samples, 11.11%)</title><rect x="1030.8" y="629" width="131.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1033.79" y="639.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (122 samples, 96.83%)</title><rect x="19.4" y="2165" width="1142.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="22.37" y="2175.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (107 samples, 84.92%)</title><rect x="159.8" y="1845" width="1002.1" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="162.84" y="1855.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (120 samples, 95.24%)</title><rect x="38.1" y="2069" width="1123.8" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="41.10" y="2079.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (93 samples, 73.81%)</title><rect x="291.0" y="1621" width="870.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="293.95" y="1631.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (10 samples, 7.94%)</title><rect x="1068.3" y="501" width="93.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1071.25" y="511.5" >solve:main...</text>
+</g>
+<g >
+<title>solve:main.py:22 (76 samples, 60.32%)</title><rect x="450.2" y="1413" width="711.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="453.16" y="1423.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (2 samples, 1.59%)</title><rect x="1143.2" y="69" width="18.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1146.17" y="79.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (100 samples, 79.37%)</title><rect x="225.4" y="1765" width="936.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="228.40" y="1775.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (29 samples, 23.02%)</title><rect x="890.3" y="917" width="271.6" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="893.32" y="927.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (93 samples, 73.81%)</title><rect x="291.0" y="1637" width="870.9" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="293.95" y="1647.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (2 samples, 1.59%)</title><rect x="1143.2" y="117" width="18.7" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1146.17" y="127.5" ></text>
+</g>
+<g >
+<title>solve:main.py:22 (15 samples, 11.90%)</title><rect x="1021.4" y="645" width="140.5" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="1024.43" y="655.5" >solve:main.py:22</text>
+</g>
+<g >
+<title>solve:main.py:22 (47 samples, 37.30%)</title><rect x="721.7" y="1205" width="440.2" height="15.0" fill="rgb(223,87,20)" rx="2" ry="2" />
+<text  x="724.75" y="1215.5" >solve:main.py:22</text>
+</g>
+</g>
+</svg>
