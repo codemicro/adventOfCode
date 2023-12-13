@@ -23,5 +23,5 @@ Solutions to the [2023 Advent of Code](https://adventofcode.com/2023).
 | 09 - Mirage Maintenance | ★ ★ | Python | GCSE maths and the n-th term coming in clutch right here |
 | 10 - Pipe Maze | ★ ★ | Python | Thoroughly barked up two wrong trees then Googled an algo based on a thought and oops it just works? |
 | 11 - Cosmic Expansion | ★ ★ | Python | Djikstra's and A* are the wrong way to do this (I tried both before engaging my brain) and then had to optimise various things for part 2 but nothing was horrendous. |
-| 12 - Hot Springs | ★ ★ | Python | Some hints from the subreddit were needed but they got me well on my way to completing this. Memoisation is kind, long live memoisation. |
+| 12 - Hot Springs | ★ ★ | Python | Some hints from the subreddit were needed but they got me well on my way to completing this. Memoisation is king, long live memoisation. |
 | 13 - Point of Incidence | ★ ★ | Python | This one made me feel slightly intelligent. |
