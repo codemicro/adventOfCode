@@ -305,12 +305,12 @@ class CLI(object):
                 input_file.seek(0)
                 durs.append(run_duration)
 
-            mi, mx, avg = round(min(durs), 4), round(max(durs), 4), round(sum(durs)/len(durs), 4)
+            mi, mx, avg = min(durs), max(durs), sum(durs)/len(durs)
 
             json.dump({"day": int(challenge_dir.parts[-1].split("-")[0]), "part": int(part), "runner": file_extension, "min": mi, "max": mx, "avg": avg, "n": n}, benchmark_fd)
             benchmark_fd.write("\n")
 
-            print(f"Part {part}: min {mi} seconds, max {mx} seconds, avg {avg}")
+            print(f"Part {part}: min {round(mi, 4)} seconds, max {round(mx, 4)} seconds, avg {round(avg, 4)}")
 
         benchmark_fd.close()
         input_file.close()
