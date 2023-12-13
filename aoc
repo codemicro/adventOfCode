@@ -15,7 +15,7 @@ from glob import glob
 CHALLENGES_DIR = "challenges"
 SAMPLE_TEST_JSON = "{}"
 RUNNERS = {
-    "py": ["python3"],
+    "py": ["./runners/py.sh"],
     "go": ["go", "run"],
 }
 
