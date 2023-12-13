@@ -16,6 +16,7 @@ CHALLENGES_DIR = "challenges"
 SAMPLE_TEST_JSON = "{}"
 RUNNERS = {
     "py": ["python3"],
+    "go": ["go", "run"],
 }
 
 
