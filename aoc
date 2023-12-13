@@ -10,6 +10,8 @@ import subprocess
 from io import BufferedReader
 from typing import Optional
 from glob import glob
+import time
+from tqdm import tqdm
 
 
 CHALLENGES_DIR = "challenges"
@@ -57,6 +59,21 @@ def set_terminal_colour(*colours: str):
 
 
 known_runs = {}
+
+
+def time_command(args: list[str], stdin=None) -> tuple[int, float]:
+    kwargs = {}
+
+    if type(stdin) == str:
+        kwargs["input"] = stdin.encode()
+    else:
+        kwargs["stdin"] = stdin
+
+    st = time.time()
+    proc = subprocess.run(args, stdout=subprocess.PIPE, **kwargs)
+    dur = time.time() - st
+
+    return proc.returncode, dur
 
 
 def run_command(args: list[str], stdin=None) -> tuple[int, str]:
@@ -250,6 +267,52 @@ class CLI(object):
             if (select_part and select_part == "2") or not select_part:
                 run_part(cmd + ["2"], "Run 2", {"input": input_file})
 
+        input_file.close()
+
+    @staticmethod
+    def bench(fpath: str, n: int = 100):
+        try:
+            os.stat(fpath)
+        except FileNotFoundError:
+            print(f"Could not stat {fpath}", file=sys.stderr)
+            raise SystemExit(1)
+
+        file_extension = fpath.split(".")[-1].lower()
+
+        if file_extension not in RUNNERS:
+            print("No compatible runner found", file=sys.stderr)
+            raise SystemExit(1)
+
+        challenge_dir = Path(os.path.dirname(fpath))
+        input_file = open(challenge_dir / "input.txt", "rb")
+
+        cmd = RUNNERS[file_extension].copy()
+        cmd.append(fpath)
+
+        benchmark_file = Path(CHALLENGES_DIR) / challenge_dir.parts[1] / "benchmarks.jsonl"
+        benchmark_fd = open(benchmark_file, "a")
+
+        for part in ["1", "2"]:
+            durs = []
+            r_c = cmd + [part]
+            for _ in tqdm(range(n), ncols=0, leave=False, desc=f"Part {part}"):
+                exit_status, run_duration = time_command(r_c, stdin=input_file)
+                if exit_status != 0:
+                    set_terminal_colour("red")
+                    print(f"Exited with a non-zero status code ({exit_status})")
+                    set_terminal_colour("reset")
+                    return
+                input_file.seek(0)
+                durs.append(run_duration)
+
+            mi, mx, avg = round(min(durs), 4), round(max(durs), 4), round(sum(durs)/len(durs), 4)
+
+            json.dump({"day": int(challenge_dir.parts[-1].split("-")[0]), "part": int(part), "runner": file_extension, "min": mi, "max": mx, "avg": avg, "n": n}, benchmark_fd)
+            benchmark_fd.write("\n")
+
+            print(f"Part {part}: min {mi} seconds, max {mx} seconds, avg {avg}")
+
+        benchmark_fd.close()
         input_file.close()
 
     @staticmethod
