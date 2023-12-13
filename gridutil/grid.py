@@ -1,20 +1,14 @@
 from typing import TypeVar, Callable, Optional
 
+import gridutil.coord as coord
+
 T = TypeVar("T")
-
-Coordinate = tuple[int, int]
-Grid = dict[Coordinate, T]
-
-
-def add_coords(a: Coordinate, b: Coordinate) -> Coordinate:
-    xa, ya = a
-    xb, yb = b
-    return xa + xb, ya + yb
+Grid = dict[coord.Coordinate, T]
 
 
 def parse(instr: str, filter_fn: Optional[Callable[[str], bool]] = None) -> Grid:
-    if filter is None:
-        filter = lambda _: True
+    if filter_fn is None:
+        filter_fn = lambda _: True
 
     res = {}
     for y, line in enumerate(instr.splitlines()):
@@ -25,11 +19,13 @@ def parse(instr: str, filter_fn: Optional[Callable[[str], bool]] = None) -> Grid
     return res
 
 
-def _get_max(grid: Grid, idx: str, filter_fn: Optional[Callable[[T], bool]] = None) -> int:
+def _get_max(
+    grid: Grid, idx: str, filter_fn: Optional[Callable[[T], bool]] = None
+) -> int:
     g = grid
     if filter is not None:
         g = filter(filter_fn, grid)
-    return max(map(lambda x: x[idx], g)) 
+    return max(map(lambda x: x[idx], g))
 
 
 def get_max_x(grid: Grid, filter_fn: Optional[Callable[[T], bool]] = None) -> int:
@@ -38,3 +34,11 @@ def get_max_x(grid: Grid, filter_fn: Optional[Callable[[T], bool]] = None) -> in
 
 def get_max_y(grid: Grid, filter_fn: Optional[Callable[[T], bool]] = None) -> int:
     return _get_max(grid, 1, filter_fn=filter_fn)
+
+
+def print_grid(grid: Grid, **kwargs):
+    for y in range(get_max_y(grid) + 1):
+        for x in range(get_max_x(grid) + 1):
+            v = grid.get((x, y), " ")
+            print(v, end="", **kwargs)
+        print(**kwargs)
