@@ -8,7 +8,7 @@ import sys
 import json
 import subprocess
 from io import BufferedReader
-from typing import Optional
+from typing import Optional, Callable
 from glob import glob
 import time
 from tqdm import tqdm
@@ -17,8 +17,8 @@ from tqdm import tqdm
 CHALLENGES_DIR = "challenges"
 SAMPLE_TEST_JSON = "{}"
 RUNNERS = {
-    "py": ["./runners/py.sh"],
-    "go": ["go", "run"],
+    "py": (None, ["./runners/py.sh"]),
+    "go": (["./runners/buildGo.sh"], None),
 }
 
 
@@ -76,12 +76,13 @@ def time_command(args: list[str], stdin=None) -> tuple[int, float]:
     return proc.returncode, dur
 
 
-def run_command(args: list[str], stdin=None) -> tuple[int, str]:
-    ah = hash("".join(args))
-    sh = hash(stdin)
+def run_command(args: list[str], stdin=None, cache=True) -> tuple[int, str]:
+    if cache:
+        ah = hash("".join(args))
+        sh = hash(stdin)
 
-    if (ah, sh) in known_runs:
-        return known_runs[(ah, sh)]
+        if (ah, sh) in known_runs:
+            return known_runs[(ah, sh)]
 
     kwargs = {}
 
@@ -92,7 +93,8 @@ def run_command(args: list[str], stdin=None) -> tuple[int, str]:
 
     proc = subprocess.run(args, stdout=subprocess.PIPE, **kwargs)
 
-    known_runs[((ah, sh))] = (proc.returncode, proc.stdout)
+    if cache:
+        known_runs[((ah, sh))] = (proc.returncode, proc.stdout)
 
     return proc.returncode, proc.stdout
 
@@ -142,6 +144,40 @@ def run_part(command: list[str], label: str, spec: dict[str, str | BufferedReade
         else:
             print(formatted_result_str)
 
+
+def get_runner_command(file_name: str) -> tuple[list[str], Optional[Callable[[], None]]]:
+    """
+    Builds a solution using `command` then returns a path to the executable.
+    """
+    file_extension = file_name.split(".")[-1].lower()
+
+    if file_extension not in RUNNERS:
+        print("No compatible runner found", file=sys.stderr)
+        raise SystemExit(1)
+
+    (runner_build, runner_run) = RUNNERS[file_extension]
+    
+    if runner_build is None:
+        if runner_run is not None:
+            return runner_run + [file_name]
+        print(f"No build or run command specified for runner {file_extension}")
+        raise SystemExit(1)
+    
+    if runner_run is not None and runner_build is not None:
+        print(f"Build command and run command specified for {file_extension} - cannot determine path forwards.")
+        raise SystemExit(1)
+
+    command = runner_build + [file_name]
+    set_terminal_colour("grey")
+    print("Building...", end="\r")
+    set_terminal_colour("reset")
+    exit_code, fpath = run_command(command, cache=False)
+    if exit_code != 0:
+        print(f"Failed to build: `{command}` returned exit code {exit_code}")
+        raise SystemExit(1)
+    fpstr = fpath.decode().strip()
+    return [fpstr], lambda: os.unlink(fpstr)
+    
 
 class CLI(object):
     @staticmethod
@@ -229,27 +265,16 @@ class CLI(object):
         if select_part:
             select_part = str(select_part)
 
-        # Stat file
-        # Get file extension
-        # Based on file extension, run
-
         try:
             os.stat(fpath)
         except FileNotFoundError:
             print(f"Could not stat {fpath}", file=sys.stderr)
             raise SystemExit(1)
 
-        file_extension = fpath.split(".")[-1].lower()
-
-        if file_extension not in RUNNERS:
-            print("No compatible runner found", file=sys.stderr)
-            raise SystemExit(1)
+        cmd, cleanup = get_runner_command(fpath)
 
         challenge_dir = Path(os.path.dirname(fpath))
         input_file = open(challenge_dir / "input.txt", "rb")
-
-        cmd = RUNNERS[file_extension].copy()
-        cmd.append(fpath)
 
         if test_only or not no_test:
             test_specs = json.load(open(challenge_dir / "tests.json"))
@@ -269,6 +294,9 @@ class CLI(object):
 
         input_file.close()
 
+        if cleanup is not None:
+            cleanup()
+
     @staticmethod
     def bench(fpath: str, n: int = 100):
         try:
@@ -279,15 +307,10 @@ class CLI(object):
 
         file_extension = fpath.split(".")[-1].lower()
 
-        if file_extension not in RUNNERS:
-            print("No compatible runner found", file=sys.stderr)
-            raise SystemExit(1)
-
         challenge_dir = Path(os.path.dirname(fpath))
         input_file = open(challenge_dir / "input.txt", "rb")
 
-        cmd = RUNNERS[file_extension].copy()
-        cmd.append(fpath)
+        cmd, cleanup = get_runner_command(fpath)
 
         benchmark_file = Path(CHALLENGES_DIR) / challenge_dir.parts[1] / "benchmarks.jsonl"
         benchmark_fd = open(benchmark_file, "a")
@@ -314,6 +337,9 @@ class CLI(object):
 
         benchmark_fd.close()
         input_file.close()
+
+        if cleanup is not None:
+            cleanup()
 
     @staticmethod
     def addtest(year: int, day: int, part: int, output: str):
