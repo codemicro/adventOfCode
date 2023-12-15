@@ -12,16 +12,18 @@ BENCHMARK_FILE = Path(sys.argv[2])
 
 YEAR = BENCHMARK_FILE.parts[1]
 
-COLOURS = {"Python": "#3572A5"}
+COLOURS = {"Python": "#3572A5", "Go": "#00ADD8"}
 
 MAX_Y_VALUE = 1
 
 runner_translation = {
     "py": "Python",
+    "go": "Go",
 }
 
 benchmark_data = {
     "Python": {},
+    "Go": {},
 }  # adding dicts here sets the order of points being plotted
 
 with open(BENCHMARK_FILE) as f:
