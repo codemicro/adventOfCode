@@ -10,6 +10,8 @@ Solutions to the [2023 Advent of Code](https://adventofcode.com/2023).
 
 <!-- ★ ☆ -->
 
+A day denoted with a star means it has a visualisation.
+
 | Day | Status | Solutions | Notes |
 |-----|--------|-----------|-------|
 | 01 - Trebuchet?! | ★ ★ | Python | I never knew detecting numbers could be so confusingly tricky |
@@ -25,4 +27,5 @@ Solutions to the [2023 Advent of Code](https://adventofcode.com/2023).
 | 11 - Cosmic Expansion | ★ ★ | Python | Djikstra's and A* are the wrong way to do this (I tried both before engaging my brain) and then had to optimise various things for part 2 but nothing was horrendous. |
 | 12 - Hot Springs | ★ ★ | Python | Some hints from the subreddit were needed but they got me well on my way to completing this. Memoisation is king, long live memoisation. |
 | 13 - Point of Incidence | ★ ★ | Python | This one made me feel slightly intelligent. |
-| 14 - Parabolic Reflector Dish | ★ ★ | Python | Why do I always overcomplicate cycle detection?! |
+| 14* - Parabolic Reflector Dish | ★ ★ | Python | Why do I always overcomplicate cycle detection?! |
+| 15 - Lens Library | ★ ★ | Go | Still took some brainpower but this time the brainpower was needed to work out what the problem was, *not* to work out how to solve the problem. |
