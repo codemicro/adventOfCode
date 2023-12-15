@@ -255,3 +255,4 @@ dmypy.json
 input.txt
 credentials.json
 flamegraph.pl
+frames/
