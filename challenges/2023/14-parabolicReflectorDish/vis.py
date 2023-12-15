@@ -8,14 +8,14 @@ import sys
 from typing import Optional
 
 
-digits = [[] for block in open("digits.txt").split("\n\n")]
-
+DIGIT_FONT = [[[(True if char == "x" else False) for char in line] for line in block.splitlines()] for block in open("digits.txt").read().split("\n\n")]
 
 background_colour = (0, 0, 0) # black
 stationary_colour = (190, 52, 58) # red
 falling_colour = (50, 49, 49) # grey
 scan_colour = (52, 190, 58) # green
 alt_scan_colour = (24, 77, 191) # blue
+letter_colour = (255, 255, 255) # white
 
 frame_dir = Path("frames")
 os.mkdir(frame_dir)
@@ -24,7 +24,7 @@ counter = 0
 frame_number = 0
 scale_factor = 4
 
-def draw_frame(platform: tuple[str], highlight_y: Optional[int] = None, allow_skip: bool = True):
+def draw_frame(platform: tuple[str], highlight_y: Optional[int] = None, allow_skip: bool = True, number: Optional[int] = None):
     global frame_number, counter
 
     counter += 1
@@ -52,6 +52,18 @@ def draw_frame(platform: tuple[str], highlight_y: Optional[int] = None, allow_sk
                     c = scan_colour
 
             img.putpixel((x, y), c)
+
+    if number is not None:
+        pos_x = 5
+        pos_y = 5
+
+        for digit in str(number):
+            digit = int(digit)
+            for yd, line in enumerate(DIGIT_FONT[digit]):
+                for xd, putpix in enumerate(line):
+                    if putpix:
+                        img.putpixel((pos_x + xd, pos_y + yd), letter_colour)
+            pos_x += 7 # 5 pixel wide font + 2 pixel gap
 
     img = img.resize((x*scale_factor, y*scale_factor), resample=Image.NEAREST)
     img.save(frame_dir/f"{str(frame_number).zfill(8)}.png")
@@ -93,8 +105,18 @@ platform = main.parse(sys.stdin.read().strip())
 
 draw_frame(platform)
 platform = modtilt(platform, main.TiltDirection.North, allow_skip=False, partial=False)
+
+acc = 0
 for y, line in enumerate(platform):
-    draw_frame(platform, highlight_y=y)
+    for x, char in enumerate(line):
+        if char != "O":
+            continue
+        acc += len(platform) - y
+    draw_frame(platform, highlight_y=y, number=acc)
+
+for i in range(20):
+    draw_frame(platform, number=acc, allow_skip=False)
+
 platform = modtilt(platform, main.TiltDirection.West)
 platform = modtilt(platform, main.TiltDirection.North)
 platform = modtilt(platform, main.TiltDirection.East)
@@ -124,5 +146,13 @@ while i < ITERS:
             known[platform] = i
     i += 1
 
+acc = 0
 for y, line in enumerate(platform):
-        draw_frame(platform, highlight_y=y)
+    for x, char in enumerate(line):
+        if char != "O":
+            continue
+        acc += len(platform) - y
+    draw_frame(platform, highlight_y=y, number=acc)
+
+for i in range(20):
+    draw_frame(platform, number=acc, allow_skip=False)
