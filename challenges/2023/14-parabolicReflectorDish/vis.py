@@ -8,14 +8,17 @@ import sys
 from typing import Optional
 
 
-DIGIT_FONT = [[[(True if char == "x" else False) for char in line] for line in block.splitlines()] for block in open("digits.txt").read().split("\n\n")]
+DIGIT_FONT = [
+    [[(True if char == "x" else False) for char in line] for line in block.splitlines()]
+    for block in open("digits.txt").read().split("\n\n")
+]
 
-background_colour = (0, 0, 0) # black
-stationary_colour = (190, 52, 58) # red
-falling_colour = (50, 49, 49) # grey
-scan_colour = (52, 190, 58) # green
-alt_scan_colour = (24, 77, 191) # blue
-letter_colour = (255, 255, 255) # white
+background_colour = (0, 0, 0)  # black
+stationary_colour = (190, 52, 58)  # red
+falling_colour = (50, 49, 49)  # grey
+scan_colour = (52, 190, 58)  # green
+alt_scan_colour = (24, 77, 191)  # blue
+letter_colour = (255, 255, 255)  # white
 
 frame_dir = Path("frames")
 os.mkdir(frame_dir)
@@ -24,7 +27,13 @@ counter = 0
 frame_number = 0
 scale_factor = 4
 
-def draw_frame(platform: tuple[str], highlight_y: Optional[int] = None, allow_skip: bool = True, number: Optional[int] = None):
+
+def draw_frame(
+    platform: tuple[str],
+    highlight_y: Optional[int] = None,
+    allow_skip: bool = True,
+    number: Optional[int] = None,
+):
     global frame_number, counter
 
     counter += 1
@@ -40,7 +49,7 @@ def draw_frame(platform: tuple[str], highlight_y: Optional[int] = None, allow_sk
     for y, line in enumerate(platform):
         for x, char in enumerate(line):
             c = background_colour
-            
+
             if char == "#":
                 c = stationary_colour
             if char == "O":
@@ -63,15 +72,19 @@ def draw_frame(platform: tuple[str], highlight_y: Optional[int] = None, allow_sk
                 for xd, putpix in enumerate(line):
                     if putpix:
                         img.putpixel((pos_x + xd, pos_y + yd), letter_colour)
-            pos_x += 7 # 5 pixel wide font + 2 pixel gap
+            pos_x += 7  # 5 pixel wide font + 2 pixel gap
 
-    img = img.resize((x*scale_factor, y*scale_factor), resample=Image.NEAREST)
-    img.save(frame_dir/f"{str(frame_number).zfill(8)}.png")
+    img = img.resize((x * scale_factor, y * scale_factor), resample=Image.NEAREST)
+    img.save(frame_dir / f"{str(frame_number).zfill(8)}.png")
     frame_number += 1
 
 
-def modtilt(platform: tuple[str], direction: main.TiltDirection, allow_skip = True, partial = True) -> tuple[str]:
-    needs_flip = direction == main.TiltDirection.North or direction == main.TiltDirection.South
+def modtilt(
+    platform: tuple[str], direction: main.TiltDirection, allow_skip=True, partial=True
+) -> tuple[str]:
+    needs_flip = (
+        direction == main.TiltDirection.North or direction == main.TiltDirection.South
+    )
 
     if direction == main.TiltDirection.North or direction == main.TiltDirection.South:
         platform = main.flip_platform(platform)
@@ -93,7 +106,10 @@ def modtilt(platform: tuple[str], direction: main.TiltDirection, allow_skip = Tr
                 changes = True
             res[i] = after
         if (partial and not changes) or not partial:
-            draw_frame(res if not needs_flip else main.flip_platform(res), allow_skip=allow_skip)
+            draw_frame(
+                res if not needs_flip else main.flip_platform(res),
+                allow_skip=allow_skip,
+            )
 
     if direction == main.TiltDirection.North or direction == main.TiltDirection.South:
         res = main.flip_platform(res)

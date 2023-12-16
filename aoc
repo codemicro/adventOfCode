@@ -100,7 +100,9 @@ def run_command(args: list[str], stdin=None, cache=True) -> tuple[int, str]:
 
 
 def format_result(v: str) -> str:
-    if len(v) == len("".join(filter(lambda x: x.isalpha() or x.isdigit() or x == "-", v))):
+    if len(v) == len(
+        "".join(filter(lambda x: x.isalpha() or x.isdigit() or x == "-", v))
+    ):
         return v
     return repr(v)
 
@@ -145,7 +147,9 @@ def run_part(command: list[str], label: str, spec: dict[str, str | BufferedReade
             print(formatted_result_str)
 
 
-def get_runner_command(file_name: str) -> tuple[list[str], Optional[Callable[[], None]]]:
+def get_runner_command(
+    file_name: str,
+) -> tuple[list[str], Optional[Callable[[], None]]]:
     """
     Builds a solution using `command` then returns a path to the executable.
     """
@@ -156,15 +160,17 @@ def get_runner_command(file_name: str) -> tuple[list[str], Optional[Callable[[],
         raise SystemExit(1)
 
     (runner_build, runner_run) = RUNNERS[file_extension]
-    
+
     if runner_build is None:
         if runner_run is not None:
             return runner_run + [file_name]
         print(f"No build or run command specified for runner {file_extension}")
         raise SystemExit(1)
-    
+
     if runner_run is not None and runner_build is not None:
-        print(f"Build command and run command specified for {file_extension} - cannot determine path forwards.")
+        print(
+            f"Build command and run command specified for {file_extension} - cannot determine path forwards."
+        )
         raise SystemExit(1)
 
     command = runner_build + [file_name]
@@ -177,7 +183,7 @@ def get_runner_command(file_name: str) -> tuple[list[str], Optional[Callable[[],
         raise SystemExit(1)
     fpstr = fpath.decode().strip()
     return [fpstr], lambda: os.unlink(fpstr)
-    
+
 
 class CLI(object):
     @staticmethod
@@ -312,7 +318,9 @@ class CLI(object):
 
         cmd, cleanup = get_runner_command(fpath)
 
-        benchmark_file = Path(CHALLENGES_DIR) / challenge_dir.parts[1] / "benchmarks.jsonl"
+        benchmark_file = (
+            Path(CHALLENGES_DIR) / challenge_dir.parts[1] / "benchmarks.jsonl"
+        )
         benchmark_fd = open(benchmark_file, "a")
 
         for part in ["1", "2"]:
@@ -328,12 +336,25 @@ class CLI(object):
                 input_file.seek(0)
                 durs.append(run_duration)
 
-            mi, mx, avg = min(durs), max(durs), sum(durs)/len(durs)
+            mi, mx, avg = min(durs), max(durs), sum(durs) / len(durs)
 
-            json.dump({"day": int(challenge_dir.parts[-1].split("-")[0]), "part": int(part), "runner": file_extension, "min": mi, "max": mx, "avg": avg, "n": n}, benchmark_fd)
+            json.dump(
+                {
+                    "day": int(challenge_dir.parts[-1].split("-")[0]),
+                    "part": int(part),
+                    "runner": file_extension,
+                    "min": mi,
+                    "max": mx,
+                    "avg": avg,
+                    "n": n,
+                },
+                benchmark_fd,
+            )
             benchmark_fd.write("\n")
 
-            print(f"Part {part}: min {round(mi, 4)} seconds, max {round(mx, 4)} seconds, avg {round(avg, 4)}")
+            print(
+                f"Part {part}: min {round(mi, 4)} seconds, max {round(mx, 4)} seconds, avg {round(avg, 4)}"
+            )
 
         benchmark_fd.close()
         input_file.close()
