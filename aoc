@@ -163,7 +163,7 @@ def get_runner_command(
 
     if runner_build is None:
         if runner_run is not None:
-            return runner_run + [file_name]
+            return runner_run + [file_name], None
         print(f"No build or run command specified for runner {file_extension}")
         raise SystemExit(1)
 
