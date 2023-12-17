@@ -16,6 +16,11 @@ def sub(a: Coordinate, b: Coordinate) -> Coordinate:
     return xa - xb, ya - yb
 
 
+def manhattan_dist(a: Coordinate, b: Coordinate) -> Coordinate:
+    x, y = sub(b, a)
+    return abs(x) + abs(y)
+
+
 class Direction(Enum):
     Up = auto()
     Down = auto()
@@ -43,3 +48,12 @@ class Direction(Enum):
                 return Direction.Right
             case Direction.Right:
                 return Direction.Left
+    
+    def __lt__(self, x):
+        return False
+
+    def __eq__(self, x):
+        return self.value == x.value
+
+    def __hash__(self):
+        return hash(self.value)

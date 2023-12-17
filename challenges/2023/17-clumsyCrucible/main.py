@@ -1,6 +1,9 @@
 import sys
 import gridutil.grid as gu
 import gridutil.coord as cu
+from collections.abc import Callable, Iterator
+from collections import namedtuple
+from queue import PriorityQueue
 
 
 def parse(instr: str) -> gu.Grid:
@@ -8,63 +11,116 @@ def parse(instr: str) -> gu.Grid:
     return {k: int(g[k]) for k in g}
 
 
-def get_shortest_path(grid: gu.Grid, start: cu.Coordinate, end: cu.Coordinate) -> list[cu.Coordinate]:
-    d = {start: (0, 0, cu.Direction.Right)}
+State = namedtuple("State", ["pos", "steps_taken", "direction"])
+
+
+def djikstra(
+    start: State,
+    end: Callable[[State], bool],
+    neighbours: Callable[[State], Iterator[State, None, None]],
+    cost: Callable[[State, State], int],
+) -> list[State]:
+    dq = PriorityQueue()
+    dq.put((0, start))
+    d = {start: 0}
     p = {}
-    f = {}
 
-    while end not in d:
-        w = min(filter(lambda x: x[0] not in f, d.items()), key=lambda x: x[1][0])[0]
-        f[w] = None
+    endState = None
+    while endState is None:
+        w = dq.get()[1]
 
-        dist_w, prev_steps, prev_direction = d[w]
-
-        for direction in cu.Direction:
-            if (direction == prev_direction and prev_steps == 3) or direction == prev_direction.opposite():
-                continue
-            u = cu.add(w, direction.delta())
-            if u not in grid:
-                continue
-
-            if u not in d or dist_w + grid[u] < d[u][0]:
-                d[u] = (dist_w + grid[u], prev_steps + 1 if direction == prev_direction else 1, direction)
+        for u in neighbours(w):
+            c = d[w] + cost(w, u)
+            if u not in d or c < d[u]:
+                d[u] = c
+                dq.put((c, u))
                 p[u] = w
 
-                if u == end:
+                if end(u):
+                    endState = u
                     break
 
-        # raise SystemExit(14)
-
-    res = [end]
-    cursor = p[end]
-    while cursor != start:
+    res = [endState]
+    cursor = p[endState]
+    while cursor is not None:
         res.append(cursor)
-        cursor = p[cursor]
+        cursor = p.get(cursor)
     return list(reversed(res))
 
 
 def one(instr: str):
     grid = parse(instr)
     end = (gu.get_max_x(grid), gu.get_max_y(grid))
-    path = get_shortest_path(grid, (0, 0), end)
 
-    gu.print_grid(grid, file=sys.stderr)
-    _debug()
+    def neighbours(node: State) -> Iterator[State, None, None]:
+        for direction in cu.Direction:
+            if (
+                direction == node.direction and node.steps_taken == 3
+            ) or node.direction == direction.opposite():
+                continue
 
-    g = grid.copy()
-    for p in path:
-        g[p] = "█"
+            nc = cu.add(node.pos, direction.delta())
+            if nc not in grid:
+                continue
 
-    gu.print_grid(g, file=sys.stderr)
+            yield State(
+                nc,
+                (node.steps_taken + 1) if direction == node.direction else 1,
+                direction,
+            )
+
+    path = djikstra(
+        State((0, 0), 0, cu.Direction.Right),
+        lambda x: x.pos == end,
+        neighbours,
+        lambda _, x: grid[x.pos],
+    )[1:]
 
     acc = 0
     for node in path:
-        acc += grid[node]
+        acc += grid[node.pos]
     return acc
 
 
 def two(instr: str):
-    return
+    grid = parse(instr)
+    end = (gu.get_max_x(grid), gu.get_max_y(grid))
+
+    for x in range(end[0] - 3, end[0]):
+        for y in range(end[1] - 3, end[1]):
+            del grid[(x, y)]
+
+    def neighbours(node: State) -> Iterator[State, None, None]:
+        for direction in cu.Direction:
+            if 0 < node.steps_taken < 4 and direction != node.direction:
+                continue
+
+            if (
+                direction == node.direction and node.steps_taken == 10
+            ) or node.direction == direction.opposite():
+                continue
+
+            nc = cu.add(node.pos, direction.delta())
+            if nc not in grid:
+                continue
+
+            yield State(
+                nc,
+                (node.steps_taken + 1) if direction == node.direction else 1,
+                direction,
+            )
+
+    path = djikstra(
+        State((0, 0), 0, cu.Direction.Right),
+        lambda x: x.pos == end,
+        neighbours,
+        lambda _, x: grid[x.pos],
+    )[1:]
+
+    acc = 0
+    for node in path:
+        acc += grid[node.pos]
+    return acc
 
 
 def _debug(*args, **kwargs):
