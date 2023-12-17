@@ -30,3 +30,4 @@ A day denoted with a star means it has a visualisation.
 | 14* - Parabolic Reflector Dish | ★ ★ | Python | Why do I always overcomplicate cycle detection?! |
 | 15 - Lens Library | ★ ★ | Go | Still took some brainpower but this time the brainpower was needed to work out what the problem was, *not* to work out how to solve the problem. |
 | 16 - The Floor Will Be Lava | ★ ★ | Python | Pathfinding, sort of, but also brute forceable?? |
+| 17 - Clumsy Crucible | ★ ★ | Python | This taught me quite a lot about how to meddle with Djikstra's |
