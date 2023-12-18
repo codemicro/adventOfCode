@@ -14,7 +14,7 @@ def parse(instr: str, filter_fn: Optional[Callable[[str], bool]] = None) -> Grid
     for y, line in enumerate(instr.splitlines()):
         for x, char in enumerate(line):
             if filter_fn(char):
-                res[(x, y)] = char
+                res[coord.Coordinate(x, y)] = char
 
     return res
 
@@ -37,8 +37,8 @@ def get_max_y(grid: Grid, filter_fn: Optional[Callable[[T], bool]] = None) -> in
 
 
 def print_grid(grid: Grid, **kwargs):
-    for y in range(get_max_y(grid) + 1):
-        for x in range(get_max_x(grid) + 1):
+    for y in range(min(map(lambda x: x[1], grid)), get_max_y(grid) + 1):
+        for x in range(min(map(lambda x: x[0], grid)), get_max_x(grid) + 1):
             v = grid.get((x, y), " ")
             print(v, end="", **kwargs)
         print(**kwargs)

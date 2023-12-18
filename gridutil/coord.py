@@ -3,24 +3,41 @@ from collections import namedtuple
 from numbers import Number
 
 
-Coordinate: tuple[Number, Number] = namedtuple("Coordinate", ["x", "y"])
+Coordinate = namedtuple("Coordinate", ["x", "y"])
 
 
 def add(a: Coordinate, b: Coordinate) -> Coordinate:
-    return Coordinate(a.x + b.x, a.y + b.y)
+    xa, ya = a
+    xb, yb = b
+    return Coordinate(xa + xb, ya + yb)
 
 
 def sub(a: Coordinate, b: Coordinate) -> Coordinate:
-    return Coordinate(a.x - b.x, a.y - b.y)
+    xa, ya = a
+    xb, yb = b
+    return Coordinate(xa - xb, ya - yb)
 
 
 def mult(a: Coordinate, b: Number) -> Coordinate:
-    return Coordinate(a.x * b, a.y * b)
+    x, y = a
+    return Coordinate(x * b, y * b)
 
 
 def manhattan_dist(a: Coordinate, b: Coordinate) -> Number:
     x, y = sub(b, a)
     return abs(x) + abs(y)
+
+
+def area(x: list[Coordinate]) -> Number:
+    """
+    Finds the area of a closed polygon.
+    
+    https://en.wikipedia.org/wiki/Shoelace_formula
+    """
+    acc = 0
+    for ((ax, ay), (bx, by)) in zip(x, x[1:] + [x[0]]):
+        acc += (ax * by) - (bx * ay)
+    return acc / 2
 
 
 class Direction(Enum):
@@ -32,13 +49,13 @@ class Direction(Enum):
     def delta(self) -> Coordinate:
         match self:
             case Direction.Up:
-                return (0, -1)
+                return Coordinate(0, -1)
             case Direction.Down:
-                return (0, 1)
+                return Coordinate(0, 1)
             case Direction.Left:
-                return (-1, 0)
+                return Coordinate(-1, 0)
             case Direction.Right:
-                return (1, 0)
+                return Coordinate(1, 0)
 
     def opposite(self):
         match self:

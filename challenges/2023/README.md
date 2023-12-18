@@ -31,3 +31,4 @@ A day denoted with a star means it has a visualisation.
 | 15 - Lens Library | ★ ★ | Go | Still took some brainpower but this time the brainpower was needed to work out what the problem was, *not* to work out how to solve the problem. |
 | 16 - The Floor Will Be Lava | ★ ★ | Python | Pathfinding, sort of, but also brute forceable?? |
 | 17 - Clumsy Crucible | ★ ★ | Python | This taught me quite a lot about how to meddle with Djikstra's |
+| 18 - Ladaduct Lagoon | ★ ★ | Python | Nothing quite like a problem that I thought I knew the solution to showing up my lack of mathematical knowledge. |
