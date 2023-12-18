@@ -1,22 +1,24 @@
 from enum import Enum, auto
+from collections import namedtuple
+from numbers import Number
 
 
-Coordinate = tuple[int, int]
+Coordinate: tuple[Number, Number] = namedtuple("Coordinate", ["x", "y"])
 
 
 def add(a: Coordinate, b: Coordinate) -> Coordinate:
-    xa, ya = a
-    xb, yb = b
-    return xa + xb, ya + yb
+    return Coordinate(a.x + b.x, a.y + b.y)
 
 
 def sub(a: Coordinate, b: Coordinate) -> Coordinate:
-    xa, ya = a
-    xb, yb = b
-    return xa - xb, ya - yb
+    return Coordinate(a.x - b.x, a.y - b.y)
 
 
-def manhattan_dist(a: Coordinate, b: Coordinate) -> Coordinate:
+def mult(a: Coordinate, b: Number) -> Coordinate:
+    return Coordinate(a.x * b, a.y * b)
+
+
+def manhattan_dist(a: Coordinate, b: Coordinate) -> Number:
     x, y = sub(b, a)
     return abs(x) + abs(y)
 
