@@ -32,3 +32,4 @@ A day denoted with a star means it has a visualisation.
 | 16 - The Floor Will Be Lava | ★ ★ | Python | Pathfinding, sort of, but also brute forceable?? |
 | 17 - Clumsy Crucible | ★ ★ | Python | This taught me quite a lot about how to meddle with Djikstra's |
 | 18 - Ladaduct Lagoon | ★ ★ | Python | Nothing quite like a problem that I thought I knew the solution to showing up my lack of mathematical knowledge. |
+| 19 - Aplenty | ★ ★ | Python | So maybe I *can* do range maths? |
