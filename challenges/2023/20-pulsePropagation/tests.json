@@ -1,0 +1,12 @@
+{
+    "1": [
+        {
+            "is": "32000000",
+            "input": "broadcaster -> a, b, c\n%a -> b\n%b -> c\n%c -> inv\n&inv -> a\n\n"
+        },
+        {
+            "is": "11687500",
+            "input": "broadcaster -> a\n%a -> inv, con\n&inv -> b\n%b -> con\n&con -> output\n"
+        }
+    ]
+}
