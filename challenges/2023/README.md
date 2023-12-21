@@ -33,3 +33,5 @@ A day denoted with a star means it has a visualisation.
 | 17 - Clumsy Crucible | ★ ★ | Python | This taught me quite a lot about how to meddle with Djikstra's |
 | 18 - Ladaduct Lagoon | ★ ★ | Python | Nothing quite like a problem that I thought I knew the solution to showing up my lack of mathematical knowledge. |
 | 19 - Aplenty | ★ ★ | Python | So maybe I *can* do range maths? |
+| 20 - Pulse Propagation | ☆ ☆ | Python | Too much reading. |
+| 21 - Step Counter | ★ ☆ | Python | ??? |
