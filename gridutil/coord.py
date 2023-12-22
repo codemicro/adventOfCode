@@ -4,6 +4,7 @@ from numbers import Number
 
 
 Coordinate = namedtuple("Coordinate", ["x", "y"])
+Coordinate3 = namedtuple("Coordinate3", ["x", "y", "z"])
 
 
 def add(a: Coordinate, b: Coordinate) -> Coordinate:
