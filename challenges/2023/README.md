@@ -35,4 +35,4 @@ A day denoted with a star means it has a visualisation.
 | 19 - Aplenty | ★ ★ | Python | So maybe I *can* do range maths? |
 | 20 - Pulse Propagation | ☆ ☆ | Python | Too much reading. |
 | 21 - Step Counter | ★ ☆ | Python | ??? |
-| 21 - Sand Slabs | ★ ★ | Python | I maintain that OpenSCAD is the best AoC 3D debugging tool |
+| 22 - Sand Slabs | ★ ★ | Python | I maintain that OpenSCAD is the best AoC 3D debugging tool |
