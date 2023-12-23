@@ -73,6 +73,8 @@ class Direction(Enum):
         return False
 
     def __eq__(self, x):
+        if type(x) != Direction:
+            return False
         return self.value == x.value
 
     def __hash__(self):
