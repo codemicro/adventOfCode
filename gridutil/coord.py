@@ -1,33 +1,35 @@
 from enum import Enum, auto
 from collections import namedtuple
 from numbers import Number
+from typing import TypeVar, Callable, Union
 
 
 Coordinate = namedtuple("Coordinate", ["x", "y"])
 Coordinate3 = namedtuple("Coordinate3", ["x", "y", "z"])
+AnyCoordinate = Coordinate | Coordinate3
 
 
-def add(a: Coordinate, b: Coordinate) -> Coordinate:
-    xa, ya = a
-    xb, yb = b
-    return Coordinate(xa + xb, ya + yb)
+def _coordmap(a: AnyCoordinate, b: AnyCoordinate, fn: Callable) -> AnyCoordinate:
+    at = type(a)
+    return at(*map(fn, zip(a, b)))
 
 
-def sub(a: Coordinate, b: Coordinate) -> Coordinate:
-    xa, ya = a
-    xb, yb = b
-    return Coordinate(xa - xb, ya - yb)
+def add(a: AnyCoordinate, b: AnyCoordinate) -> AnyCoordinate:
+    return _coordmap(a, b, lambda x: x[0] + x[1])
 
 
-def mult(a: Coordinate, b: Number) -> Coordinate:
-    x, y = a
-    return Coordinate(x * b, y * b)
+def sub(a: AnyCoordinate, b: AnyCoordinate) -> AnyCoordinate:
+    return _coordmap(a, b, lambda x: x[0] - x[1])
 
 
-def manhattan_dist(a: Coordinate, b: Coordinate) -> Number:
-    x, y = sub(b, a)
-    return abs(x) + abs(y)
+def mult(a: AnyCoordinate, b: Number) -> AnyCoordinate:
+    at = type(a)
+    return at(*map(lambda x: x * b, a))
 
+
+def manhattan_dist(a: AnyCoordinate, b: AnyCoordinate) -> Number:
+    return sum(map(abs, sub(b, a)))
+    
 
 def area(x: list[Coordinate]) -> Number:
     """
