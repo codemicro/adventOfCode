@@ -16,3 +16,4 @@ A day denoted with a star means it has a visualisation.
 |-------------------------------------|--------|----------------------|-------|
 | 01 - Historian Hysteria             | ★ ★   | Python               | The reading comprehension was the hardest part of this. |
 | 02 - Red-Nosed Reindeer             | ★ ★   | Python               ||
+| 03 - Mull It Over                   | ★ ★   | Python               | The first instance of Advent of Parsing this year! |
