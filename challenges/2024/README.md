@@ -4,7 +4,7 @@ Solutions to the [2024 Advent of Code](https://adventofcode.com/2024)!
 
 ---
 
-Total stars: **4 ★**
+Total stars: **6 ★**
 
 ![Benchmark graph](./benchmark-graph.png)
 
