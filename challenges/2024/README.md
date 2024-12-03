@@ -15,3 +15,4 @@ A day denoted with a star means it has a visualisation.
 | Day                                 | Status | Solutions            | Notes |
 |-------------------------------------|--------|----------------------|-------|
 | 01 - Historian Hysteria             | ★ ★   | Python               | The reading comprehension was the hardest part of this. |
+| 02 - Red-Nosed Reindeer             | ★ ★   | Python               ||
