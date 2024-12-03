@@ -208,10 +208,10 @@ class CLI(object):
         page_resp.raise_for_status()
 
         matches = re.findall(
-            r"--- Day \d{1,2}: ([\w \?!]+) ---", page_resp.content.decode()
+            r"--- Day \d{1,2}: ([\w\- \?!]+) ---", page_resp.content.decode()
         )
         assert len(matches) >= 1, "must be able to discover at least one day title"
-        day_title = matches[0]
+        day_title = matches[0].replace("-", " ")
 
         # Work out the challenge's directory.
 
