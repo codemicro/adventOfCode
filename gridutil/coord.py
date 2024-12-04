@@ -81,3 +81,5 @@ class Direction(Enum):
 
     def __hash__(self):
         return hash(self.value)
+        
+directions = [Direction.Up, Direction.Down, Direction.Left, Direction.Right]
