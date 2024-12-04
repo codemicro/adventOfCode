@@ -1,0 +1,14 @@
+{
+    "1": [
+        {
+            "is": "18",
+            "input": "MMMSXXMASM\nMSAMXMSMSA\nAMXSXMAAMM\nMSAMASMSMX\nXMASAMXAMM\nXXAMMXXAMA\nSMSMSASXSS\nSAXAMASAAA\nMAMMMXMMMM\nMXMXAXMASX\n\n"
+        }
+    ],
+    "2": [
+        {
+            "is": "9",
+            "input": "MMMSXXMASM\nMSAMXMSMSA\nAMXSXMAAMM\nMSAMASMSMX\nXMASAMXAMM\nXXAMMXXAMA\nSMSMSASXSS\nSAXAMASAAA\nMAMMMXMMMM\nMXMXAXMASX\n\n"
+        }
+    ]
+}
