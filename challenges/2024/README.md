@@ -18,4 +18,4 @@ A day denoted with an asterisk means it has a visualisation.
 | 02 - Red-Nosed Reindeer             | ★ ★   | Python               ||
 | 03 - Mull It Over                   | ★ ★   | Python               | The first instance of Advent of Parsing this year! |
 | 04* - Ceres Search                  | ★ ★   | Python               | When it says a cross, it does not mean a plus. |
-| 05 - Print Queue                    | ★ ★   | Python               | Before you dismiss and idea as being "too simple", make sure you check that it actually wouldn't work! |
+| 05 - Print Queue                    | ★ ★   | Python               | Before you dismiss and idea as being "too simple", make sure you check that it doesn't work. |
