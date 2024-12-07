@@ -9,22 +9,16 @@ Coordinate3 = namedtuple("Coordinate3", ["x", "y", "z"])
 AnyCoordinate = Coordinate | Coordinate3
 
 
-def _coordmap(a: AnyCoordinate, b: AnyCoordinate, fn: Callable) -> AnyCoordinate:
-    at = type(a)
-    return at(*map(fn, zip(a, b)))
+def add(a: Coordinate, b: Coordinate) -> Coordinate:
+    return Coordinate(a.x + b.x, a.y + b.y)
 
 
-def add(a: AnyCoordinate, b: AnyCoordinate) -> AnyCoordinate:
-    return _coordmap(a, b, lambda x: x[0] + x[1])
+def sub(a: Coordinate, b: Coordinate) -> Coordinate:
+    return Coordinate(a.x - b.x, a.y - b.y)
 
 
-def sub(a: AnyCoordinate, b: AnyCoordinate) -> AnyCoordinate:
-    return _coordmap(a, b, lambda x: x[0] - x[1])
-
-
-def mult(a: AnyCoordinate, b: Number) -> AnyCoordinate:
-    at = type(a)
-    return at(*map(lambda x: x * b, a))
+def mult(a: Coordinate, b: Number) -> Coordinate:
+    return Coordinate(a.x * b, a.y * b)
 
 
 def manhattan_dist(a: AnyCoordinate, b: AnyCoordinate) -> Number:

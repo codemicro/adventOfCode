@@ -63,11 +63,11 @@ def two(instr: str) -> int:
     seq = trace(g, start_pos, 0)
     known_blocks = set()
 
-    for (pos, _) in tqdm(seq, file=sys.stderr):
+    for (pos, dir) in tqdm(seq, file=sys.stderr):
         assert pos in g, "pos off the rails"
         g[pos] = "#"
         try:
-            trace(g, start_pos, 0)
+            trace(g, coord.add(pos, coord.mult(dirs[dir].delta(), -1)), dir)
         except LoopEncounteredException:
             known_blocks.add(pos)
         g[pos] = "."
