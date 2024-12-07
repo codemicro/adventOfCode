@@ -1,5 +1,5 @@
 import sys
-import itertools
+from functools import reduce
 from typing import Iterable
 import math
 
@@ -47,17 +47,19 @@ def solve(target: int, ns: list[int], use_concat: bool = False) -> bool:
 
 def one(instr: str):
     cases = parse(instr)
-    return itertools.accumulate(
-        target if solve(target, numbers, use_concat=False) else 0
-        for (target, numbers) in cases
+    return reduce(
+        lambda x, y: x + y,
+        (target if solve(target, numbers, use_concat=False) else 0 for (target, numbers) in cases),
+        0
     )
 
 
 def two(instr: str):
     cases = parse(instr)
-    return itertools.accumulate(
-        target if solve(target, numbers, use_concat=True) else 0
-        for (target, numbers) in cases
+    return reduce(
+        lambda x, y: x + y,
+        (target if solve(target, numbers, use_concat=True) else 0 for (target, numbers) in cases),
+        0
     )
 
 
