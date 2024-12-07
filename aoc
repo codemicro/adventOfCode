@@ -19,6 +19,7 @@ SAMPLE_TEST_JSON = "{}"
 RUNNERS = {
     "py": (None, ["./runners/py.sh"]),
     "go": (["./runners/buildGo.sh"], None),
+    "kt": (["./runners/buildKotlin.sh"], ["./runners/jar.sh"]),
 }
 
 
@@ -167,11 +168,11 @@ def get_runner_command(
         print(f"No build or run command specified for runner {file_extension}")
         raise SystemExit(1)
 
-    if runner_run is not None and runner_build is not None:
-        print(
-            f"Build command and run command specified for {file_extension} - cannot determine path forwards."
-        )
-        raise SystemExit(1)
+    # if runner_run is not None and runner_build is not None:
+    #     print(
+    #         f"Build command and run command specified for {file_extension} - cannot determine path forwards."
+    #     )
+    #     raise SystemExit(1)
 
     command = runner_build + [file_name]
     set_terminal_colour("grey")
@@ -182,7 +183,11 @@ def get_runner_command(
         print(f"Failed to build: `{command}` returned exit code {exit_code}")
         raise SystemExit(1)
     fpstr = fpath.decode().strip()
-    return [fpstr], lambda: os.unlink(fpstr)
+
+    if runner_run is None:
+        return [fpstr], lambda: os.unlink(fpstr)
+
+    return runner_run + [fpstr], lambda: os.unlink(fpstr)
 
 
 class CLI(object):
