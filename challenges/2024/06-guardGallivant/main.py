@@ -1,6 +1,5 @@
 import sys
 from gridutil import grid, coord
-from typing import Optional
 from tqdm import tqdm
 
 
