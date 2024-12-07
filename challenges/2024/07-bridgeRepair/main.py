@@ -14,58 +14,51 @@ def parse(instr: str) -> list[tuple[int, list[int]]]:
     return res
 
 
-def evaluate(ns: list[int], ops: Iterable[str]):
-    acc = ns[0]
-    for i, (v, op) in enumerate(zip(ns[1:], ops)):
-        if op == "*":
-            acc *= v
-        elif op == "+":
-            acc += v
-        elif op == "|":
-            acc = (acc * (10 ** int(math.log10(v) + 1))) + v
-        else:
-            raise ValueError(f"unknown operation {op}")
-    return acc
+def ends_with(x: int, y: int) -> bool:
+    ycard = int(math.log10(y)) + 1
+    return (x - y) * (10**-ycard) == int(x * (10**-ycard))
+
+
+def trim_int(x: int, y: int) -> int:
+    ycard = int(math.log10(y)) + 1
+    return int((x - y) * (10**-ycard))
+
+
+def solve(target: int, ns: list[int], use_concat: bool = False) -> bool:
+    v = ns[-1]
+    rest = ns[:-1]
+
+    if len(rest) == 0:
+        return target == v
+
+    if target % v == 0:
+        # this represents a possible multiplication
+        if solve(int(target / v), rest, use_concat):
+            return True
+
+    if use_concat and ends_with(target, v):
+        # this is a possible concatenation
+        if solve(trim_int(target, v), rest, use_concat):
+            return True
+
+    # last resort, addition
+    return solve(target - v, rest, use_concat)
 
 
 def one(instr: str):
     cases = parse(instr)
-
-    cached_ops = {}
-
-    n = 0
-    for (target, numbers) in cases:
-        num_ops = len(numbers) - 1
-        if num_ops not in cached_ops:
-            cached_ops[num_ops] = tuple(itertools.product("+*", repeat=num_ops))
-
-        for ops in cached_ops[num_ops]:
-            v = evaluate(numbers, ops)
-            if v == target:
-                n += v
-                break
-
-    return n
+    return itertools.accumulate(
+        target if solve(target, numbers, use_concat=False) else 0
+        for (target, numbers) in cases
+    )
 
 
 def two(instr: str):
     cases = parse(instr)
-
-    cached_ops = {}
-
-    n = 0
-    for (target, numbers) in cases:
-        num_ops = len(numbers) - 1
-        if num_ops not in cached_ops:
-            cached_ops[num_ops] = tuple(itertools.product("+*|", repeat=num_ops))
-
-        for ops in cached_ops[num_ops]:
-            v = evaluate(numbers, ops)
-            if v == target:
-                n += v
-                break
-
-    return n
+    return itertools.accumulate(
+        target if solve(target, numbers, use_concat=True) else 0
+        for (target, numbers) in cases
+    )
 
 
 def _debug(*args, **kwargs):
