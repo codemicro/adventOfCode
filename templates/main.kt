@@ -1,6 +1,7 @@
 import java.lang.System
 import kotlin.system.*
 import kotlin.sequences.generateSequence
+import kotlin.text.trim
 
 fun parse(instr: String) {
     
@@ -19,7 +20,7 @@ fun main(args: Array<String>) {
         debug("Missing or invalid day argument")
         exitProcess(1)
     }
-    val inp = generateSequence(::readLine).joinToString("\n")
+    val inp = generateSequence(::readLine).joinToString("\n").trim()
     if (args[0] == "1") {
         println("${one(inp)}")
     } else {
