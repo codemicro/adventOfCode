@@ -49,6 +49,7 @@ axp2.axhline(y=15, color="#fc8080", linestyle="--")
 for i, language in enumerate(benchmark_data):
 
     data = benchmark_data[language]
+    
     part_one_times = []
     part_two_times = []
 
@@ -107,7 +108,7 @@ def do_auxillary_parts(axis):
     plt.yscale("log")
     plt.xlabel("Day")
     plt.legend(
-        handles=[patches.Patch(color=COLOURS[label], label=label) for label in COLOURS]
+        handles=[patches.Patch(color=COLOURS[label], label=label) for label in COLOURS if len(benchmark_data[label]) > 0]
     )
     # plt.ylim([0, MAX_Y_VALUE])
     # plt.legend(legends)
