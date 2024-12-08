@@ -29,8 +29,15 @@ colour_diffs = tuple(map(lambda x: x[1] - x[0], zip(highest_colour, lowest_colou
 
 def get_colour_for(n):
     return tuple(
-        map(int, map(lambda x: x[0] - x[1], zip(lowest_colour, map(lambda x: x * n, colour_diffs))))
+        map(
+            int,
+            map(
+                lambda x: x[0] - x[1],
+                zip(lowest_colour, map(lambda x: x * n, colour_diffs)),
+            ),
+        )
     )
+
 
 scale_factor = 8
 
@@ -41,23 +48,25 @@ def get_highlight_for(n):
 
 def generate_frame(i, base_img, highlight_locs, hc, sequence) -> int:
     for n in range(len(sequence)):
-        s = sequence[:n+1]
+        s = sequence[: n + 1]
         img = base_img.copy()
-        
+
         sl = len(s) + 1
         for j, p in enumerate(s):
             img.putpixel(p, get_colour_for((j + 1) / sl))
-            
+
         for h in highlight_locs:
             img.putpixel(h, hc)
-            
+
         maxx, maxy = img.size
-        img = img.resize((maxx * scale_factor, maxy * scale_factor), resample=Image.NEAREST)
+        img = img.resize(
+            (maxx * scale_factor, maxy * scale_factor), resample=Image.NEAREST
+        )
         img.save(f"frames/{str(i).zfill(5)}.png")
         i += 1
     return i
-    
-    
+
+
 def update_base(base_img, add):
     for v in add:
         base_img.putpixel(v, shadow_colour)
@@ -66,17 +75,17 @@ def update_base(base_img, add):
 if __name__ == "__main__":
     inp = sys.stdin.read().strip()
     (antenna_by_type, (max_x, max_y)) = parse(inp)
-    
+
     ns = list(sorted(antenna_by_type.keys()))
     nns = len(ns)
-    
+
     try:
         os.makedirs("frames")
     except FileExistsError:
         pass
-    
-    base_img = Image.new("RGB", (max_x+1, max_y+1), color=lowest_colour)
-    
+
+    base_img = Image.new("RGB", (max_x + 1, max_y + 1), color=lowest_colour)
+
     i = 0
     for antenna_type in tqdm(antenna_by_type):
         for (a, b) in itertools.permutations(antenna_by_type[antenna_type], 2):
@@ -101,6 +110,12 @@ if __name__ == "__main__":
                     this_iter.append((x_cursor, y_cursor))
                 x_cursor += diff.x
                 y_cursor += diff.y
-                
-            i = generate_frame(i, base_img, (a, b), get_highlight_for(ns.index(antenna_type) / nns), this_iter)
+
+            i = generate_frame(
+                i,
+                base_img,
+                (a, b),
+                get_highlight_for(ns.index(antenna_type) / nns),
+                this_iter,
+            )
             update_base(base_img, this_iter)
