@@ -1,6 +1,4 @@
 import sys
-from functools import reduce
-from typing import Iterable
 import math
 
 
@@ -45,28 +43,20 @@ def solve(target: int, ns: list[int], use_concat: bool = False) -> bool:
     return solve(target - v, rest, use_concat)
 
 
-def one(instr: str):
+def do(instr: str, use_concat: bool = False) -> int:
     cases = parse(instr)
-    return reduce(
-        lambda x, y: x + y,
-        (
-            target if solve(target, numbers, use_concat=False) else 0
-            for (target, numbers) in cases
-        ),
-        0,
+    return sum(
+        target if solve(target, numbers, use_concat) else 0
+        for (target, numbers) in cases
     )
+
+
+def one(instr: str):
+    return do(instr)
 
 
 def two(instr: str):
-    cases = parse(instr)
-    return reduce(
-        lambda x, y: x + y,
-        (
-            target if solve(target, numbers, use_concat=True) else 0
-            for (target, numbers) in cases
-        ),
-        0,
-    )
+    return do(instr, use_concat=True)
 
 
 def _debug(*args, **kwargs):
