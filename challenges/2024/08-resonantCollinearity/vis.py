@@ -42,11 +42,7 @@ def get_colour_for(n):
 scale_factor = 8
 
 
-def get_highlight_for(n):
-    return tuple(map(lambda x: int(x * 255), hsv_to_rgb(n, 0.82, 1)))
-
-
-def generate_frame(i, base_img, highlight_locs, hc, sequence) -> int:
+def generate_frame(i, base_img, highlight_locs, sequence) -> int:
     for n in range(len(sequence)):
         s = sequence[: n + 1]
         img = base_img.copy()
@@ -56,7 +52,7 @@ def generate_frame(i, base_img, highlight_locs, hc, sequence) -> int:
             img.putpixel(p, get_colour_for((j + 1) / sl))
 
         for h in highlight_locs:
-            img.putpixel(h, hc)
+            img.putpixel(h, highlight_colour)
 
         maxx, maxy = img.size
         img = img.resize(
@@ -115,7 +111,6 @@ if __name__ == "__main__":
                 i,
                 base_img,
                 (a, b),
-                get_highlight_for(ns.index(antenna_type) / nns),
                 this_iter,
             )
             update_base(base_img, this_iter)
