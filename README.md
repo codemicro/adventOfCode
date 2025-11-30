@@ -1,6 +1,6 @@
 # Advent of Code 🎄
 
-Jump to: [2020](challenges/2020) - [2021](challenges/2021) - [2022](challenges/2022) - [2023](challenges/2023) - [2024](challenges/2024)
+Jump to: [2020](challenges/2020) - [2021](challenges/2021) - [2022](challenges/2022) - [2023](challenges/2023) - [2024](challenges/2024) - [2025](challenges/2025)
 
 Solutions to [Advent of Code](https://adventofcode.com) challenges.
 
