@@ -36,7 +36,7 @@ def two(instr: str):
         if direction == LEFT:
             delta = -1
 
-        for i in range(distance):
+        for _ in range(distance):
             wheel += delta
             wheel = wheel % 100
             if wheel == 0:
