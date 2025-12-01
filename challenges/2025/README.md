@@ -14,3 +14,4 @@ A day denoted with an asterisk means it has a visualisation.
 
 | Day                                 | Status | Solutions            | Notes |
 |-------------------------------------|--------|----------------------|-------|
+| 01 - Secret Entrance                | ★ ★    | Python               |       |
