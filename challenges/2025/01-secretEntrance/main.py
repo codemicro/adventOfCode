@@ -17,7 +17,7 @@ def one(instr: str):
     for (direction, distance) in parsed:
         if direction == LEFT:
             distance = -distance
-        
+
         wheel += distance
         if wheel % 100 == 0:
             n += 1
@@ -27,7 +27,7 @@ def one(instr: str):
 
 def two(instr: str):
     parsed = parse(instr)
-    
+
     n = 0
     wheel = 50
 
