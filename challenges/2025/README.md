@@ -4,7 +4,7 @@ Solutions to the [2025 Advent of Code](https://adventofcode.com/2025)!
 
 ---
 
-Total stars: **4 ★**
+Total stars: **6 ★**
 
 ![Benchmark graph](./benchmark-graph.png)
 
@@ -16,3 +16,4 @@ A day denoted with an asterisk means it has a visualisation.
 |-------------------------------------|--------|----------------------|-------|
 | 01 - Secret Entrance                | ★ ★    | Python               |       |
 | 02 - Gift Shop                      | ★ ★    | Python               |       |
+| 02 - Lobby                          | ★ ★    | Python               |       |
