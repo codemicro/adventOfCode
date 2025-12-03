@@ -1,4 +1,5 @@
 import sys
+import functools
 
 
 def parse(instr: str) -> list[tuple[int]]:
@@ -15,7 +16,7 @@ def get_highest(bank: tuple[int]) -> tuple[int, int]:
     return max, max_i
 
 
-def get_max_joltage(bank: tuple[int], n: int) -> int:
+def get_max_joltage(n: int, bank: tuple[int]) -> int:
     assert len(bank) >= n
 
     if n == 0:
@@ -27,25 +28,15 @@ def get_max_joltage(bank: tuple[int], n: int) -> int:
         test_bank = bank
 
     highest, idx = get_highest(test_bank)
-    return highest * (10 ** (n - 1)) + get_max_joltage(bank[idx + 1 :], n - 1)
+    return highest * (10 ** (n - 1)) + get_max_joltage(n - 1, bank[idx + 1 :])
 
 
 def one(instr: str) -> int:
-    banks = parse(instr)
-    n = 0
-    for bank in banks:
-        mj = get_max_joltage(bank, 2)
-        n += mj
-    return n
+    return sum(map(functools.partial(get_max_joltage, 2), parse(instr)))
 
 
 def two(instr: str) -> int:
-    banks = parse(instr)
-    n = 0
-    for bank in banks:
-        mj = get_max_joltage(bank, 12)
-        n += mj
-    return n
+    return sum(map(functools.partial(get_max_joltage, 12), parse(instr)))
 
 
 def _debug(*args, **kwargs):
