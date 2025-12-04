@@ -1,5 +1,6 @@
 import sys
-from collections import namedtuple, defaultdict
+from collections import namedtuple
+from itertools import product
 
 
 Coord = namedtuple("Coord", ["x", "y"])
@@ -18,11 +19,10 @@ def collect_movable(grid: dict[Coord, str]) -> set[Coord]:
     for pos in grid:
         if grid[pos] == "@":
             n = 0
-            for dx in (-1, 0, 1):
-                for dy in (-1, 0, 1):
-                    if not (dx == 0 and dy == 0):
-                        if grid.get((pos.x + dx, pos.y + dy)) == "@":
-                            n += 1
+            for (dx, dy) in product((-1, 0, 1), repeat=2):
+                if not (dx == 0 and dy == 0):
+                    if grid.get((pos.x + dx, pos.y + dy)) == "@":
+                        n += 1
             if n < 4:
                 res.add(pos)
     return res
