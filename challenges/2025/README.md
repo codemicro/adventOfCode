@@ -17,4 +17,4 @@ A day denoted with an asterisk means it has a visualisation.
 | 01 - Secret Entrance                | ★ ★    | Python               |       |
 | 02 - Gift Shop                      | ★ ★    | Python               |       |
 | 03 - Lobby                          | ★ ★    | Python               |       |
-| 04**\*** - Printing Department      | ★ ★    | Python               |       |
+| 04 * - Printing Department      | ★ ★    | Python               |       |
