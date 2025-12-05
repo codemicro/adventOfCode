@@ -39,17 +39,13 @@ for lang in benchmark_data:
         day = int(key.split(".", 1)[0])
         all_days.add(day)
 
-figure = plt.figure(figsize=(25 / 2, 5))
-axp1 = figure.add_subplot(1, 2, 1)
-axp2 = figure.add_subplot(1, 2, 2, sharey=axp1)
-
-axp1.axhline(y=15, color="#fc8080", linestyle="--")
-axp2.axhline(y=15, color="#fc8080", linestyle="--")
+BAR_WIDTH = 0.45
+datasets = []
 
 for i, language in enumerate(benchmark_data):
 
     data = benchmark_data[language]
-    
+
     part_one_times = []
     part_two_times = []
 
@@ -62,60 +58,46 @@ for i, language in enumerate(benchmark_data):
 
         if key.endswith(".1"):
             if day not in p1days:
-                p1days.append(day)
+                p1days.append(day - (BAR_WIDTH / 2))
             part_one_times.append(data[key])
         if key.endswith(".2"):
             if day not in p2days:
-                p2days.append(day)
+                p2days.append(day + (BAR_WIDTH / 2))
             part_two_times.append(data[key])
 
-    colour = COLOURS.get(language)
+    if len(part_one_times) == 0 and len(part_two_times) == 0:
+        break
 
-    p1 = axp1.scatter(p1days, part_one_times, color=colour)
-    p2 = axp2.scatter(p2days, part_two_times, color=colour)
+    datasets.append(((p1days, part_one_times), (p2days, part_two_times), language))
 
-    for i, day in enumerate(p1days):
-        if i + 1 >= len(p1days):
-            continue
-        if p1days[i + 1] == day + 1:
-            axp1.plot(
-                (day, p1days[i + 1]),
-                (part_one_times[i], part_one_times[i + 1]),
-                "-",
-                color=colour,
-            )
-            
-    for i, day in enumerate(p2days):
-        if i + 1 >= len(p2days):
-            continue
-        if p2days[i + 1] == day + 1:
-            axp2.plot(
-                (day, p2days[i + 1]),
-                (part_two_times[i], part_two_times[i + 1]),
-                "-",
-                color=colour,
-            )
+figure = plt.figure(figsize=(6 * len(datasets), 5))
 
-figure.suptitle(f"Average {YEAR} challenge running time")
-axp1.set_title("Part one")
-axp2.set_title("Part two")
+fst = None
+for i, (partone, parttwo, label) in enumerate(datasets):
+    axp = figure.add_subplot(1, len(datasets), i + 1, sharey=fst)
+    if fst is None:
+        fst = axp
 
+    axp.bar(*partone, color="#fb4934", width=BAR_WIDTH)
+    axp.bar(*parttwo, color="#fabd2f", width=BAR_WIDTH)
 
-def do_auxillary_parts(axis):
-    plt.sca(axis)
+    axp.axhline(y=15, color="#fc8080", linestyle="--")
+    axp.set_title(label)
+
+    plt.sca(axp)
     plt.xticks(list(all_days), [str(y) for y in all_days])
     plt.ylabel("Running time (log seconds)")
     plt.yscale("log")
     plt.xlabel("Day")
     plt.legend(
-        handles=[patches.Patch(color=COLOURS[label], label=label) for label in COLOURS if len(benchmark_data[label]) > 0]
+        handles=[
+            patches.Patch(color="#fb4934", label="Part one"),
+            patches.Patch(color="#fabd2f", label="Part two"),
+        ]
     )
-    # plt.ylim([0, MAX_Y_VALUE])
-    # plt.legend(legends)
 
 
-do_auxillary_parts(axp1)
-do_auxillary_parts(axp2)
+figure.suptitle(f"{YEAR} challenge running time")
 
 plt.tight_layout()
 plt.savefig(OUTPUT_FILE)
