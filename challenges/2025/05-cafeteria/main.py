@@ -43,7 +43,6 @@ def two(instr: str):
     )
 
     count = 0
-
     i = 0
     while i < len(sequence):
         _, marker = sequence[i]
