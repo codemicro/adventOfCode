@@ -69,13 +69,11 @@ def two(instr: str):
             i += 1
 
     n = 0
-
     for (start, end) in zip(sequence[::2], sequence[1::2]):
         sn, sm = start
         en, em = end
         assert sm == START and em == END
         n += (en - sn) + 1
-
     return n
 
 
