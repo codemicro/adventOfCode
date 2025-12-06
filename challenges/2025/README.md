@@ -4,7 +4,7 @@ Solutions to the [2025 Advent of Code](https://adventofcode.com/2025)!
 
 ---
 
-Total stars: **6 ★**
+Total stars: **12 ★**
 
 ![Benchmark graph](./benchmark-graph.png)
 
