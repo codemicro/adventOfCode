@@ -19,3 +19,4 @@ A day denoted with an asterisk means it has a visualisation.
 | 03 - Lobby                          | ★ ★    | Python               |       |
 | 04 * - Printing Department          | ★ ★    | Python               |       |
 | 05 - Cafeteria                      | ★ ★    | Python               | This felt like the first day where truly different approaches were possible. I'm quite proud of my part 2 algorithm! |
+| 06 - Trash Compactor                | ★ ★    | Python               |       |
